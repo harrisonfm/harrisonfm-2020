@@ -33,26 +33,28 @@ add_filter('post_gallery', 'hfmGallery', 10, 2);
 function hfmGallery($string, $attr){
 
     $posts = get_posts(array('include' => $attr['ids'], 'post_type' => 'attachment'));
-    $photos = array();
+    //$photos = array();
+    $output = "<gallery class=\"gallery\">";
 
     foreach($posts as $image) {
-        $photos[] = array(
+        $photo = array(
         	'id' => $image->ID,
         	'title' => $image->post_title,
         	'caption' => $image->post_excerpt,
             'description' => $image->post_content,
-            'href' => get_permalink($attachment->ID),
+            'href' => get_permalink($image->ID),
         	'alt' => get_post_meta($image->ID, '_wp_attachment_image_alt', true ),
-        	['image'] => array(
-        		['thumbnail'] => wp_get_attachment_image_src($image->ID)[0],
-        		['small'] => wp_get_attachment_image_src($image->ID, 'small')[0],
-		        ['medium'] => wp_get_attachment_image_src($image->ID, 'medium')[0],
-		        ['large'] => wp_get_attachment_image_src($image->ID, 'large')[0],
-		        ['full'] => wp_get_attachment_image_src($image->ID, 'full')[0]
+        	'image' => array(
+        		'thumbnail' => wp_get_attachment_image_src($image->ID)[0],
+        		'small' => wp_get_attachment_image_src($image->ID, 'small')[0],
+		        'medium' => wp_get_attachment_image_src($image->ID, 'medium')[0],
+		        'large' => wp_get_attachment_image_src($image->ID, 'large')[0],
+		        'full' => wp_get_attachment_image_src($image->ID, 'full')[0]
 		    )
 	    );
+	    $output .= "<img src=".$photo['image']['thumbnail']." v-on:click='test' />";
     }
-    $output = "<gallery class=\"gallery\" :posts=\"$photos\"></gallery>";
+    $output .= "</gallery>";
 
     return $output;
 }

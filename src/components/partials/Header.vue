@@ -92,7 +92,6 @@
         axios
           .get('/wp-json/menus/v1/menus/header-menu')
           .then(response => {
-            console.log(response.data);
             this.menu = response.data;
           })
           .catch(error => console.log('not working'));

@@ -11,6 +11,7 @@
 <script>
 import axios from "axios";
 import Loader from "../partials/Loader.vue";
+import Gallery from "./Gallery.vue";
 import { mapGetters } from "vuex";
 import SETTINGS from "../../settings";
 
@@ -34,6 +35,7 @@ export default {
           SETTINGS.API_BASE_PATH + "posts?slug=" + this.$route.params.postSlug
         )
         .then(response => {
+          console.log(response);
           this.post = response.data[0];
         })
         .catch(e => {
@@ -42,6 +44,6 @@ export default {
     }
   },
 
-  components: { Loader }
+  components: { Loader, Gallery }
 };
 </script>

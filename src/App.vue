@@ -21,7 +21,6 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 import Header from './components/partials/Header.vue';
 import Footer from './components/partials/Footer.vue';
 import ProgressBar from './components/partials/ProgressBar.vue';
-import Gallery from "./components/Post/Gallery.vue";
 
 export default {
   data() {
@@ -43,8 +42,7 @@ export default {
   components: {
     appHeader: Header,
     appFooter: Footer,
-    ProgressBar,
-    Gallery
+    ProgressBar
   },
 
   watch: {
