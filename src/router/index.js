@@ -6,6 +6,7 @@ import Router from "vue-router";
 import Home from "../components/Home.vue";
 import Post from "../components/Post/Post.vue";
 import Page from "../components/Page/Page.vue";
+import Photo from "../components/Photo/Photo.vue";
 
 Vue.use(Router);
 
@@ -33,7 +34,12 @@ const router = new Router({
       path: "/:pageSlug",
       name: "Page",
       component: Page
-    }
+    },
+    {
+      path: "/photo/:idSlug",
+      name: "PhotoViewer",
+      component: Photo
+    },
   ],
   mode: "history",
   base: "",

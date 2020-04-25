@@ -12,7 +12,7 @@ register_nav_menu('header-menu', 'hfm');
 // Load scripts
 function load_vue_scripts() {
 	wp_enqueue_script(
-		'vuejs-wordpress-theme-starter-js',
+		'hfm-js',
 		get_stylesheet_directory_uri() . '/dist/scripts/index.js',
 		array( 'jquery' ),
 		filemtime( get_stylesheet_directory() . '/dist/scripts/index.js' ),
@@ -20,7 +20,7 @@ function load_vue_scripts() {
 	);
 
 	wp_enqueue_style(
-		'vuejs-wordpress-theme-starter-css',
+		'hfm-css',
 		get_stylesheet_directory_uri() . '/dist/styles.css',
 		null,
 		filemtime( get_stylesheet_directory() . '/dist/styles.css' )
@@ -34,7 +34,7 @@ function hfmGallery($string, $attr){
 
     $posts = get_posts(array('include' => $attr['ids'], 'post_type' => 'attachment'));
     //$photos = array();
-    $output = "<gallery class=\"gallery\">";
+    $output = "<gallery class=\"gallery\" @click='test' >";
 
     foreach($posts as $image) {
         $photo = array(
@@ -52,7 +52,7 @@ function hfmGallery($string, $attr){
 		        'full' => wp_get_attachment_image_src($image->ID, 'full')[0]
 		    )
 	    );
-	    $output .= "<img src=".$photo['image']['thumbnail']." v-on:click='test' />";
+	    $output .= "<img src=".$photo['image']['thumbnail']." />";
     }
     $output .= "</gallery>";
 

@@ -1,20 +1,34 @@
+<template>
+  <div>
+    <div v-for="photo in this.gallery">
+      <router-link :to="'/photo/' + photo.id + '-' + photo.name">
+        <img :src="photo.url" />
+      </router-link>
+    </div>
+  </div>
+</template>
 <script>
 import { mapGetters } from "vuex";
 import SETTINGS from "../../settings";
 
 export default {
-  el: '.gallery',
 
-  mounted: {
-	  function() {
-	    console.log('gallery loaded');
-	  }
+  props: {
+    gallery: Array
+  },
+
+  mounted: function() {
+    console.log('gallery mounted');
 	},
+
+  created: function() {
+    console.log('gallery loaded');
+  },
 
   methods: {
   	test: function () {
-			console.log('clicked');
-		}
+  		console.log('clicked');
+  	}
   },
 };
 </script>

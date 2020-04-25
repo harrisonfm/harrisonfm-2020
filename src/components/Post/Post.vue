@@ -1,9 +1,10 @@
 <template>
   <div class="bv-example-row pt-4">
-    <template v-if="post">
+    <div v-if="post">
       <h1>{{ post.title.rendered }}</h1>
       <div v-html="post.content.rendered"></div>
-    </template>
+      <Gallery :gallery="post.acf.gallery"></Gallery>
+    </div>
     <Loader v-else/>
   </div>
 </template>
@@ -35,8 +36,8 @@ export default {
           SETTINGS.API_BASE_PATH + "posts?slug=" + this.$route.params.postSlug
         )
         .then(response => {
-          console.log(response);
           this.post = response.data[0];
+          console.log(this.post);
         })
         .catch(e => {
           console.log(e);
