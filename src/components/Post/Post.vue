@@ -6,6 +6,7 @@
       <Gallery :gallery="post.acf.gallery"></Gallery>
     </div>
     <Loader v-else/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -22,8 +23,11 @@ export default {
       post: false
     };
   },
-
-  computed: {},
+  computed: {
+    ...mapGetters({
+      currentPost: 'currentPost'
+    })
+  },
 
   beforeMount() {
     this.getPost();
@@ -37,7 +41,7 @@ export default {
         )
         .then(response => {
           this.post = response.data[0];
-          console.log(this.post);
+          this.$store.dispatch('setCurrentPost', { post: this.post });
         })
         .catch(e => {
           console.log(e);

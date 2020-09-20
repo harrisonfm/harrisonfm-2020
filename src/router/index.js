@@ -19,26 +19,26 @@ const router = new Router({
       alias: '/blog'
     },
     {
-      // Assuming you're using the default permalink structure for posts
-      path: "/:year/:month/:day/:postSlug",
+      path: "/photo/:idSlug",
+      name: "PhotoViewer",
+      component: Photo
+    },
+    {
+      path: "/:year/:postSlug",
       name: "Post",
       component: Post,
-      // children: [
-      //   {
-      //     path: ':photo',
-      //     component: Photo
-      //   },
-      // ]
+      children: [
+        {
+          path: "photo/:idSlug",
+          name: 'Photo',
+          component: Photo
+        }
+      ]
     },
     {
       path: "/:pageSlug",
       name: "Page",
       component: Page
-    },
-    {
-      path: "/photo/:idSlug",
-      name: "PhotoViewer",
-      component: Photo
     },
   ],
   mode: "history",

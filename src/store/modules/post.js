@@ -12,25 +12,23 @@ const createPostSlug = post => {
 // initial state
 const state = {
   recent: [],
-  loaded: false
+  loaded: false,
+  currentPost: {}
 };
 
 // getters
 const getters = {
   recentPosts: state => limit => {
-    if (
-      !limit ||
-      !_.isNumber(limit) ||
-      _.isNull(limit) ||
-      typeof limit == "undefined"
-    ) {
+    if (!limit || !_.isNumber(limit) || _.isNull(limit) || typeof limit == "undefined") {
       return state.recent;
     }
     let recent = state.recent;
     return recent.slice(0, limit);
   },
 
-  recentPostsLoaded: state => state.loaded
+  recentPostsLoaded: state => state.loaded,
+
+  currentPost: state => state.currentPost
 };
 
 // actions
@@ -44,7 +42,15 @@ const actions = {
       commit(types.STORE_FETCHED_POSTS, { posts });
       commit(types.POSTS_LOADED, true);
       commit(types.INCREMENT_LOADING_PROGRESS);
+      
+
+      console.log(types);
     });
+  },
+
+  setCurrentPost({ commit }, {post}) {
+    console.log('set current post action', post);
+    commit(types.POST_CURRENT, { post });
   }
 };
 
@@ -56,6 +62,11 @@ const mutations = {
 
   [types.POSTS_LOADED](state, val) {
     state.loaded = val;
+  },
+
+  [types.POST_CURRENT](state, { post }) {
+    console.log('set current post mutation', post);
+    state.currentPost = post;
   }
 };
 

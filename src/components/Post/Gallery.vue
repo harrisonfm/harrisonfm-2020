@@ -1,7 +1,10 @@
 <template>
   <div>
     <div v-for="photo in this.gallery">
-      <router-link :to="'/photo/' + photo.id + '-' + photo.name">
+      <router-link :to="{
+          name: 'Photo',
+          params: { idSlug: photo.id + '-' + photo.name }
+        }">
         <img :src="photo.url" />
       </router-link>
     </div>

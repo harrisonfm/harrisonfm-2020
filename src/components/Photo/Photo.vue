@@ -1,8 +1,22 @@
 <template>
   <div class="bv-example-row pt-4">
     <template v-if="photo">
-      <h1>{{ photo.title.rendered }}</h1>
-      <img :src="photo.media_details.sizes.full.source_url" />
+      <h1>{{ photo.title }}</h1>
+      <img :src="photo.url" />
+      <div v-if="nextPhoto">
+        <router-link :to="{
+          name: 'Photo',
+          params: { idSlug: prevPhoto.id + '-' + prevPhoto.name }
+        }">
+          Previous
+        </router-link>
+        <router-link :to="{
+          name: 'Photo',
+          params: { idSlug: nextPhoto.id + '-' + nextPhoto.name }
+        }">
+          Next
+        </router-link>
+      </div>
     </template>
     <Loader v-else/>
   </div>
@@ -13,6 +27,7 @@ import axios from "axios";
 import Loader from "../partials/Loader.vue";
 import { mapGetters } from "vuex";
 import SETTINGS from "../../settings";
+import store from '../../store';
 
 export default {
   data() {
@@ -24,26 +39,73 @@ export default {
   computed: {},
 
   beforeMount() {
-  	this.id = this.parseIDSlug(this.$route.params.idSlug); 
+  	this.id = this.parseIDSlug(this.$route.params.idSlug);
+    this.post = store.state.post.currentPost;
+    this.prevPhoto = false;
+    this.nextPhoto = false;
     this.getPhoto();
+  },
+
+  watch: {
+  	'$route': 'refreshPhoto',
+    post: function (val, oldVal) {
+      console.log('watching post:', val, oldVal)
+    }
   },
 
   methods: {
   	parseIDSlug: function(idSlug) {
-  		return idSlug.substr(0, idSlug.indexOf('-'));
+  		return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
   	},
     getPhoto: function() {
-      axios
-        .get(
-          SETTINGS.API_BASE_PATH + "media/" + this.id
-        )
-        .then(response => {
-          this.photo = response.data;
-          console.log(this.photo);
-        })
-        .catch(e => {
-          console.log(e);
-        });
+      if(this.post.acf.gallery) {
+        for (const [idx, el] of this.post.acf.gallery.entries()) {
+          console.log(this.id, el.id);
+          if(this.id === el.id) {
+            this.photo = el;
+            this.setAdjacentPhotos(idx, this.post.acf.gallery);
+            console.log('getPhoto gallery', this.photo.title);
+            break;
+          }
+        }
+      }
+      else {
+        axios
+          .get(
+            SETTINGS.API_BASE_PATH + "media/" + this.id
+          )
+          .then(response => {
+            this.photo = response.data;
+            this.photo.title = response.data.title.rendered;
+            this.photo.url = response.data.media_details.sizes.full.source_url;
+            console.log('getPhoto api');
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
+    },
+    setAdjacentPhotos: function(i, gallery) {
+      if(i > 0) {
+        this.prevPhoto = gallery[i - 1];
+      }
+      else {
+        this.prevPhoto = gallery[gallery.length - 1];
+      }
+
+      if(i < gallery.length - 1) {
+        this.nextPhoto = gallery[i + 1];
+      }
+      else {
+        this.nextPhoto = gallery[0];
+      }
+      console.log('nex', this.nextPhoto);
+    },
+    refreshPhoto: function() {
+      console.log('startRefresh', this.$route.params.idSlug);
+	  	this.id = this.parseIDSlug(this.$route.params.idSlug); 
+	    this.getPhoto();
+      console.log('refreshPhoto', this.id);
     }
   },
 
