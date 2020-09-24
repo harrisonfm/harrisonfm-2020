@@ -1,21 +1,25 @@
 <template>
-  <div class="bv-example-row pt-4">
+  <div class="fixed inset-0 ph-5 pb-1 bg-white flex flex-col items-center">
     <template v-if="photo">
+      <div class="overflow-auto flex-1">
+        <img :src="photo.url" class="max-h-full" />
+      </div>
       <h1>{{ photo.title }}</h1>
-      <img :src="photo.url" />
-      <div v-if="nextPhoto">
-        <router-link :to="{
-          name: 'Photo',
-          params: { idSlug: prevPhoto.id + '-' + prevPhoto.name }
-        }">
-          Previous
-        </router-link>
-        <router-link :to="{
-          name: 'Photo',
-          params: { idSlug: nextPhoto.id + '-' + nextPhoto.name }
-        }">
-          Next
-        </router-link>
+      <p v-if="photo.caption">{{ photo.caption }}</p>
+      <div v-if="nextPhoto" class="flex align-center">
+          <router-link :to="{
+            name: 'Photo',
+            params: { idSlug: prevPhoto.id + '-' + prevPhoto.name }
+          }">
+            Previous
+          </router-link>
+          <span>&nbsp;/&nbsp;</span>
+          <router-link :to="{
+            name: 'Photo',
+            params: { idSlug: nextPhoto.id + '-' + nextPhoto.name }
+          }">
+            Next
+          </router-link>
       </div>
     </template>
     <Loader v-else/>
@@ -99,10 +103,8 @@ export default {
       else {
         this.nextPhoto = gallery[0];
       }
-      console.log('nex', this.nextPhoto);
     },
     refreshPhoto: function() {
-      console.log('startRefresh', this.$route.params.idSlug);
 	  	this.id = this.parseIDSlug(this.$route.params.idSlug); 
 	    this.getPhoto();
       console.log('refreshPhoto', this.id);
