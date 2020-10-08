@@ -27,8 +27,12 @@ h4 {
   @apply text-xl;
 }
 
-.site-content p {
+.post p {
   @apply mb-5;
+}
+
+.liked {
+	color: red;
 }
 
 .loader .progress-bar {

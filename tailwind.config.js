@@ -4,6 +4,7 @@ module.exports = {
   separator: ':',
   theme: {
     screens: {
+      xs: '480px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -279,7 +280,9 @@ module.exports = {
     }),
     inset: {
       '0': '0',
-      auto: 'auto'
+      auto: 'auto',
+      '1': '1rem',
+      '3': '3rem'
     },
     letterSpacing: {
       tighter: '-0.05em',
