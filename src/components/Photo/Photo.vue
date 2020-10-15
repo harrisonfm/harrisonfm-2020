@@ -24,9 +24,14 @@
           </router-link>
         </div>
         <div class="text-4xl mx-auto" >
-          <font-awesome-icon :icon="['fas', 'heart']" class="cursor-pointer" :class="{ liked: liked }" @click="like" />
-          <span v-if="likes">- {{ likes }}</span>
-          <font-awesome-icon :icon="['fas', 'pause']" class="cursor-pointer"/>
+          <div v-if="nextPhoto" class="inline">
+            <font-awesome-icon :icon="['fas', 'play']" v-if="!slideshow" class="cursor-pointer" @click="toggleSlideshow"/>
+            <font-awesome-icon :icon="['fas', 'pause']" v-if="slideshow" class="cursor-pointer" @click="toggleSlideshow"/>
+          </div>
+          <font-awesome-layers full-width class="cursor-pointer" :class="{ liked: liked }" @click="like">
+            <font-awesome-icon :icon="['fas', 'heart']" />
+            <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
+          </font-awesome-layers>
         </div>
         <div v-if="nextPhoto" class="flex ml-auto text-4xl xs:mr-0">
           <router-link :to="{
@@ -48,6 +53,7 @@ import Loader from "../partials/Loader.vue";
 import { mapGetters } from "vuex";
 import SETTINGS from "../../settings";
 import store from '../../store';
+import router from '../../router';
 
 export default {
   data() {
@@ -59,13 +65,19 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      currentPost: 'currentPost',
+      slideshow: 'slideshow',
+      prevPhoto: 'prevPhoto',
+      nextPhoto: 'nextPhoto',
+      gallery: 'gallery',
+      galleryIndex: 'galleryIndex'
+    })
   },
 
   beforeMount() {
   	this.id = this.parseIDSlug(this.$route.params.idSlug);
-    this.post = store.state.post.currentPost;
-    this.prevPhoto = false;
-    this.nextPhoto = false;
+    this.post = this.currentPost;
     this.getPhoto();
   },
 
@@ -88,15 +100,16 @@ export default {
   	},
     getPhoto: function() {
       if(this.post.acf.gallery) {
-        for (const [idx, el] of this.post.acf.gallery.entries()) {
+        let gallery = this.post.acf.gallery;
+        for (const [idx, el] of gallery.entries()) {
           if(this.id === el.id) {
             this.photo = el;
 
             this.photo.likes = this.photo.likes ? this.photo.likes : 0;
             this.photo.liked = this.photo.liked ? this.photo.liked : false;
 
-            this.setAdjacentPhotos(idx, this.post.acf.gallery);
-            console.log('getPhoto gallery', this.photo.title);
+            this.$store.dispatch('setGallery', { gallery, idx });
+            this.$store.dispatch('setSlideshow', { toggleSlideshow: false });
             break;
           }
         }
@@ -120,21 +133,9 @@ export default {
             console.log(e);
           });
       }
-    },
-    setAdjacentPhotos: function(i, gallery) {
-      if(i > 0) {
-        this.prevPhoto = gallery[i - 1];
-      }
-      else {
-        this.prevPhoto = gallery[gallery.length - 1];
-      }
 
-      if(i < gallery.length - 1) {
-        this.nextPhoto = gallery[i + 1];
-      }
-      else {
-        this.nextPhoto = gallery[0];
-      }
+      this.liked = this.photo.liked;
+      this.likes = this.photo.likes;
     },
     refreshPhoto: function() {
 	  	this.id = this.parseIDSlug(this.$route.params.idSlug); 
@@ -149,11 +150,12 @@ export default {
         this.photo.likes++;
       }
       this.photo.liked = !this.photo.liked;
+
       this.liked = this.photo.liked;
       this.likes = this.photo.likes;
-
-      console.log('like ', this.photo.liked);
-      console.log('likes', this.photo.likes);
+    },
+    toggleSlideshow: function() {
+      this.$store.dispatch('setSlideshow', {toggleSlideshow: true});
     }
   },
 

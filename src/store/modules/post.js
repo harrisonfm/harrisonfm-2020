@@ -42,14 +42,10 @@ const actions = {
       commit(types.STORE_FETCHED_POSTS, { posts });
       commit(types.POSTS_LOADED, true);
       commit(types.INCREMENT_LOADING_PROGRESS);
-      
-
-      console.log(types);
     });
   },
 
   setCurrentPost({ commit }, {post}) {
-    console.log('set current post action', post);
     commit(types.POST_CURRENT, { post });
   }
 };
@@ -65,7 +61,6 @@ const mutations = {
   },
 
   [types.POST_CURRENT](state, { post }) {
-    console.log('set current post mutation', post);
     state.currentPost = post;
   }
 };
