@@ -1,5 +1,11 @@
 <template>
-  <div class="fixed inset-0 ph-5 bg-white flex flex-col items-center md:px-24">
+  <div class="fixed inset-0 ph-5 bg-white flex flex-col items-center md:px-24"
+    tabindex="0"
+    @keyup.right="goToNextPhoto()"
+    @keyup.left="goToPrevPhoto()"
+    @keyup.up="back()"
+    @keyup.esc="back()"
+    @keyup.space="toggleSlideshow()">
     <template v-if="photo">
       <router-link :to="{
         name: 'Post',
@@ -50,7 +56,7 @@
 <script>
 import axios from "axios";
 import Loader from "../partials/Loader.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import SETTINGS from "../../settings";
 import store from '../../store';
 import router from '../../router';
@@ -81,6 +87,10 @@ export default {
     this.getPhoto();
   },
 
+  mounted() {
+    this.$el.focus();
+  },
+
   watch: {
   	'$route': 'refreshPhoto',
     post: function (val, oldVal) {
@@ -95,6 +105,10 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      'setGallery',
+      'setSlideshow'
+    ]),
   	parseIDSlug: function(idSlug) {
   		return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
   	},
@@ -108,8 +122,8 @@ export default {
             this.photo.likes = this.photo.likes ? this.photo.likes : 0;
             this.photo.liked = this.photo.liked ? this.photo.liked : false;
 
-            this.$store.dispatch('setGallery', { gallery, idx });
-            this.$store.dispatch('setSlideshow', { toggleSlideshow: false });
+            this.setGallery({ gallery, idx });
+            this.setSlideshow({ toggleSlideshow: false });
             break;
           }
         }
@@ -155,7 +169,25 @@ export default {
       this.likes = this.photo.likes;
     },
     toggleSlideshow: function() {
-      this.$store.dispatch('setSlideshow', {toggleSlideshow: true});
+      this.setSlideshow({toggleSlideshow: true});
+    },
+    goToNextPhoto: function() {
+      router.push({
+        name: 'Photo',
+        params: { idSlug: this.nextPhoto.id + '-' + this.nextPhoto.name }
+      });
+    },
+    goToPrevPhoto: function() {
+      router.push({
+        name: 'Photo',
+        params: { idSlug: this.prevPhoto.id + '-' + this.prevPhoto.name }
+      });
+    },
+    back: function() {
+      router.push({
+        name: 'Post',
+        params: { slug: this.post.slug }
+      });
     }
   },
 

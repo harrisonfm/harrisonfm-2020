@@ -61,7 +61,6 @@ const actions = {
 // mutations
 const mutations = {
 	[types.PHOTO_SLIDESHOW](state, payload) {
-		console.log('set slideshow', payload);
 		if(payload.toggleSlideshow) {
 			if(state.slideshow) {
 				clearTimeout(state.slideshow);
@@ -74,7 +73,6 @@ const mutations = {
 		}
 		if(state.slideshow) {
 	    state.slideshow = setTimeout(function(nextPhoto) {
-	    	console.log('slideshow', nextPhoto.title);
 	      router.push({
 	        name: 'Photo',
 	        params: { idSlug: nextPhoto.id + '-' + nextPhoto.name }
