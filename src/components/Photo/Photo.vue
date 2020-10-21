@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 ph-5 bg-white flex flex-col items-center md:px-24"
+  <div class="fixed inset-0 ph-5 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 opacity-0"
     tabindex="0"
     @keyup.right="goToNextPhoto()"
     @keyup.left="goToPrevPhoto()"
@@ -13,8 +13,8 @@
       }" class="absolute flex top-1 right-1 p-1 rounded bg-white bg-opacity-25 text-4xl">
         <font-awesome-icon :icon="['fas', 'compress-alt']" />
       </router-link>  
-      <div class="overflow-auto mt-auto">
-        <img :src="photo.url" class="max-h-full m-auto" />
+      <div :key="photo.id" class="photoBox overflow-auto mt-auto transition-opacity duration-1000 opacity-0">
+        <img :src="photo.url" class="max-h-full m-auto" @load="handleImageLoad()" />
       </div>
       <div class="w-full text-center px-4 my-4">
         <h2 class="leading-none">{{ photo.title }}</h2>
@@ -89,6 +89,7 @@ export default {
 
   mounted() {
     this.$el.focus();
+    this.$el.classList.remove("opacity-0");
   },
 
   watch: {
@@ -188,6 +189,10 @@ export default {
         name: 'Post',
         params: { slug: this.post.slug }
       });
+    },
+    handleImageLoad: function() {
+      let photoBox = document.getElementsByClassName('photoBox')[0];
+      photoBox.classList.remove("opacity-0");
     }
   },
 
