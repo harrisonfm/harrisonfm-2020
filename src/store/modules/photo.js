@@ -10,6 +10,7 @@ import router from '../../router';
 const state = {
 	gallery: {},
 	galleryIndex: 0,
+  galleryInfo: false,
   slideshow: false,
   prevPhoto: false,
   nextPhoto: false
@@ -21,6 +22,7 @@ const getters = {
   prevPhoto: state => state.prevPhoto,
   nextPhoto: state => state.nextPhoto,
   gallery: state => state.gallery,
+  galleryInfo: state => state.galleryInfo,
   galleryIndex: state => state.galleryIndex
 };
 
@@ -35,6 +37,10 @@ const actions = {
   setNextPhoto({ commit }, photo) {
   	console.log('set next photo action');
     commit(types.NEXT_PHOTO, photo);
+  },
+  setGalleryInfo({ commit }, payload) {
+    console.log('toggle info', payload);
+    commit(types.GALLERY_INFO);
   },
   setGallery({ commit }, payload) {
   	return new Promise((resolve, reject) => {
@@ -91,6 +97,11 @@ const mutations = {
 
   [types.GALLERY](state, gallery) {
     state.gallery = gallery;
+  },
+
+  [types.GALLERY_INFO](state) {
+    state.galleryInfo = !state.galleryInfo;
+    console.log(state.galleryInfo);
   },
 
   [types.GALLERY_INDEX](state, index) {
