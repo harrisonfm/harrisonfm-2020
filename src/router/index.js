@@ -47,6 +47,10 @@ const router = new Router({
   // Prevents window from scrolling back to top
   // when navigating between components/views
   scrollBehavior(to, from, savedPosition) {
+    if(to.name === "Photo" || 
+      (to.name === "Post" && from.name === "Photo")) {
+      return false;
+    }
     if (savedPosition) {
       return savedPosition;
     } else {
