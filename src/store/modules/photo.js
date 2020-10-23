@@ -27,42 +27,7 @@ const getters = {
 };
 
 // actions
-const actions = {
-  setSlideshow({ commit }, payload) {
-    commit(types.PHOTO_SLIDESHOW, payload);
-  },
-  setPrevPhoto({ commit }, photo) {
-    commit(types.PREV_PHOTO, photo);
-  },
-  setNextPhoto({ commit }, photo) {
-  	console.log('set next photo action');
-    commit(types.NEXT_PHOTO, photo);
-  },
-  setGalleryInfo({ commit }, payload) {
-    console.log('toggle info', payload);
-    commit(types.GALLERY_INFO);
-  },
-  setGallery({ commit }, payload) {
-  	return new Promise((resolve, reject) => {
-	  	commit(types.GALLERY, payload.gallery);
-	  	commit(types.GALLERY_INDEX, payload.idx);
-
-	    if(payload.idx > 0) {
-	      commit(types.PREV_PHOTO, payload.gallery[payload.idx - 1]);
-	    }
-	    else {
-	      commit(types.PREV_PHOTO, payload.gallery[payload.gallery.length - 1]);
-	    }
-
-	    if(payload.idx < payload.gallery.length - 1) {
-	      commit(types.NEXT_PHOTO, payload.gallery[payload.idx + 1]);
-	    }
-	    else {
-	      commit(types.NEXT_PHOTO, payload.gallery[0]);
-	    }
-  	});
-  }
-};
+const actions = {};
 
 // mutations
 const mutations = {
@@ -87,26 +52,17 @@ const mutations = {
 		}
 	},
 
-  [types.PREV_PHOTO](state, photo) {
-    state.prevPhoto = photo;
-  },
-
-  [types.NEXT_PHOTO](state, photo) {
-    state.nextPhoto = photo;
-  },
-
-  [types.GALLERY](state, gallery) {
-    state.gallery = gallery;
+  [types.GALLERY](state, payload) {
+    state.gallery = payload.gallery;
+    state.galleryIndex = payload.idx;
+    
+    state.prevPhoto = payload.idx > 0 ? payload.gallery[payload.idx - 1] : payload.gallery[payload.gallery.length - 1];
+    state.nextPhoto = payload.idx < payload.gallery.length - 1 ? payload.gallery[payload.idx + 1] : payload.gallery[0];
   },
 
   [types.GALLERY_INFO](state) {
     state.galleryInfo = !state.galleryInfo;
     console.log(state.galleryInfo);
-  },
-
-  [types.GALLERY_INDEX](state, index) {
-  	console.log('mutate gal index', index);
-    state.galleryIndex = index;
   },
 };
 

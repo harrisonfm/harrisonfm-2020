@@ -41,7 +41,7 @@
 <script>
 import axios from "axios";
 import Loader from "../partials/Loader.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import SETTINGS from "../../settings";
 import store from '../../store';
 import router from '../../router';
@@ -69,7 +69,6 @@ export default {
 
   beforeMount() {
   	this.id = this.parseIDSlug(this.$route.params.idSlug);
-    this.post = this.currentPost;
     this.getPhoto();
   },
 
@@ -93,16 +92,18 @@ export default {
 
   methods: {
     ...mapActions([
-      'setGallery',
-      'setSlideshow',
-      'setGalleryInfo'
     ]),
+    ...mapMutations({
+      'setSlideshow': 'PHOTO_SLIDESHOW',
+      'setGalleryInfo': 'GALLERY_INFO',
+      'setGallery' : 'GALLERY'
+    }),
   	parseIDSlug: function(idSlug) {
   		return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
   	},
     getPhoto: function() {
-      if(this.post.acf.gallery) {
-        let gallery = this.post.acf.gallery;
+      if(this.currentPost.acf.gallery) {
+        let gallery = this.currentPost.acf.gallery;
         for (const [idx, el] of gallery.entries()) {
           if(this.id === el.id) {
             this.photo = el;
@@ -142,7 +143,6 @@ export default {
     refreshPhoto: function() {
 	  	this.id = this.parseIDSlug(this.$route.params.idSlug); 
 	    this.getPhoto();
-      console.log('refreshPhoto', this.id);
     },
     like: function() {
       if(this.photo.liked) {
@@ -174,7 +174,7 @@ export default {
     back: function() {
       router.push({
         name: 'Post',
-        params: { slug: this.post.slug }
+        params: { slug: this.currentPost.slug }
       });
     },
     handleImageLoad: function() {
