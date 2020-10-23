@@ -70,6 +70,13 @@ router.afterEach((to, from) => {
     );
   }
 
+  if(to.name === "Photo") {
+    body.classList.add('overflow-hidden');
+  }
+  else if(from.name === "Photo") {
+    body.classList.remove('overflow-hidden'); 
+  }
+
   const slug = _.isEmpty(to.params.postSlug)
     ? to.params.pageSlug
     : to.params.postSlug;
