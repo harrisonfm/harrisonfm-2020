@@ -49,21 +49,21 @@ import router from '../../router';
 export default {
   data() {
     return {
-      photo: false,
-      liked: false,
-      likes: 0,
     };
   },
 
   computed: {
     ...mapGetters({
+      photo: 'photo',
       currentPost: 'currentPost',
       slideshow: 'slideshow',
       prevPhoto: 'prevPhoto',
       nextPhoto: 'nextPhoto',
       gallery: 'gallery',
       galleryInfo: 'galleryInfo',
-      galleryIndex: 'galleryIndex'
+      galleryIndex: 'galleryIndex',
+      likes: 'likes',
+      liked: 'liked'
     })
   },
 
@@ -81,22 +81,17 @@ export default {
   	'$route': 'refreshPhoto',
     post: function (val, oldVal) {
       console.log('watching post:', val, oldVal);
-    },
-    liked: function() {
-      return this.liked;
-    },
-    likes: function() {
-      return this.likes;
     }
   },
 
   methods: {
-    ...mapActions([
-    ]),
+    ...mapActions([]),
     ...mapMutations({
+      'setPhoto': 'PHOTO',
       'setSlideshow': 'PHOTO_SLIDESHOW',
       'setGalleryInfo': 'GALLERY_INFO',
-      'setGallery' : 'GALLERY'
+      'setGallery' : 'GALLERY',
+      'setLiked': 'LIKED'
     }),
   	parseIDSlug: function(idSlug) {
   		return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
@@ -106,11 +101,8 @@ export default {
         let gallery = this.currentPost.acf.gallery;
         for (const [idx, el] of gallery.entries()) {
           if(this.id === el.id) {
-            this.photo = el;
-
-            this.photo.likes = this.photo.likes ? this.photo.likes : 0;
-            this.photo.liked = this.photo.liked ? this.photo.liked : false;
-
+            this.setPhoto({photo: el});
+            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.photo.id+'-'+this.photo.name)});
             this.setGallery({ gallery, idx });
             this.setSlideshow({ toggleSlideshow: false });
             break;
@@ -118,43 +110,42 @@ export default {
         }
       }
       else {
-        axios
-          .get(
-            SETTINGS.API_BASE_PATH + "media/" + this.id
-          )
-          .then(response => {
-            this.photo = response.data;
-            this.photo.title = response.data.title.rendered;
-            this.photo.url = response.data.media_details.sizes.full.source_url;
+        // axios
+        //   .get(
+        //     SETTINGS.API_BASE_PATH + "media/" + this.id
+        //   )
+        //   .then(response => {
+        //     this.photo = response.data;
+        //     this.photo.title = response.data.title.rendered;
+        //     this.photo.url = response.data.media_details.sizes.full.source_url;
 
-            this.photo.likes = this.photo.likes ? this.photo.likes : 0;
-            this.photo.liked = this.photo.liked ? this.photo.liked : false;
+        //     let acf = this.photo.acf ? this.photo.acf : {};
+        //     this.photo.likes = acf.likes ? parseInt(acf.likes, 10) : 0;
+        //     this.photo.liked = this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug);
 
-            console.log('getPhoto api');
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        //     console.log('getPhoto api');
+        //   })
+        //   .catch(e => {
+        //     console.log(e);
+        //   });
       }
-
-      this.liked = this.photo.liked;
-      this.likes = this.photo.likes;
     },
     refreshPhoto: function() {
 	  	this.id = this.parseIDSlug(this.$route.params.idSlug); 
 	    this.getPhoto();
     },
     like: function() {
-      if(this.photo.liked) {
-        this.photo.likes--;
+      if(this.liked) {
+        this.$cookies.remove("hfm-liked-"+this.$route.params.idSlug);
       }
       else {
-        this.photo.likes++;
+        this.$cookies.set("hfm-liked-"+this.$route.params.idSlug,'',"7d");
       }
-      this.photo.liked = !this.photo.liked;
-
-      this.liked = this.photo.liked;
-      this.likes = this.photo.likes;
+      store.dispatch('like', {
+        photo: this.photo, 
+        likes: this.likes + (this.liked ? -1 : 1)
+      });
+      this.setLiked({liked: !this.liked});
     },
     toggleSlideshow: function() {
       this.setSlideshow({toggleSlideshow: true});

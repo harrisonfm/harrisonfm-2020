@@ -53,5 +53,19 @@ export default {
       .catch(e => {
         cb(e);
       });
+  },
+
+  like(photo, likes, cb) {
+    console.log('api', photo, likes);
+    axios
+      .put(
+        SETTINGS.API_CUSTOM + 'media/'+photo+'/like', {likes: likes}
+      )
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
   }
 };

@@ -29,32 +29,42 @@ function load_vue_scripts() {
 add_action( 'wp_enqueue_scripts', 'load_vue_scripts', 100 );
 
 add_theme_support('post-thumbnails');
-add_filter('post_gallery', 'hfmGallery', 10, 2);
-function hfmGallery($string, $attr){
+add_filter('acf/rest_api/post/get_fields', function ($data) {
+  if (!isset($data) || !isset($data["acf"])) {
+    return $data;
+  }
 
-    $posts = get_posts(array('include' => $attr['ids'], 'post_type' => 'attachment'));
-    //$photos = array();
-    $output = "<gallery class=\"gallery\" @click='test' >";
-
-    foreach($posts as $image) {
-        $photo = array(
-        	'id' => $image->ID,
-        	'title' => $image->post_title,
-        	'caption' => $image->post_excerpt,
-            'description' => $image->post_content,
-            'href' => get_permalink($image->ID),
-        	'alt' => get_post_meta($image->ID, '_wp_attachment_image_alt', true ),
-        	'image' => array(
-        		'thumbnail' => wp_get_attachment_image_src($image->ID)[0],
-        		'small' => wp_get_attachment_image_src($image->ID, 'small')[0],
-		        'medium' => wp_get_attachment_image_src($image->ID, 'medium')[0],
-		        'large' => wp_get_attachment_image_src($image->ID, 'large')[0],
-		        'full' => wp_get_attachment_image_src($image->ID, 'full')[0]
-		    )
-	    );
-	    $output .= "<img src=".$photo['image']['thumbnail']." />";
+  // Here add the possible field names that might be a type of an attachment
+  $fieldNames = ["background", "image"];
+  // Loop through them and add key acf with the custom fields
+  foreach ($fieldNames as $fieldName) {
+    if (isset($data->acf) && isset($data->acf[$fieldName]) && is_array($data->acf[$fieldName])) {
+      $data->acf[$fieldName]['acf'] = get_fields($data->acf[$fieldName]["id"]);
     }
-    $output .= "</gallery>";
+  };
 
-    return $output;
+  if (isset($data['acf']) && isset($data['acf']['gallery'])) {
+  	foreach($data['acf']['gallery'] as &$galleryItem) {
+  		$galleryItem['acf'] = get_fields($galleryItem["id"]);
+  	}
+	}
+
+  return $data;
+}, 10, 3);
+
+function like_media($request) {
+  if($request['likes'] < 0) {
+    $request['likes'] = 0;
+  }
+	if(update_field('likes', $request['likes'], $request['id'])) {
+    return true;
+  }
+  return false;
 }
+
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'hfm/v1', '/media/(?P<id>\d+)/like', array(
+    'methods' => 'PUT',
+    'callback' => 'like_media',
+  ) );
+} );

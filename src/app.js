@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueCookies from 'vue-cookies';
 require('./bootstrap');
 import './assets/css/styles.css';
 
@@ -24,6 +25,7 @@ library.add(faTimes, faHeart, faPause, faPlay, faCompressAlt, faChevronCircleLef
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
 Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
+Vue.use(VueCookies);
 
 new Vue({
   el: '#app',
