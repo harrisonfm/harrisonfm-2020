@@ -34,18 +34,21 @@ add_filter('acf/rest_api/post/get_fields', function ($data) {
     return $data;
   }
 
-  // Here add the possible field names that might be a type of an attachment
+  // Here add the possible field names that might be a type of an attachment, needs to be tested
   $fieldNames = ["background", "image"];
   // Loop through them and add key acf with the custom fields
   foreach ($fieldNames as $fieldName) {
     if (isset($data->acf) && isset($data->acf[$fieldName]) && is_array($data->acf[$fieldName])) {
       $data->acf[$fieldName]['acf'] = get_fields($data->acf[$fieldName]["id"]);
+      $data->acf[$fieldName]['acf']['likes'] = $data->acf[$fieldName]['acf']['likes'] ? $data->acf[$fieldName]['acf']['likes'] : 0;
     }
   };
 
+  //gallery override, not sure if the first foreach loop is needed
   if (isset($data['acf']) && isset($data['acf']['gallery'])) {
   	foreach($data['acf']['gallery'] as &$galleryItem) {
   		$galleryItem['acf'] = get_fields($galleryItem["id"]);
+      $galleryItem['acf']['likes'] = $galleryItem['acf']['likes'] ? $galleryItem['acf']['likes'] : 0;
   	}
 	}
 

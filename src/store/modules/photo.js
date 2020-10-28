@@ -39,6 +39,12 @@ const actions = {
     api.like(payload.photo.id, payload.likes, response => {
       commit(types.PHOTO_LIKE);
     });
+  },
+  getSinglePhoto: function({ commit }, payload) {
+    console.log(payload);
+    api.getPhoto(payload.photo.id, response => {
+      commit(types.PHOTO, {photo: response.data});
+    });
   }
 };
 
@@ -46,9 +52,7 @@ const actions = {
 const mutations = {
   [types.PHOTO](state, payload) {
     state.photo = payload.photo;
-
-    let acf = state.photo.acf ? state.photo.acf : {};
-    state.photo.likes = acf.likes ? parseInt(acf.likes, 10) : 0;
+    state.photo.likes = parseInt(payload.photo.acf.likes);
     state.likes = state.photo.likes;
   },
 	[types.PHOTO_SLIDESHOW](state, payload) {
@@ -85,14 +89,6 @@ const mutations = {
   },
 
   [types.PHOTO_LIKE](state) {
-    //fallbacks for media w/o ACF default
-    if(!state.photo['acf']) {
-      state.photo['acf'] = [];
-    }
-    if(typeof state.photo['acf']['likes'] === 'undefined') {
-      state.photo['acf']['likes'] = 0;
-    }
-
     state.photo['acf']['likes'] = parseInt(state.photo['acf']['likes'], 10) + (state.liked ? 1 : -1);
     state.photo['acf']['likes'] = state.photo['acf']['likes'] < 0 ? 0 : state.photo['acf']['likes'];
     state.likes = state.photo['acf']['likes'];

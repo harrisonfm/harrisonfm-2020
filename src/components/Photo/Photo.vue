@@ -85,7 +85,9 @@ export default {
   },
 
   methods: {
-    ...mapActions([]),
+    ...mapActions([
+      'getSinglePhoto'
+    ]),
     ...mapMutations({
       'setPhoto': 'PHOTO',
       'setSlideshow': 'PHOTO_SLIDESHOW',
@@ -102,7 +104,7 @@ export default {
         for (const [idx, el] of gallery.entries()) {
           if(this.id === el.id) {
             this.setPhoto({photo: el});
-            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.photo.id+'-'+this.photo.name)});
+            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug)});
             this.setGallery({ gallery, idx });
             this.setSlideshow({ toggleSlideshow: false });
             break;
@@ -110,24 +112,10 @@ export default {
         }
       }
       else {
-        // axios
-        //   .get(
-        //     SETTINGS.API_BASE_PATH + "media/" + this.id
-        //   )
-        //   .then(response => {
-        //     this.photo = response.data;
-        //     this.photo.title = response.data.title.rendered;
-        //     this.photo.url = response.data.media_details.sizes.full.source_url;
-
-        //     let acf = this.photo.acf ? this.photo.acf : {};
-        //     this.photo.likes = acf.likes ? parseInt(acf.likes, 10) : 0;
-        //     this.photo.liked = this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug);
-
-        //     console.log('getPhoto api');
-        //   })
-        //   .catch(e => {
-        //     console.log(e);
-        //   });
+        this.getSinglePhoto({
+          id: this.id, 
+          liked: this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug)
+        });
       }
     },
     refreshPhoto: function() {

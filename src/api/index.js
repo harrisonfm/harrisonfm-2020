@@ -55,6 +55,23 @@ export default {
       });
   },
 
+  getPhoto(id, cb) {
+    console.log('getPhoto API', id);
+    axios
+      .get(
+        SETTINGS.API_BASE_PATH + "media/" + id
+      )
+      .then(response => {
+        let photo = response.data;
+        photo.title = response.data.title.rendered;
+        photo.url = response.data.media_details.sizes.full.source_url;
+        cb(photo);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  },
+
   like(photo, likes, cb) {
     console.log('api', photo, likes);
     axios
