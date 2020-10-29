@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div v-for="photo in this.gallery">
+  <div class="grid gap-4 auto-rows-fr md:grid-cols-2 xl:grid-cols-3">
+    <div v-for="photo in this.gallery" class="flex items-center justify-center" >
       <router-link :to="{
           name: 'Photo',
           params: { idSlug: photo.id + '-' + photo.name }
         }">
-        <img :src="photo.url" />
+        <img :src="photo.url" class="rounded shadow md:max-h-col2 xl:max-h-col3 xxl:max-h-col3xxl" />
       </router-link>
     </div>
   </div>

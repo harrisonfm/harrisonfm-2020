@@ -1,6 +1,6 @@
 <template>
   <div class="bv-example-row pt-4">
-    <div v-if="post" class="post">
+    <div v-if="post" class="post px-4">
       <h1>{{ post.title.rendered }}</h1>
       <div v-html="post.content.rendered"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>

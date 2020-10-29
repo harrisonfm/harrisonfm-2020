@@ -8,7 +8,8 @@ module.exports = {
       sm: '640px',
       md: '768px',
       lg: '1024px',
-      xl: '1280px'
+      xl: '1280px',
+      xxl: '1440px'
     },
     colors: {
       transparent: 'transparent',
@@ -311,7 +312,10 @@ module.exports = {
     }),
     maxHeight: {
       full: '100%',
-      screen: '100vh'
+      screen: '100vh',
+      col2: 'calc((50vw / 2) + 3rem)',
+      col3: 'calc((50vw / 3) + 4rem)',
+      col3xxl: 'calc((1440px / 3) + 4rem)',
     },
     maxWidth: {
       xs: '20rem',
@@ -324,6 +328,7 @@ module.exports = {
       '4xl': '56rem',
       '5xl': '64rem',
       '6xl': '72rem',
+      '8xl': '90rem',
       full: '100%'
     },
     minHeight: {
