@@ -1,5 +1,5 @@
 <template>
-  <div id="my-app" class="flex flex-col md:min-h-screen">
+  <div id="my-app" class="">
     <app-header />
 
     <transition name="loader-animation" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
@@ -7,7 +7,7 @@
     </transition>
 
     <transition name="page-transition" mode="out-in" appear>
-      <div class="site-content mx-auto py-16 flex-1 px-10 md:px-0 max-w-8xl">
+      <div class="site-content py-16 px-10 md:px-0 mx-auto max-w-8xl bg-white">
         <router-view></router-view>
       </div>
     </transition>
