@@ -39,6 +39,8 @@ const actions = {
         posts[i] = createPostSlug(post);
       });
 
+      console.log(posts);
+
       commit(types.STORE_FETCHED_POSTS, { posts });
       commit(types.POSTS_LOADED, true);
       commit(types.INCREMENT_LOADING_PROGRESS);

@@ -13,7 +13,6 @@ plugins = [
 ];
 
 if (process.env.NODE_ENV === 'development') {
-  plugins.push(require('./browser-sync'));
   plugins.push(require('./stylelint'));
 }
 

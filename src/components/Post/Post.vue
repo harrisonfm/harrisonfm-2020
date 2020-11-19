@@ -1,6 +1,6 @@
 <template>
   <div class="bv-example-row pt-4">
-    <div v-if="post" class="post px-4">
+    <div v-if="post" class="post">
       <h1>{{ post.title.rendered }}</h1>
       <div v-html="post.content.rendered"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>
@@ -31,6 +31,10 @@ export default {
 
   beforeMount() {
     this.getPost();
+  },
+
+  mounted: function() {
+    console.log('post mounted');
   },
 
   methods: {

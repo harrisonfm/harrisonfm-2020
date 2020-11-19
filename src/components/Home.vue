@@ -1,6 +1,6 @@
 <template>
   <div class="page page--home">
-    <recent-posts-widget limit="5" class="mb-10">Recent Posts</recent-posts-widget>
+    <recent-posts-widget limit="5" class="mb-10"></recent-posts-widget>
   </div>
 </template>
 

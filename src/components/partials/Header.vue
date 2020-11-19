@@ -8,6 +8,7 @@
     <MainMenu :menu = "menu" />
   </header>
 </template>
+
 <script>
   import axios from "axios";
   import MainMenu from './Header/Menu.vue';

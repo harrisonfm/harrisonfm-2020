@@ -46,7 +46,7 @@ export default {
     }
 
     axios
-      .get(SETTINGS.API_BASE_PATH + "posts?per_page=" + limit)
+      .get(SETTINGS.API_BASE_PATH + "posts?_embed&per_page=" + limit)
       .then(response => {
         cb(response.data);
       })

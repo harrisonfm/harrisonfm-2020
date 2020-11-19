@@ -277,7 +277,9 @@ module.exports = {
       auto: 'auto',
       ...theme('spacing'),
       full: '100%',
-      screen: '100vh'
+      screen: '100vh',
+      article: '67vw',
+      articleMD: 'calc((100vw) * .25)',
     }),
     inset: {
       '0': '0',
