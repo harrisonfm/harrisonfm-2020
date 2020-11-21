@@ -54,6 +54,7 @@ const mutations = {
   },
 
   [types.POSTS_LOADED](state, val) {
+    console.log('posts loaded', val);
     state.loaded = val;
   },
 
