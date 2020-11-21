@@ -19,8 +19,7 @@ const router = new Router({
       alias: '/blog',
       children: [
         {
-          path: "p/:page",
-          name: 'Paged',
+          path: "p/:page"
         }
       ]
     },

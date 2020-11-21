@@ -13,25 +13,16 @@ const createPostSlug = post => {
 const state = {
   recent: [],
   loaded: false,
-  currentPost: {},
-  paginationIndex: 1
+  currentPost: {}
 };
 
 // getters
 const getters = {
-  recentPosts: state => limit => {
-    if (!limit || !_.isNumber(limit) || _.isNull(limit) || typeof limit == "undefined") {
-      return state.recent;
-    }
-    let recent = state.recent;
-    return recent.slice(0, limit);
-  },
+  recentPosts: state => state.recent,
 
   recentPostsLoaded: state => state.loaded,
 
-  currentPost: state => state.currentPost,
-
-  paginationIndex: state => state.paginationIndex
+  currentPost: state => state.currentPost
 };
 
 // actions
@@ -68,10 +59,6 @@ const mutations = {
 
   [types.POST_CURRENT](state, { post }) {
     state.currentPost = post;
-  },
-
-  [types.PAGINATION_INDEX](state, { page }) {
-    state.paginationIndex = page;
   }
 };
 
