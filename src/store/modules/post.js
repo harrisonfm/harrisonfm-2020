@@ -13,7 +13,8 @@ const createPostSlug = post => {
 const state = {
   recent: [],
   loaded: false,
-  currentPost: {}
+  currentPost: {},
+  paginationIndex: 1
 };
 
 // getters
@@ -28,13 +29,16 @@ const getters = {
 
   recentPostsLoaded: state => state.loaded,
 
-  currentPost: state => state.currentPost
+  currentPost: state => state.currentPost,
+
+  paginationIndex: state => state.paginationIndex
 };
 
 // actions
 const actions = {
-  getPosts({ commit }, { limit }) {
-    api.getPosts(limit, posts => {
+  getPosts({ commit }, { limit, page }) {
+    console.log(limit, page);
+    api.getPosts(limit, page, posts => {
       posts.map((post, i) => {
         posts[i] = createPostSlug(post);
       });
@@ -64,6 +68,10 @@ const mutations = {
 
   [types.POST_CURRENT](state, { post }) {
     state.currentPost = post;
+  },
+
+  [types.PAGINATION_INDEX](state, { page }) {
+    state.paginationIndex = page;
   }
 };
 

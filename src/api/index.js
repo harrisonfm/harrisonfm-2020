@@ -1,4 +1,3 @@
-import _ from "lodash";
 import axios from "axios";
 import SETTINGS from "../settings";
 
@@ -29,7 +28,6 @@ export default {
   },
 
   getPage(id, cb) {
-    if (_.isNull(id) || !_.isNumber(id)) return false;
     axios
       .get(SETTINGS.API_BASE_PATH + "pages/" + id)
       .then(response => {
@@ -40,13 +38,9 @@ export default {
       });
   },
 
-  getPosts(limit, cb) {
-    if (_.isEmpty(limit)) {
-      let limit = 5;
-    }
-
+  getPosts(limit = 8, page = 1, cb) {
     axios
-      .get(SETTINGS.API_BASE_PATH + "posts?_embed&per_page=" + limit)
+      .get(`${SETTINGS.API_BASE_PATH}posts?_embed&page=${page}&per_page=${limit}`)
       .then(response => {
         cb(response.data);
       })

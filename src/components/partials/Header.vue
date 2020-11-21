@@ -1,5 +1,5 @@
 <template>
-  <header class="site-header flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 py-2 sticky top-0">
+  <header class="site-header flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 py-2 sticky top-0 z-10">
     <router-link to="/" class="flex items-center">
       <img :src="Bolt" class="inline h-8 transform rotate-180" />
       <span class="font-bold text-3xl tracking-wider mx-1">HFM</span>

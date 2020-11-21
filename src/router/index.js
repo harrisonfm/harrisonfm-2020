@@ -16,7 +16,13 @@ const router = new Router({
       path: "/",
       name: "Home",
       component: Home,
-      alias: '/blog'
+      alias: '/blog',
+      children: [
+        {
+          path: "p/:page",
+          name: 'Paged',
+        }
+      ]
     },
     {
       path: "/photo/:idSlug",

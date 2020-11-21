@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Loader from "../partials/Loader.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import SETTINGS from "../../settings";
