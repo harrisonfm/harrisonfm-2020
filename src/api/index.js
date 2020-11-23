@@ -16,20 +16,9 @@ export default {
       });
   },
 
-  getPages(cb) {
+  getPage(slug, cb) {
     axios
-      .get(SETTINGS.API_BASE_PATH + "pages?per_page=10")
-      .then(response => {
-        cb(response.data);
-      })
-      .catch(e => {
-        cb(e);
-      });
-  },
-
-  getPage(id, cb) {
-    axios
-      .get(SETTINGS.API_BASE_PATH + "pages/" + id)
+      .get(SETTINGS.API_BASE_PATH + "pages?slug=" + slug)
       .then(response => {
         cb(response.data);
       })

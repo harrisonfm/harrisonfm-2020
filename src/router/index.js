@@ -4,6 +4,7 @@ import Router from "vue-router";
 
 // Components
 import Home from "../components/Home.vue";
+import ErrorPage from "../components/Page/ErrorPage.vue";
 import Post from "../components/Post/Post.vue";
 import Page from "../components/Page/Page.vue";
 import Photo from "../components/Photo/Photo.vue";
@@ -45,6 +46,11 @@ const router = new Router({
       name: "Page",
       component: Page
     },
+    {
+      path: '/error-404',
+      name: "404",
+      component: ErrorPage
+    }
   ],
   mode: "history",
   base: "",
