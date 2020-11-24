@@ -14,24 +14,28 @@
 import axios from "axios";
 import Loader from "../partials/Loader.vue";
 import Gallery from "./Gallery.vue";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import SETTINGS from "../../settings";
 import router from '../../router';
 
 export default {
-  data() {
-    return {
-      post: false
-    };
-  },
   computed: {
     ...mapGetters({
-      currentPost: 'currentPost'
+      post: 'currentPost'
     })
   },
 
   beforeMount() {
-    this.getPost();
+    this.getPost({
+      slug: this.$route.params.postSlug
+    }).then(response => {
+      console.log('post component resolves', response);
+    }, error => {
+      console.log('post component errors', this.post, error);
+      this.$_error('ErrorPage', {
+        route: this.$route.params.postSlug
+      });
+    });
   },
 
   mounted: function() {
@@ -39,27 +43,7 @@ export default {
   },
 
   methods: {
-    getPost: function() {
-      axios
-        .get(
-          SETTINGS.API_BASE_PATH + "posts?slug=" + this.$route.params.postSlug
-        )
-        .then(response => {
-          console.log(response);
-          if(response.data.length) {
-            this.post = response.data[0];
-            this.$store.dispatch('setCurrentPost', { post: this.post });
-          }
-          else {
-            router.push({
-              name: '404'
-            });
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    }
+    ...mapActions(['getPost'])
   },
 
   components: { Loader, Gallery }

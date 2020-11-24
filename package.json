@@ -42,7 +42,7 @@
     "url-loader": "^0.6.2",
     "vue-lazyload": "^1.3.3",
     "vue-loader": "^15.8.3",
-    "vue-router": "^2.8.1",
+    "vue-router": "^3.4.9",
     "vue-session": "^0.9.8",
     "vue-template-compiler": "^2.6.11",
     "vuex": "^2.5.0",
@@ -64,6 +64,7 @@
     "stylelint-order": "^4.0.0",
     "tailwindcss": "^1.1.4",
     "vue": "^2.6",
-    "vue-cookies": "^1.7.4"
+    "vue-cookies": "^1.7.4",
+    "vue-error-page": "^1.1.7"
   }
 }

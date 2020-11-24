@@ -28,7 +28,6 @@ const getters = {
 // actions
 const actions = {
   getPosts({ commit }, { limit, page }) {
-    console.log(limit, page);
     api.getPosts(limit, page, posts => {
       posts.map((post, i) => {
         posts[i] = createPostSlug(post);
@@ -42,8 +41,21 @@ const actions = {
     });
   },
 
-  setCurrentPost({ commit }, {post}) {
-    commit(types.POST_CURRENT, { post });
+  getPost({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      api.getPost(payload.slug, response => {
+        console.log(response, 'getpost store');
+        if(response.length) {
+          let post = response[0];
+          commit(types.POST_CURRENT, { post });
+          resolve(response[0]);
+        }
+        else {
+          console.log(response, 'error 404 post store');
+          reject(response);
+        }
+      });
+    });
   }
 };
 

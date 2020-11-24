@@ -4,10 +4,7 @@ import SETTINGS from "../settings";
 export default {
   getCategories(cb) {
     axios
-      .get(
-        SETTINGS.API_BASE_PATH +
-          "categories?sort=name&hide_empty=true&per_page=50"
-      )
+      .get(SETTINGS.API_BASE_PATH + "categories?sort=name&hide_empty=true&per_page=50")
       .then(response => {
         cb(response.data.filter(c => c.name !== "Uncategorized"));
       })
@@ -18,7 +15,7 @@ export default {
 
   getPage(slug, cb) {
     axios
-      .get(SETTINGS.API_BASE_PATH + "pages?slug=" + slug)
+      .get(`${SETTINGS.API_BASE_PATH}pages?slug=${slug}`)
       .then(response => {
         cb(response.data);
       })
@@ -38,12 +35,20 @@ export default {
       });
   },
 
-  getPhoto(id, cb) {
-    console.log('getPhoto API', id);
+  getPost(slug, cb) {
     axios
-      .get(
-        SETTINGS.API_BASE_PATH + "media/" + id
-      )
+      .get(`${SETTINGS.API_BASE_PATH}posts?slug=${slug}`)
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
+  },
+
+  getPhoto(id, cb) {
+    axios
+      .get(`${SETTINGS.API_BASE_PATH}media/${id}`)
       .then(response => {
         let photo = response.data;
         photo.title = response.data.title.rendered;
@@ -58,9 +63,7 @@ export default {
   like(photo, likes, cb) {
     console.log('api', photo, likes);
     axios
-      .put(
-        SETTINGS.API_CUSTOM + 'media/'+photo+'/like', {likes: likes}
-      )
+      .put(`${SETTINGS.API_CUSTOM}media/${photo}/like`, {likes: likes})
       .then(response => {
         cb(response.data);
       })

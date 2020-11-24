@@ -8,7 +8,7 @@
 
     <transition name="page-transition" mode="out-in" appear>
       <div class="site-content py-16 px-4 mx-auto max-w-8xl bg-white">
-        <router-view></router-view>
+        <app-view></app-view>
       </div>
     </transition>
 

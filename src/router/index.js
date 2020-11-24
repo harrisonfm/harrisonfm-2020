@@ -45,11 +45,6 @@ const router = new Router({
       path: "/:pageSlug",
       name: "Page",
       component: Page
-    },
-    {
-      path: '/error-404',
-      name: "404",
-      component: ErrorPage
     }
   ],
   mode: "history",

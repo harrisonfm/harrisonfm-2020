@@ -9,25 +9,25 @@ const state = {
 
 // getters
 const getters = {
-  page: state => state.page
+  currentPage: state => state.page
 };
 
 // actions
 const actions = {
   getPage: function({ commit }, payload) {
     console.log(payload);
-    api.getPage(payload.pageSlug, response => {
-      if(response.length) {
-        console.log(response);
-        commit(types.PAGE_CURRENT, { 
-          page: response[0]
-        });
-      }
-      else {
-        router.push({
-          name: '404'
-        });
-      }
+    return new Promise((resolve, reject) => {
+      api.getPage(payload.pageSlug, response => {
+        if(response.length) {
+          commit(types.PAGE_CURRENT, { 
+            page: response[0]
+          });
+          resolve(response[0]);
+        }
+        else {
+          reject(response);
+        }
+      });
     });
   }
 };

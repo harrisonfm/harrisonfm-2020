@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueCookies from 'vue-cookies';
 require('./bootstrap');
 import './assets/css/styles.css';
+import ErrorPage from 'vue-error-page';
 
 import router from './router';
 import App from './App.vue';
@@ -26,6 +27,13 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
 Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
 Vue.use(VueCookies);
+Vue.use(ErrorPage, {
+	resolver: (component) => {
+        return require('./components/Page/' + component).default;
+    }
+});
+
+window.eventBus = new Vue();
 
 new Vue({
   el: '#app',

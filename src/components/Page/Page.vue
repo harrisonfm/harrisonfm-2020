@@ -15,14 +15,20 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters({
-      page: 'page'
+      page: 'currentPage'
     })
   },
 
   beforeMount() {
-    console.log(this.$route.params.pageSlug);
     this.getPage({
       pageSlug: this.$route.params.pageSlug
+    }).then(response => {
+      console.log('page component resolves', response);
+    }, error => {
+      console.log('page component errors', this.page, error);
+      this.$_error('ErrorPage', {
+        route: this.$route.params.pageSlug
+      });
     });
   },
 
