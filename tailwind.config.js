@@ -1,4 +1,8 @@
 module.exports = {
+  purge: [
+    './*.php',
+    './src/**/*.vue'
+  ],
   prefix: '',
   important: false,
   separator: ':',

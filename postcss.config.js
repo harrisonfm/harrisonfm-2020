@@ -2,7 +2,7 @@ module.exports = {
   plugins: {
     autoprefixer: { grid: true },
     'postcss-import': {},
-    'postcss-cssnext': {
+    'postcss-preset-env': {
       warnForDuplicates: false,
       map: true,
       remove: false,
