@@ -1,9 +1,10 @@
 <template>
-  <div class="fixed inset-0 ph-5 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 opacity-0"
+  <div class="photo-modal fixed inset-0 ph-5 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 opacity-0 bg-white z-30"
     tabindex="0"
     @keyup.right="goToNextPhoto"
     @keyup.left="goToPrevPhoto"
     @keyup.up="back"
+    @keyup.down="back"
     @keyup.esc="back"
     @keyup.space="toggleSlideshow">
     <template v-if="photo">

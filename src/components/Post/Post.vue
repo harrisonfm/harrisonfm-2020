@@ -14,7 +14,7 @@
 import axios from "axios";
 import Loader from "../partials/Loader.vue";
 import Gallery from "./Gallery.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import SETTINGS from "../../settings";
 import router from '../../router';
 
@@ -42,8 +42,16 @@ export default {
     console.log('post mounted');
   },
 
+  beforeRouteLeave: function(to,from,next) {
+    this.setCurrentPost({post:null});
+    next();
+  },
+
   methods: {
-    ...mapActions(['getPost'])
+    ...mapActions(['getPost']),
+    ...mapMutations({
+      'setCurrentPost': 'POST_CURRENT',
+    })
   },
 
   components: { Loader, Gallery }

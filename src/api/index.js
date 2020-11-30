@@ -6,6 +6,7 @@ export default {
     axios
       .get(SETTINGS.API_BASE_PATH + "categories?sort=name&hide_empty=true&per_page=50")
       .then(response => {
+        console.log(response.data);
         cb(response.data.filter(c => c.name !== "Uncategorized"));
       })
       .catch(e => {
@@ -24,9 +25,13 @@ export default {
       });
   },
 
-  getPosts(limit = 8, page = 1, cb) {
+  getPosts(params, cb) {
+    params._embed = true;
+    console.log('api',params);
     axios
-      .get(`${SETTINGS.API_BASE_PATH}posts?_embed&page=${page}&per_page=${limit}`)
+      .get(`${SETTINGS.API_BASE_PATH}posts`, {
+        params: params
+      })
       .then(response => {
         cb(response.data);
       })

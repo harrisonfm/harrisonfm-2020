@@ -27,12 +27,11 @@ const getters = {
 
 // actions
 const actions = {
-  getPosts({ commit }, { limit, page }) {
-    api.getPosts(limit, page, posts => {
+  getPosts({ commit }, params) {
+    api.getPosts(params, posts => {
       posts.map((post, i) => {
         posts[i] = createPostSlug(post);
       });
-
       console.log(posts);
 
       commit(types.STORE_FETCHED_POSTS, { posts });
@@ -66,7 +65,6 @@ const mutations = {
   },
 
   [types.POSTS_LOADED](state, val) {
-    console.log('posts loaded', val);
     state.loaded = val;
   },
 

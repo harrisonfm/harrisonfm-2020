@@ -4,6 +4,7 @@ import Router from "vue-router";
 
 // Components
 import Home from "../components/Home.vue";
+import Category from "../components/Category.vue";
 import ErrorPage from "../components/Page/ErrorPage.vue";
 import Post from "../components/Post/Post.vue";
 import Page from "../components/Page/Page.vue";
@@ -18,6 +19,16 @@ const router = new Router({
       name: "Home",
       component: Home,
       alias: '/blog',
+      children: [
+        {
+          path: "p/:page"
+        }
+      ]
+    },
+    {
+      path: "/category/:slug",
+      name: "Category",
+      component: Category,
       children: [
         {
           path: "p/:page"
