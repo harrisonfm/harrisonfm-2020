@@ -5,13 +5,13 @@
     </h3>
     <div class="grid gap-4 auto-rows-fr md:grid-cols-2 mb-4">
       <article v-for="post in recentPosts" :key="post.id" >
-        <router-link :to="post.slug">
+        <router-link :to="post.link">
           <div class="bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500" :style="parseBackground(post)">
-            <div class="text-white font-bold text-2xl z-10">{{ post.title.rendered }}</div>
+            <div class="text-white font-bold text-2xl z-10">{{ post.post_title }}</div>
             <div class="absolute inset-0 bg-black opacity-25 hover:opacity-50 transition-opacity duration-150 z-0"></div>
           </div>
         </router-link>
-        <p class="text-gray-700 text-base" v-html="post.excerpt.rendered"></p>
+        <p class="text-gray-700 text-base" v-html="post.excerpt"></p>
       </article>
     </div>
     <div class="w-full flex uppercase">
@@ -55,14 +55,20 @@ export default {
         page: this.page ? this.page : 1,
       };
       if(this.category) {
-        params.categories = this.category.id;
+        params.category = this.category;
+      }
+      else if(this.tag) {
+        params.tag = this.tag;
+      }
+      else if(this.search) {
+        params.search = this.search;
       }
       return params;
     },
     pageLink: function() {
       let lead = '';
-      lead = this.category ? '/category/'+this.category.slug : '';
-      console.log(lead, this.page); 
+      lead = this.category ? '/category/'+this.category : '';
+      lead = this.tag ? '/tag/'+this.tag : '';
       return {
         prev: lead+(this.page <= 2 ? '/' : '/p/'+(this.page - 1)),
         next: lead+'/p/'+(this.page + 1)
@@ -78,8 +84,8 @@ export default {
       setLoaded: 'POSTS_LOADED'
     }),
     parseBackground(post) {
-      if(post.featured_media) {
-        return 'background-image: url(/wp-content/uploads/'+post._embedded['wp:featuredmedia'][0].media_details.file+')';  
+      if(post.featured) {
+        return 'background-image: url(/wp-content/uploads/'+post.featured.file+')';  
       }
       return 'background-image: url(https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg)';      
     },

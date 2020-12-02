@@ -1,7 +1,7 @@
 <template>
-  <div class="page page--category">
-    <recent-posts-widget :category="this.$route.params.category" class="mb-10">
-    	Category: {{ this.$route.params.category }}
+  <div class="page page--tag">
+    <recent-posts-widget :tag="this.$route.params.tag" class="mb-10">
+    	Tag: {{ this.$route.params.tag }}
     </recent-posts-widget>
   </div>
 </template>

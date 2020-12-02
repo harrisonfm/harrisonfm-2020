@@ -5,6 +5,8 @@ import Router from "vue-router";
 // Components
 import Home from "../components/Home.vue";
 import Category from "../components/Category.vue";
+import Tag from "../components/Tag.vue";
+import Search from "../components/Search.vue";
 import ErrorPage from "../components/Page/ErrorPage.vue";
 import Post from "../components/Post/Post.vue";
 import Page from "../components/Page/Page.vue";
@@ -26,9 +28,29 @@ const router = new Router({
       ]
     },
     {
-      path: "/category/:slug",
+      path: "/category/:category",
       name: "Category",
       component: Category,
+      children: [
+        {
+          path: "p/:page"
+        }
+      ]
+    },
+    {
+      path: "/tag/:tag",
+      name: "Tag",
+      component: Tag,
+      children: [
+        {
+          path: "p/:page"
+        }
+      ]
+    },
+    {
+      path: "/search/:search",
+      name: "Search",
+      component: Search,
       children: [
         {
           path: "p/:page"

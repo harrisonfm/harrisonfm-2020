@@ -29,8 +29,8 @@ Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
 Vue.use(VueCookies);
 Vue.use(ErrorPage, {
 	resolver: (component) => {
-        return require('./components/Page/' + component).default;
-    }
+    return require('./components/Page/' + component).default;
+  }
 });
 
 window.eventBus = new Vue();
@@ -42,6 +42,5 @@ new Vue({
   render: h => h(App),
   created() {
     this.$store.commit(types.RESET_LOADING_PROGRESS);
-    this.$store.dispatch('getAllCategories', { route: this.$route.params });
-  },
+  }
 });

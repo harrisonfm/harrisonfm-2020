@@ -1,13 +1,5 @@
 import api from "../../api";
-import _ from "lodash";
 import * as types from "../mutation-types";
-
-const createPostSlug = post => {
-  let slug = post.link.replace("http://" + window.location.hostname, "");
-  slug = slug.replace("https://" + window.location.hostname, "");
-  post.slug = slug;
-  return post;
-};
 
 // initial state
 const state = {
@@ -29,9 +21,6 @@ const getters = {
 const actions = {
   getPosts({ commit }, params) {
     api.getPosts(params, posts => {
-      posts.map((post, i) => {
-        posts[i] = createPostSlug(post);
-      });
       console.log(posts);
 
       commit(types.STORE_FETCHED_POSTS, { posts });
@@ -40,8 +29,16 @@ const actions = {
     });
   },
 
-  getPost({ commit }, payload) {
+  getPost({ commit, getters }, payload) {
     return new Promise((resolve, reject) => {
+      for (const [idx, el] of getters.recentPosts.entries()) {
+        if(payload.slug === el.post_name) {
+          console.log('getpost from memory');
+          commit(types.POST_CURRENT, { el });
+          resolve(el);
+        }
+      }
+
       api.getPost(payload.slug, response => {
         console.log(response, 'getpost store');
         if(response.length) {

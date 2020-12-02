@@ -1,7 +1,7 @@
 <template>
-  <div class="page page--category">
-    <recent-posts-widget :category="this.$route.params.category" class="mb-10">
-    	Category: {{ this.$route.params.category }}
+  <div class="page page--search">
+    <recent-posts-widget :search="this.$route.params.search" class="mb-10">
+    	Search: {{ this.$route.params.search }}
     </recent-posts-widget>
   </div>
 </template>

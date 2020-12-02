@@ -26,10 +26,9 @@ export default {
   },
 
   getPosts(params, cb) {
-    params._embed = true;
-    console.log('api',params);
+    console.log('api getposts',params);
     axios
-      .get(`${SETTINGS.API_BASE_PATH}posts`, {
+      .get(`${SETTINGS.API_CUSTOM}posts`, {
         params: params
       })
       .then(response => {

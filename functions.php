@@ -55,7 +55,7 @@ add_filter('acf/rest_api/post/get_fields', function ($data) {
   return $data;
 }, 10, 3);
 
-function like_media($request) {
+function hfm_like_media($request) {
   if($request['likes'] < 0) {
     $request['likes'] = 0;
   }
@@ -65,9 +65,57 @@ function like_media($request) {
   return false;
 }
 
+function hfm_get_posts_by_type($request) {
+  $args = array(
+    'posts_per_page' => $request['per_page'] ? $request['per_page'] : 8,
+    'paged' => $request['page'] ? $request['page'] : 1,
+    'ignore_sticky_posts' => 1
+  );
+
+  if($request['category']) {
+    $args['category_name'] = $request['category'];
+  }
+  elseif($request['tag']) {
+    $args['tag'] = $request['tag'];
+  }
+  elseif($request['search']) {
+    $args['s'] = $request['search'];
+  }
+
+  $query = new WP_Query($args);
+  foreach($query->posts as $post) {
+    $post->acf = get_fields($post->ID);
+    $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
+
+    $post->categories = array();
+    $cats = wp_get_post_categories($post->ID);
+    foreach($cats as $c){
+      $cat = get_category($c);
+      $post->categories[] = $cat->slug;
+    }
+
+    $post->tags = wp_get_post_terms($post->ID);
+
+    $media = new WP_Query(array(
+      'p' => get_post_thumbnail_id($post->ID),
+      'post_type' => 'attachment'
+    ));
+
+    if($media->posts) {
+      $post->featured = array_merge((array) $media->posts[0], wp_get_attachment_metadata(get_post_thumbnail_id($post->ID)));
+    }
+  }
+  return new WP_REST_Response($query->posts);
+}
+
 add_action( 'rest_api_init', function () {
   register_rest_route( 'hfm/v1', '/media/(?P<id>\d+)/like', array(
     'methods' => 'PUT',
-    'callback' => 'like_media',
+    'callback' => 'hfm_like_media',
+  ) );
+
+  register_rest_route( 'hfm/v1', '/posts', array(
+    'methods' => 'GET',
+    'callback' => 'hfm_get_posts_by_type',
   ) );
 } );
