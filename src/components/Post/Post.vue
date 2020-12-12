@@ -6,7 +6,7 @@
       <Gallery :gallery="post.acf.gallery"></Gallery>
     </div>
     <Loader v-else/>
-    <router-view></router-view>
+    <router-view v-if="post"></router-view>
   </div>
 </template>
 

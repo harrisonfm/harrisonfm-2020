@@ -54,10 +54,22 @@ export default {
     axios
       .get(`${SETTINGS.API_BASE_PATH}media/${id}`)
       .then(response => {
+        console.log(response);
         let photo = response.data;
         photo.title = response.data.title.rendered;
         photo.url = response.data.media_details.sizes.full.source_url;
         cb(photo);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  },
+
+  getSitemeta(cb) {
+    axios
+      .get(`${SETTINGS.API_CUSTOM}sitemeta`)
+      .then(response => {
+        cb(response.data);
       })
       .catch(e => {
         console.log(e);

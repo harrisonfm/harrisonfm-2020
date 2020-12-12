@@ -8,6 +8,7 @@ import router from './router';
 import App from './App.vue';
 import store from './store';
 import * as types from './store/mutation-types';
+import meta from './meta';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -34,6 +35,8 @@ Vue.use(ErrorPage, {
 });
 
 window.eventBus = new Vue();
+meta.setDefaults();
+meta.setMeta();
 
 new Vue({
   el: '#app',

@@ -11,9 +11,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import SETTINGS from "../../settings";
-
 export default {
   props: {
     gallery: Array

@@ -26,9 +26,10 @@ function load_vue_scripts() {
 		filemtime( get_stylesheet_directory() . '/dist/styles.css' )
 	);
 }
-add_action( 'wp_enqueue_scripts', 'load_vue_scripts', 100 );
+add_action('wp_enqueue_scripts', 'load_vue_scripts', 100);
 
 add_theme_support('post-thumbnails');
+add_theme_support('custom-logo');
 add_filter('acf/rest_api/post/get_fields', function ($data) {
   if (!isset($data) || !isset($data["acf"])) {
     return $data;
@@ -108,6 +109,16 @@ function hfm_get_posts_by_type($request) {
   return new WP_REST_Response($query->posts);
 }
 
+function hfm_get_sitemeta() {
+  $custom_logo_id = get_theme_mod( 'custom_logo' );
+  $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+  return new WP_REST_Response(array(
+    'title' => get_bloginfo('name'),
+    'tagline' => get_bloginfo('description'),
+    'img' => $logo
+  ));
+}
+
 add_action( 'rest_api_init', function () {
   register_rest_route( 'hfm/v1', '/media/(?P<id>\d+)/like', array(
     'methods' => 'PUT',
@@ -117,5 +128,10 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'hfm/v1', '/posts', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_posts_by_type',
+  ) );
+
+  register_rest_route( 'hfm/v1', '/sitemeta', array(
+    'methods' => 'GET',
+    'callback' => 'hfm_get_sitemeta',
   ) );
 } );
