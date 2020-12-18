@@ -83,9 +83,38 @@ function hfm_get_posts_by_type($request) {
     $args['s'] = $request['search'];
   }
 
+
   $query = new WP_Query($args);
-  foreach($query->posts as $post) {
+  hfm_format_posts_for_api($query->posts);
+
+  return new WP_REST_Response($query->posts);
+}
+
+function hfm_get_post($request) {
+  $args = array(
+    'name' => $request['slug']
+  );
+
+  $query = new WP_Query($args);
+  hfm_format_posts_for_api($query->posts);
+  
+  return new WP_REST_Response($query->posts);
+}
+
+function hfm_format_posts_for_api(&$posts) {
+  error_log('format posts');
+  foreach($posts as $post) {
     $post->acf = get_fields($post->ID);
+    if(isset($post->acf['gallery'])) {
+      error_log('post has gallery');
+      foreach($post->acf['gallery'] as &$galleryItem) {
+        $galleryItem['acf'] = array();
+        $likes = get_field('likes', $galleryItem['id']);
+        error_log('likes '.$likes);
+        $galleryItem['acf']['likes'] = $likes ? $likes : 0;
+        error_log(print_r($galleryItem, true));
+      }
+    }
     $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
 
     $post->categories = array();
@@ -106,7 +135,10 @@ function hfm_get_posts_by_type($request) {
       $post->featured = array_merge((array) $media->posts[0], wp_get_attachment_metadata(get_post_thumbnail_id($post->ID)));
     }
   }
-  return new WP_REST_Response($query->posts);
+}
+
+function hfm_get_media() {
+  //todo get media item with custom call.. may be less buggy
 }
 
 function hfm_get_sitemeta() {
@@ -115,6 +147,7 @@ function hfm_get_sitemeta() {
   return new WP_REST_Response(array(
     'title' => get_bloginfo('name'),
     'tagline' => get_bloginfo('description'),
+    'url' => get_bloginfo('url'),
     'img' => $logo
   ));
 }
@@ -128,6 +161,16 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'hfm/v1', '/posts', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_posts_by_type',
+  ) );
+
+  register_rest_route( 'hfm/v1', '/post', array(
+    'methods' => 'GET',
+    'callback' => 'hfm_get_post',
+  ) );
+
+  register_rest_route( 'hfm/v1', '/media', array(
+    'methods' => 'GET',
+    'callback' => 'hfm_get_media',
   ) );
 
   register_rest_route( 'hfm/v1', '/sitemeta', array(

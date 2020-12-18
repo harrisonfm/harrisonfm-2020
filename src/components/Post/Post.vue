@@ -1,13 +1,13 @@
 <template>
-  <div class="bv-example-row pt-4">
-    <div v-if="post" class="post">
-      <h1>{{ post.title.rendered }}</h1>
-      <div v-html="post.content.rendered"></div>
+  <div class="bv-example-row pt-4" v-if="post">
+    <div class="post">
+      <h1>{{ post.post_title }}</h1>
+      <div v-html="post.post_content"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>
     </div>
-    <Loader v-else/>
-    <router-view v-if="post"></router-view>
+    <router-view></router-view>
   </div>
+  <Loader v-else/>
 </template>
 
 <script>
@@ -17,6 +17,7 @@ import Gallery from "./Gallery.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import SETTINGS from "../../settings";
 import router from '../../router';
+import meta from '../../meta';
 
 export default {
   computed: {
@@ -29,7 +30,7 @@ export default {
     this.getPost({
       slug: this.$route.params.postSlug
     }).then(response => {
-      console.log('post component resolves', response);
+      console.log('post component resolves');
     }, error => {
       console.log('post component errors', this.post, error);
       this.$_error('ErrorPage', {
@@ -52,6 +53,11 @@ export default {
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
     })
+  },
+
+  metaInfo () {
+    console.log('metainfo post');
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.link)
   },
 
   components: { Loader, Gallery }

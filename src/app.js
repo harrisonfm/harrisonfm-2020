@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueCookies from 'vue-cookies';
+import VueMeta from 'vue-meta'
+
 require('./bootstrap');
 import './assets/css/styles.css';
 import ErrorPage from 'vue-error-page';
@@ -8,7 +10,6 @@ import router from './router';
 import App from './App.vue';
 import store from './store';
 import * as types from './store/mutation-types';
-import meta from './meta';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -28,6 +29,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
 Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
 Vue.use(VueCookies);
+Vue.use(VueMeta);
 Vue.use(ErrorPage, {
 	resolver: (component) => {
     return require('./components/Page/' + component).default;
@@ -35,8 +37,6 @@ Vue.use(ErrorPage, {
 });
 
 window.eventBus = new Vue();
-meta.setDefaults();
-meta.setMeta();
 
 new Vue({
   el: '#app',

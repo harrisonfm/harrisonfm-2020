@@ -67,6 +67,7 @@
     "tailwindcss": "^2.0.1",
     "vue": "^2.6",
     "vue-cookies": "^1.7.4",
-    "vue-error-page": "^1.1.7"
+    "vue-error-page": "^1.1.7",
+    "vue-meta": "^2.4.0"
   }
 }

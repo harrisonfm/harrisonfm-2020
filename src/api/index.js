@@ -40,8 +40,9 @@ export default {
   },
 
   getPost(slug, cb) {
+    console.log('api getpost single');
     axios
-      .get(`${SETTINGS.API_BASE_PATH}posts?slug=${slug}`)
+      .get(`${SETTINGS.API_CUSTOM}post?slug=${slug}`)
       .then(response => {
         cb(response.data);
       })
@@ -54,10 +55,10 @@ export default {
     axios
       .get(`${SETTINGS.API_BASE_PATH}media/${id}`)
       .then(response => {
-        console.log(response);
         let photo = response.data;
         photo.title = response.data.title.rendered;
         photo.url = response.data.media_details.sizes.full.source_url;
+        photo.caption = response.data.caption.rendered;
         cb(photo);
       })
       .catch(e => {
@@ -77,7 +78,7 @@ export default {
   },
 
   like(photo, likes, cb) {
-    console.log('api', photo, likes);
+    console.log('like photo api', photo, likes);
     axios
       .put(`${SETTINGS.API_CUSTOM}media/${photo}/like`, {likes: likes})
       .then(response => {

@@ -41,18 +41,19 @@ const actions = {
     });
   },
   getSinglePhoto: function({ commit }, payload) {
-    console.log(payload);
-    api.getPhoto(payload.photo.id, response => {
-      commit(types.PHOTO, {photo: response.data});
+    console.log('api get single photo');
+    api.getPhoto(payload.id, photo => {
+      commit(types.PHOTO, photo);
     });
   }
 };
 
 // mutations
 const mutations = {
-  [types.PHOTO](state, payload) {
-    state.photo = payload.photo;
-    state.photo.likes = parseInt(payload.photo.acf.likes);
+  [types.PHOTO](state, photo) {
+    console.log('commit photo', photo);
+    state.photo = photo;
+    state.photo.likes = parseInt(photo.acf.likes);
     state.likes = state.photo.likes;
   },
 	[types.PHOTO_SLIDESHOW](state, payload) {

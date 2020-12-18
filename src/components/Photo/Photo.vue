@@ -45,6 +45,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import SETTINGS from "../../settings";
 import store from '../../store';
 import router from '../../router';
+import meta from '../../meta';
 
 export default {
   data() {
@@ -103,7 +104,8 @@ export default {
         let gallery = this.currentPost.acf.gallery;
         for (const [idx, el] of gallery.entries()) {
           if(this.id === el.id) {
-            this.setPhoto({photo: el});
+            console.log('getphoto from gallery', el);
+            this.setPhoto(el);
             this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug)});
             this.setGallery({ gallery, idx });
             this.setSlideshow({ toggleSlideshow: false });
@@ -160,6 +162,11 @@ export default {
       let photoBox = document.getElementsByClassName('photoBox')[0];
       photoBox.classList.remove("opacity-0");
     }
+  },
+
+  metaInfo () {
+    console.log('metainfo photo', this.photo.title, this.photo.caption);
+    return meta.formatMeta(this.photo.title, this.photo.caption, this.photo.url)
   },
 
   components: { Loader }

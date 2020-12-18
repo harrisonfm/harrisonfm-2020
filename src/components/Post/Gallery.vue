@@ -14,20 +14,6 @@
 export default {
   props: {
     gallery: Array
-  },
-
-  mounted: function() {
-    console.log('gallery mounted');
-	},
-
-  created: function() {
-    console.log('gallery loaded');
-  },
-
-  methods: {
-  	test: function () {
-  		console.log('clicked');
-  	}
-  },
+  }
 };
 </script>

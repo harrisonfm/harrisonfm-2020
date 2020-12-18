@@ -1,6 +1,7 @@
 import api from './api';
 
 export default {
+	apiCalled: false,
 	default: {
 		title: 'HarrisonFM',
 		tagline: 'Adventure, Photography, and Coding',
@@ -9,6 +10,10 @@ export default {
 		url: 'https://harrisonfm.com'
 	},
 	setDefaults: function() {
+		if(this.apiCalled) {
+			return;
+		}
+
 		api.getSitemeta((response) => {
 			if(response.title) {
 				this.default.title = response.title;
@@ -22,76 +27,74 @@ export default {
 			if(response.url) {
 				this.default.url = response.url;
 			}
+			this.apiCalled = true;
 		});
 	},
-	setMeta: function(title, desc, img, url) {
-		Array.from(document.querySelectorAll('[data-vue-meta]')).map(el => el.parentNode.removeChild(el));
-
-		document.title = title ? title + ' - ' + this.default.title : this.default.title + ' - ' + this.default.tagline;
+	formatMeta: function(title, desc, img, url) {
+		this.setDefaults();
 
 		desc = desc ? desc : this.default.desc;
 		img = img ? img : this.default.img;
 		url = url ? url : this.default.url;
 
-		const tags = [
-			{
-				attribute: 'name',
-				attributeContent: 'description',
-				content: desc
-			},
-			{
-				attribute: 'name',
-				attributeContent: 'image',
-				content: img
-			},
-			{
-				attribute: 'property',
-				attributeContent: 'og:title',
-				content: title ? title : this.default.title + ' - ' + this.default.tagline
-			},
-			{
-				attribute: 'property',
-				attributeContent: 'og:description',
-				content: desc
-			},
-			{
-				attribute: 'property',
-				attributeContent: 'og:url',
-				content: url
-			},
-			{
-				attribute: 'name',
-				attributeContent: 'og:image',
-				content: img
-			},
-			{
-				attribute: 'property',
-				attributeContent: 'twitter:title',
-				content: title ? title : this.default.title + ' - ' + this.default.tagline
-			},
-			{
-				attribute: 'property',
-				attributeContent: 'twitter:description',
-				content: desc
-			},
-			{
-				attribute: 'property',
-				attributeContent: 'twitter:url',
-				content: url
-			},
-			{
-				attribute: 'name',
-				attributeContent: 'twitter:image',
-				content: img
-			},
-		];
+		console.log('formatMeta', title, desc);
 
-		for (const i in tags) {
-			const tag = document.createElement('meta');
-			tag.setAttribute(tags[i].attribute, tags[i].attributeContent);
-			tag.setAttribute('content', tags[i].content);
-			tag.setAttribute('data-vue-meta', '');
-			document.head.appendChild(tag);
-		}
+		const metaTags = {
+			title: title ? title + ' - ' + this.default.title : this.default.title + ' - ' + this.default.tagline,
+			meta: [
+				{
+					vmid: 'description',
+					name: 'description',
+					content: desc
+				},
+				{
+					vmid: 'image',
+					name: 'image',
+					content: img
+				},
+				{
+					vmid: 'og:title',
+					name: 'og:title',
+					content: title ? title : this.default.title + ' - ' + this.default.tagline
+				},
+				{
+					vmid: 'og:description',
+					name: 'og:description',
+					content: desc
+				},
+				{
+					vmid: 'og:url',
+					name: 'og:url',
+					content: url
+				},
+				{
+					vmid: 'og:image',
+					name: 'og:image',
+					content: img
+				},
+				{
+					vmid: 'twitter:title',
+					name: 'twitter:title',
+					content: title ? title : this.default.title + ' - ' + this.default.tagline
+				},
+				{
+					vmid: 'twitter:description',
+					name: 'twitter:description',
+					content: desc
+				},
+				{
+					vmid: 'twitter:url',
+					name: 'twitter:url',
+					content: url
+				},
+				{
+					vmid: 'twitter:image',
+					name: 'twitter:image',
+					content: img
+				},
+			]
+		};
+
+		return metaTags;
 	}
 };
