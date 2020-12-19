@@ -165,7 +165,6 @@ export default {
   },
 
   metaInfo () {
-    console.log('metainfo photo', this.photo.title, this.photo.caption);
     return meta.formatMeta(this.photo.title, this.photo.caption, this.photo.url)
   },
 

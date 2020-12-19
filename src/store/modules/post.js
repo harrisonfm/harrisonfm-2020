@@ -6,7 +6,8 @@ const state = {
   recent: [],
   loaded: false,
   currentPost: {
-    title: 'Loading..'
+    title: 'Loading..',
+    acf: {}
   }
 };
 

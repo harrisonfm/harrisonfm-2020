@@ -64,7 +64,7 @@
     "postcss": "^8.1.10",
     "postcss-preset-env": "^6.7.0",
     "stylelint-order": "^4.0.0",
-    "tailwindcss": "^2.0.1",
+    "tailwindcss": "^2.0.2",
     "vue": "^2.6",
     "vue-cookies": "^1.7.4",
     "vue-error-page": "^1.1.7",

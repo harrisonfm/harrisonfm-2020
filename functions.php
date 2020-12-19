@@ -124,6 +124,8 @@ function hfm_format_posts_for_api(&$posts) {
       $post->categories[] = $cat->slug;
     }
 
+    $post->post_content = apply_filters('the_content', $post->post_content);
+
     $post->tags = wp_get_post_terms($post->ID);
 
     $media = new WP_Query(array(

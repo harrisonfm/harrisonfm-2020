@@ -1,6 +1,8 @@
 <template>
-  <div class="bv-example-row pt-4" v-if="post">
-    <div class="post">
+  <div v-if="post">
+    <div class="hero bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen" v-if="post.featured" :style="parseBackground(post)">
+    </div>
+    <div class="post p-4 rounded xxl:bg-white xxl:shadow xxl:-mt-4">
       <h1>{{ post.post_title }}</h1>
       <div v-html="post.post_content"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>
@@ -52,11 +54,16 @@ export default {
     ...mapActions(['getPost']),
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
-    })
+    }),
+    parseBackground(post) {
+      if(post.featured) {
+        return 'background-image: url(/wp-content/uploads/'+post.featured.file+')';  
+      }
+      return 'background-image: url(https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg)';      
+    }
   },
 
   metaInfo () {
-    console.log('metainfo post');
     return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.link)
   },
 

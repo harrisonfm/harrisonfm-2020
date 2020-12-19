@@ -39,6 +39,12 @@ h4 {
   @apply bg-teal-500;
 }
 
+@media(min-width: 1440px) {
+  .hero {
+    margin-left: calc((100vw - 1440px) / -2);
+  }
+}
+
 /* end tailwind customizations */
 
 @tailwind utilities;
