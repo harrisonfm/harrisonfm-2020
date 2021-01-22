@@ -30,5 +30,5 @@ export default new Vuex.Store({
     photo
   },
   strict: debug,
-  plugins: [localStorage]
+  //plugins: [localStorage]
 })

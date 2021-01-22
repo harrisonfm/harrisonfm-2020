@@ -6,7 +6,7 @@
 
 <script>
 import RecentPostsWidget from './widgets/RecentPosts.vue';
-import meta from '../meta';
+import meta from '~/meta';
 
 export default {
   components: {

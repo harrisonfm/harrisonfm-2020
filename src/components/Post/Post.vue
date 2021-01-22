@@ -1,11 +1,22 @@
 <template>
-  <div v-if="post">
+  <div v-if="post.post_content">
     <div class="hero bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen" v-if="post.featured" :style="parseBackground(post)">
     </div>
-    <div class="post p-4 rounded xxl:bg-white xxl:shadow xxl:-mt-4">
-      <h1>{{ post.post_title }}</h1>
-      <div v-html="post.post_content"></div>
+    <div class="py-2 px-4 rounded bg-white xxl:shadow xxl:-my-16">
+      <div class="flex flex-wrap items-center mb-4">
+        <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
+        <p class="my-0 ml-4 lg:ml-auto"><span>Published on </span>{{post.post_date}} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
+      </div>
+      <div class="post" v-html="post.post_content"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>
+      <div class="flex">
+        <span>Tagged:</span>
+        <router-link v-for="tag in this.post.tags" :key="tag.id" :to="{
+          name: 'Tag',
+          params: {tag: tag.slug}  
+        }">{{tag.name}}
+        </router-link>
+      </div>
     </div>
     <router-view></router-view>
   </div>
@@ -17,9 +28,9 @@ import axios from "axios";
 import Loader from "../partials/Loader.vue";
 import Gallery from "./Gallery.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import SETTINGS from "../../settings";
-import router from '../../router';
-import meta from '../../meta';
+import SETTINGS from "~/settings";
+import router from '~/router';
+import meta from '~/meta';
 
 export default {
   computed: {

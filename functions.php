@@ -120,9 +120,10 @@ function hfm_format_posts_for_api(&$posts) {
     $post->categories = array();
     $cats = wp_get_post_categories($post->ID);
     foreach($cats as $c){
-      $cat = get_category($c);
-      $post->categories[] = $cat->slug;
+      $post->categories[] = get_category($c);
     }
+
+    $post->post_date = date_format(date_create($post->post_date), 'M jS, Y');
 
     $post->post_content = apply_filters('the_content', $post->post_content);
 
@@ -158,25 +159,30 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'hfm/v1', '/media/(?P<id>\d+)/like', array(
     'methods' => 'PUT',
     'callback' => 'hfm_like_media',
+    'permission_callback' => '__return_true'
   ) );
 
   register_rest_route( 'hfm/v1', '/posts', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_posts_by_type',
+    'permission_callback' => '__return_true'
   ) );
 
   register_rest_route( 'hfm/v1', '/post', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_post',
+    'permission_callback' => '__return_true'
   ) );
 
   register_rest_route( 'hfm/v1', '/media', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_media',
+    'permission_callback' => '__return_true'
   ) );
 
   register_rest_route( 'hfm/v1', '/sitemeta', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_sitemeta',
+    'permission_callback' => '__return_true'
   ) );
 } );

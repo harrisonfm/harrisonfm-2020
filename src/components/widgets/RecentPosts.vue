@@ -1,5 +1,5 @@
 <template>
-  <div class="widget recent-posts p-4" v-if="recentPostsLoaded">
+  <div class="widget recent-posts p-4 bg-white" v-if="recentPostsLoaded">
     <h3>
       <slot></slot>
     </h3>

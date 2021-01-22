@@ -12,7 +12,7 @@
 <script>
   import axios from "axios";
   import MainMenu from './Header/Menu.vue';
-  import Bolt from '../../assets/bolt.svg';
+  import Bolt from '~/assets/bolt.svg';
 
   export default {
     data() {
