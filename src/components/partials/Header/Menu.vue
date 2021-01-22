@@ -16,7 +16,8 @@
 </style>
 
 <script>
-  import menuMixin from '../../../mixins/Menu.vue'
+  import menuMixin from '~/mixins/Menu.vue'
+  
 	export default {
 		props: ['menu'],
     mixins: [menuMixin]

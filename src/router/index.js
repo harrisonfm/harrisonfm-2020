@@ -3,14 +3,14 @@ import Vue from "vue";
 import Router from "vue-router";
 
 // Components
-import Home from "../components/Home.vue";
-import Category from "../components/Category.vue";
-import Tag from "../components/Tag.vue";
-import Search from "../components/Search.vue";
-import ErrorPage from "../components/Page/ErrorPage.vue";
-import Post from "../components/Post/Post.vue";
-import Page from "../components/Page/Page.vue";
-import Photo from "../components/Photo/Photo.vue";
+import Home from "~/components/Home.vue";
+import Category from "~/components/Category.vue";
+import Tag from "~/components/Tag.vue";
+import Search from "~/components/Search.vue";
+import ErrorPage from "~/components/Page/ErrorPage.vue";
+import Post from "~/components/Post/Post.vue";
+import Page from "~/components/Page/Page.vue";
+import Photo from "~/components/Photo/Photo.vue";
 
 Vue.use(Router);
 

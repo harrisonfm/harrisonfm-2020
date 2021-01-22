@@ -1,6 +1,6 @@
-import api from "../../api";
+import api from "~/api";
 import * as types from "../mutation-types";
-import SETTINGS from "../../settings";
+import SETTINGS from "~/settings";
 
 // initial state
 const state = {

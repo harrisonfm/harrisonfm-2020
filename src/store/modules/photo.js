@@ -1,7 +1,7 @@
-import api from "../../api";
+import api from "~/api";
 import _ from "lodash";
 import * as types from "../mutation-types";
-import router from '../../router';
+import router from '~/router';
 
 // slideshow off always / turn on with button click on photo component
 // does the state of the gallery need to be here too?

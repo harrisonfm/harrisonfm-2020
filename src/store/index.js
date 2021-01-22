@@ -8,6 +8,7 @@ import user from './modules/user'
 import post from './modules/post'
 import page from './modules/page'
 import photo from './modules/photo'
+import menus from './modules/menus'
 
 Vue.use(Vuex)
 
@@ -27,7 +28,8 @@ export default new Vuex.Store({
     user,
     post,
     page,
-    photo
+    photo,
+    menus
   },
   strict: debug,
   //plugins: [localStorage]

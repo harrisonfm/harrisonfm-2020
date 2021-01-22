@@ -40,12 +40,12 @@
 </template>
 
 <script>
-import Loader from "../partials/Loader.vue";
+import Loader from "~/components/partials/Loader.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import SETTINGS from "../../settings";
-import store from '../../store';
-import router from '../../router';
-import meta from '../../meta';
+import SETTINGS from "~/settings";
+import store from '~/store';
+import router from '~/router';
+import meta from '~/meta';
 
 export default {
   data() {

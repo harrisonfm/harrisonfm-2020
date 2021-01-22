@@ -9,11 +9,6 @@
     </ul>
   </nav>
 </template>
-<style type="postcss" scoped>
-  .header-menu-top .router-link-active {
-    font-weight: bold;
-  }
-</style>
 
 <script>
   import menuMixin from '~/mixins/Menu.vue'

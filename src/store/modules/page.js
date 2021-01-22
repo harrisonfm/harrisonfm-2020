@@ -1,6 +1,6 @@
-import api from "../../api";
+import api from "~/api";
 import * as types from "../mutation-types";
-import router from '../../router';
+import router from '~/router';
 
 // initial state
 const state = {

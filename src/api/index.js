@@ -87,5 +87,14 @@ export default {
       .catch(e => {
         cb(e);
       });
+  },
+
+  getMenu(menu, cb) {
+    axios
+      .get('/wp-json/menus/v1/menus/'+menu)
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(error => console.log('menu not working'));
   }
 };

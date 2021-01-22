@@ -5,40 +5,36 @@
       <span class="font-bold text-3xl tracking-wider mx-1">HFM</span>
       <img :src="Bolt" class="inline h-8" />
     </router-link>
-    <MainMenu :menu = "menu" />
+    <MainMenu :menu="headerMenu" />
   </header>
 </template>
 
 <script>
-  import axios from "axios";
-  import MainMenu from './Header/Menu.vue';
-  import Bolt from '~/assets/bolt.svg';
+  import MainMenu from './Header/Menu.vue'
+  import Bolt from '~/assets/bolt.svg'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     data() {
       return {
-        menu: false,
         Bolt: '/wp-content/themes/hfm-2020-theme/dist/'+Bolt
       };
     },
 
     beforeMount() {
-      this.fetchMenu();
+      this.getHeader();
     },
 
     components: {
       MainMenu
     },
 
+    computed: {
+      ...mapGetters(['headerMenu'])
+    },
+
     methods: {
-      async fetchMenu() {
-        axios
-          .get('/wp-json/menus/v1/menus/header-menu')
-          .then(response => {
-            this.menu = response.data;
-          })
-          .catch(error => console.log('not working'));
-      }
+      ...mapActions(['getHeader'])
     }
   };
 </script>
