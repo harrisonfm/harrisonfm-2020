@@ -1,25 +1,30 @@
 <template>
-  <div class="widget recent-posts p-4 bg-white" v-if="recentPostsLoaded">
+  <div class="widget recent-posts p-4 bg-white">
     <h3>
       <slot></slot>
     </h3>
-    <div class="grid gap-4 auto-rows-fr md:grid-cols-2 mb-4">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 mb-4" v-if="recentPostsLoaded">
       <article v-for="post in recentPosts" :key="post.id" >
         <router-link :to="post.link">
           <div class="bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500" :style="parseBackground(post)">
-            <div class="text-white font-bold text-2xl z-10">{{ post.post_title }}</div>
+            <div class="text-white font-bold text-2xl z-10 p-2 text-center">{{ post.post_title }}</div>
             <div class="absolute inset-0 bg-black opacity-25 hover:opacity-50 transition-opacity duration-150 z-0"></div>
           </div>
         </router-link>
         <p class="text-gray-700 text-base" v-html="post.excerpt"></p>
       </article>
+      <div class="w-full flex uppercase md:col-span-2">
+        <router-link :to="this.pageLink.prev" v-if="page > 1" class="border-solid border-2 border-black bg-gray-500 text-white px-4 py-2 mr-auto transition-colors duration-150 hover:bg-blue-500">Previous</router-link>
+        <router-link :to="this.pageLink.next" v-if="recentPosts.length >= 8" class="border-solid border-2 border-black bg-gray-500 text-white px-4 py-2 ml-auto transition-colors duration-150 hover:bg-blue-500">Next</router-link>
+      </div>
     </div>
-    <div class="w-full flex uppercase">
-      <router-link :to="this.pageLink.prev" v-if="page > 1" class="border-solid border-2 border-black bg-gray-500 text-white px-4 py-2 mr-auto transition-colors duration-150 hover:bg-blue-500">Previous</router-link>
-      <router-link :to="this.pageLink.next" v-if="recentPosts.length >= 8" class="border-solid border-2 border-black bg-gray-500 text-white px-4 py-2 ml-auto transition-colors duration-150 hover:bg-blue-500">Next</router-link>
+    <div v-else>
+      <div class="grid gap-4 md:grid-cols-2 mb-4">
+        <div class="animate-pulse bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500" v-for="n in this.limit"></div>
+      </div>
     </div>
   </div>
-  <div v-else>Loading...</div>
+  
 </template>
 
 <script>

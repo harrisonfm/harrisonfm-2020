@@ -13,7 +13,7 @@ const state = {
   likes: 0,
 	gallery: {},
 	galleryIndex: 0,
-  galleryInfo: false,
+  galleryInfo: true,
   slideshow: false,
   prevPhoto: false,
   nextPhoto: false
