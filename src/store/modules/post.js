@@ -4,6 +4,7 @@ import * as types from "../mutation-types";
 // initial state
 const state = {
   recent: [],
+  maxPages: 0,
   loaded: false,
   currentPost: {
     title: 'Loading..',
@@ -16,6 +17,8 @@ const state = {
 const getters = {
   recentPosts: state => state.recent,
 
+  maxPages: state => state.maxPages,
+
   recentPostsLoaded: state => state.loaded,
 
   currentPost: state => state.currentPost
@@ -24,10 +27,10 @@ const getters = {
 // actions
 const actions = {
   getPosts({ commit }, params) {
-    api.getPosts(params, posts => {
-      console.log(posts);
+    api.getPosts(params, data => {
+      console.log(data);
 
-      commit(types.STORE_FETCHED_POSTS, posts);
+      commit(types.STORE_FETCHED_POSTS, data);
       commit(types.POSTS_LOADED, true);
       commit(types.INCREMENT_LOADING_PROGRESS);
     });
@@ -61,8 +64,9 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.STORE_FETCHED_POSTS](state, posts) {
-    state.recent = posts;
+  [types.STORE_FETCHED_POSTS](state, data) {
+    state.recent = data.posts;
+    state.maxPages = data.max_num_pages;
   },
 
   [types.POSTS_LOADED](state, val) {

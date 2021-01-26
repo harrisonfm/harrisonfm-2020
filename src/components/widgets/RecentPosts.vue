@@ -3,7 +3,7 @@
     <h3>
       <slot></slot>
     </h3>
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 mb-4" v-if="recentPostsLoaded">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2" v-if="recentPostsLoaded">
       <article v-for="post in recentPosts" :key="post.id" >
         <router-link :to="post.link">
           <div class="bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500" :style="parseBackground(post)">
@@ -47,10 +47,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      recentPosts: 'recentPosts',
-      recentPostsLoaded: 'recentPostsLoaded'
-    }),
+    ...mapGetters(['recentPosts', 'recentPostsLoaded']),
     page: function() {
       return this.$route.params.page ? parseInt(this.$route.params.page) : 1;
     },
@@ -72,8 +69,12 @@ export default {
     },
     pageLink: function() {
       let lead = '';
-      lead = this.category ? '/category/'+this.category : '';
-      lead = this.tag ? '/tag/'+this.tag : '';
+      if(this.category) {
+        lead = '/category/'+this.category;
+      }
+      if(this.tag) {
+        lead = '/tag/'+this.tag;
+      }
       return {
         prev: lead+(this.page <= 2 ? '/' : '/p/'+(this.page - 1)),
         next: lead+'/p/'+(this.page + 1)

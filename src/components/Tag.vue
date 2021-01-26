@@ -1,20 +1,13 @@
 <template>
   <div class="page page--tag">
-    <recent-posts-widget :tag="this.$route.params.tag" class="mb-10">
-    	Tag: {{ this.$route.params.tag }}
-    </recent-posts-widget>
+    <recent-posts-widget :tag="this.$route.params.tag" class="">{{ this.pageString }}</recent-posts-widget>
   </div>
 </template>
 
 <script>
-import RecentPostsWidget from './widgets/RecentPosts.vue';
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import postsPageMixin from '~/mixins/PostsPage.vue'
 
 export default {
-  components: {
-    RecentPostsWidget,
-  }
+  mixins: [postsPageMixin]
 };
 </script>
-
-<style type="postcss"></style>

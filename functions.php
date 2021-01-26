@@ -87,7 +87,7 @@ function hfm_get_posts_by_type($request) {
   $query = new WP_Query($args);
   hfm_format_posts_for_api($query->posts);
 
-  return new WP_REST_Response($query->posts);
+  return new WP_REST_Response($query);
 }
 
 function hfm_get_post($request) {

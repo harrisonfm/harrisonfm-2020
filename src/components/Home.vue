@@ -1,21 +1,13 @@
 <template>
   <div class="page page--home">
-    <recent-posts-widget class="mb-10"></recent-posts-widget>
+    <recent-posts-widget class="">{{ this.pageString }}</recent-posts-widget>
   </div>
 </template>
 
 <script>
-import RecentPostsWidget from './widgets/RecentPosts.vue';
-import meta from '~/meta';
+import postsPageMixin from '~/mixins/PostsPage.vue'
 
 export default {
-  components: {
-    RecentPostsWidget,
-  },
-  metaInfo () {
-  	return meta.formatMeta();
-	}
+  mixins: [postsPageMixin]
 };
 </script>
-
-<style type="postcss"></style>
