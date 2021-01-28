@@ -39,7 +39,7 @@ export default {
 
 		console.log('formatMeta', title, desc);
 
-		const metaTags = {
+		return {
 			title: title ? title + ' - ' + this.default.title : this.default.title + ' - ' + this.default.tagline,
 			meta: [
 				{
@@ -94,7 +94,5 @@ export default {
 				},
 			]
 		};
-
-		return metaTags;
 	}
 };

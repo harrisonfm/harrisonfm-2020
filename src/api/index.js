@@ -14,6 +14,18 @@ export default {
       });
   },
 
+  getHome(cb) {
+    axios
+      .get(`${SETTINGS.API_CUSTOM}home`)
+      .then(response => {
+        console.log('home', response.data);
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
+  },
+
   getPage(slug, cb) {
     axios
       .get(`${SETTINGS.API_BASE_PATH}pages?slug=${slug}`)

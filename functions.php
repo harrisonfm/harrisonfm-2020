@@ -30,6 +30,8 @@ add_action('wp_enqueue_scripts', 'load_vue_scripts', 100);
 
 add_theme_support('post-thumbnails');
 add_theme_support('custom-logo');
+add_theme_support('custom-header');
+
 add_filter('acf/rest_api/post/get_fields', function ($data) {
   if (!isset($data) || !isset($data["acf"])) {
     return $data;
@@ -99,6 +101,14 @@ function hfm_get_post($request) {
   hfm_format_posts_for_api($query->posts);
   
   return new WP_REST_Response($query->posts);
+}
+
+function hfm_get_home() {
+  $return = array(
+    'hero' => get_header_image()
+  );
+  
+  return new WP_REST_Response($return);
 }
 
 function hfm_format_posts_for_api(&$posts) {
@@ -183,6 +193,12 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'hfm/v1', '/sitemeta', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_sitemeta',
+    'permission_callback' => '__return_true'
+  ) );
+
+  register_rest_route( 'hfm/v1', '/home', array(
+    'methods' => 'GET',
+    'callback' => 'hfm_get_home',
     'permission_callback' => '__return_true'
   ) );
 } );

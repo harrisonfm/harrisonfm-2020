@@ -1,11 +1,10 @@
 <template>
   <div v-if="post.post_content">
-    <div class="hero bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen" v-if="post.featured" :style="parseBackground(post)">
-    </div>
-    <div class="py-2 px-4 rounded bg-white xxl:shadow xxl:-my-16">
+    <hero :img="parseBackground()"></hero>
+    <div class="py-2 px-4 bg-white xxl:rounded xxl:shadow xxl:-my-16">
       <div class="flex flex-wrap items-center mb-4">
         <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
-        <p class="my-0 ml-4 lg:ml-auto"><span>Published on </span>{{post.post_date}} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
+        <p class="my-0 ml-4 lg:ml-auto"><span>Published on </span>{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
       </div>
       <div class="post" v-html="post.post_content"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>
@@ -24,13 +23,13 @@
 </template>
 
 <script>
-import axios from "axios";
 import Loader from "../partials/Loader.vue";
 import Gallery from "./Gallery.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import SETTINGS from "~/settings";
 import router from '~/router';
 import meta from '~/meta';
+import Hero from '../partials/Hero.vue'
 
 export default {
   computed: {
@@ -66,18 +65,18 @@ export default {
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
     }),
-    parseBackground(post) {
-      if(post.featured) {
-        return 'background-image: url(/wp-content/uploads/'+post.featured.file+')';  
+    parseBackground() {
+      if(this.post.featured) {
+        return '/wp-content/uploads/'+this.post.featured.file;
       }
-      return 'background-image: url(https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg)';      
+      return 'https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg';
     }
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.link)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.parseBackground(this.post.img), this.post.link)
   },
 
-  components: { Loader, Gallery }
+  components: { Loader, Gallery, Hero }
 };
 </script>
