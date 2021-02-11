@@ -45,7 +45,6 @@ export default {
       if(this.post.featured) {
         return '/wp-content/uploads/'+this.post.featured.file;
       }
-      return 'https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg';
     }
   },
 

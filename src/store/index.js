@@ -6,7 +6,6 @@ import * as getters from './getters'
 import hub from './modules/hub'
 import user from './modules/user'
 import post from './modules/post'
-import page from './modules/page'
 import photo from './modules/photo'
 import menus from './modules/menus'
 
@@ -27,7 +26,6 @@ export default new Vuex.Store({
     hub,
     user,
     post,
-    page,
     photo,
     menus
   },
