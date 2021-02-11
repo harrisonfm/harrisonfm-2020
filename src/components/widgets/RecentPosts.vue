@@ -13,9 +13,9 @@
         </router-link>
         <p class="text-gray-700 text-base" v-html="post.excerpt"></p>
       </article>
-      <div class="w-full flex uppercase md:col-span-2">
-        <router-link :to="this.pageLink.prev" v-if="page > 1" class="border-solid border-2 border-black bg-gray-500 text-white px-4 py-2 mr-auto transition-colors duration-150 hover:bg-blue-500">Previous</router-link>
-        <router-link :to="this.pageLink.next" v-if="recentPosts.length >= 8" class="border-solid border-2 border-black bg-gray-500 text-white px-4 py-2 ml-auto transition-colors duration-150 hover:bg-blue-500">Next</router-link>
+      <div class="w-full flex md:col-span-2">
+        <router-link :to="this.pageLink.prev" v-if="page > 1" class="font-semibold bg-gray-500 text-white px-4 py-2 mr-auto transition-colors duration-150 ring ring-inset ring-gray-300 hover:bg-blue-500 hover:ring-blue-300">Previous</router-link>
+        <router-link :to="this.pageLink.next" v-if="recentPosts.length >= 8" class="font-semibold bg-gray-500 text-white px-4 py-2 ml-auto transition-colors duration-150 ring ring-inset ring-gray-300 hover:bg-blue-500 hover:ring-blue-300">Next</router-link>
       </div>
     </div>
     <div v-else>

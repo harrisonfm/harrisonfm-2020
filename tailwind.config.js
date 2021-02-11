@@ -484,6 +484,7 @@ module.exports = {
     pointerEvents: ['responsive'],
     position: ['responsive'],
     resize: ['responsive'],
+    ringColor: ['hover', 'active'],
     stroke: ['responsive'],
     tableLayout: ['responsive'],
     textAlign: ['responsive'],
