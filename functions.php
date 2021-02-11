@@ -103,6 +103,17 @@ function hfm_get_post($request) {
   return new WP_REST_Response($query->posts);
 }
 
+function hfm_get_page($request) {
+  $args = array(
+    'pagename' => $request['slug']
+  );
+
+  $query = new WP_Query($args);
+  hfm_format_posts_for_api($query->posts);
+  
+  return new WP_REST_Response($query->posts);
+}
+
 function hfm_get_home() {
   $return = array(
     'hero' => get_header_image()
@@ -181,6 +192,12 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'hfm/v1', '/post', array(
     'methods' => 'GET',
     'callback' => 'hfm_get_post',
+    'permission_callback' => '__return_true'
+  ) );
+
+  register_rest_route( 'hfm/v1', '/page', array(
+    'methods' => 'GET',
+    'callback' => 'hfm_get_page',
     'permission_callback' => '__return_true'
   ) );
 

@@ -18,7 +18,6 @@ export default {
     axios
       .get(`${SETTINGS.API_CUSTOM}home`)
       .then(response => {
-        console.log('home', response.data);
         cb(response.data);
       })
       .catch(e => {
@@ -28,7 +27,7 @@ export default {
 
   getPage(slug, cb) {
     axios
-      .get(`${SETTINGS.API_BASE_PATH}pages?slug=${slug}`)
+      .get(`${SETTINGS.API_CUSTOM}page?slug=${slug}`)
       .then(response => {
         cb(response.data);
       })

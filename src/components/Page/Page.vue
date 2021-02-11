@@ -1,8 +1,13 @@
 <template>
-  <div class="pt-10">
-    <template v-if="page">
-      <h1 class="text-3xl mb-5">{{ page.title.rendered }}</h1>
-      <div class="page-content" v-html="page.content.rendered"></div>
+  <div class="">
+    <template v-if="this.post">
+      <hero :title="this.post.title" :img="parseBackground()" />
+      <div class="py-2 px-4 bg-white xxl:rounded xxl:shadow xxl:-my-16">
+        <div class="flex flex-wrap items-center mb-4">
+          <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
+        </div>
+        <div class="post" v-html="post.post_content"></div>
+      </div>
     </template>
     <Loader v-else />
   </div>
@@ -11,17 +16,19 @@
 <script>
 import Loader from '../partials/Loader.vue';
 import { mapActions, mapGetters } from 'vuex';
+import Hero from '../partials/Hero.vue'
 
 export default {
   computed: {
     ...mapGetters({
-      page: 'currentPage'
+      post: 'currentPost'
     })
   },
 
   beforeMount() {
+    console.log(this.$route.params);
     this.getPage({
-      pageSlug: this.$route.params.pageSlug
+      slug: this.$route.params.pageSlug
     }).then(response => {
       console.log('page component resolves', response);
     }, error => {
@@ -33,11 +40,17 @@ export default {
   },
 
   methods: {
-    ...mapActions(['getPage'])
+    ...mapActions(['getPage']),
+    parseBackground() {
+      if(this.post.featured) {
+        return '/wp-content/uploads/'+this.post.featured.file;
+      }
+      return 'https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg';
+    }
   },
 
   components: {
-    Loader,
+    Loader, Hero
   },
 };
 </script>

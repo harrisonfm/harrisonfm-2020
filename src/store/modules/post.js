@@ -36,6 +36,23 @@ const actions = {
     });
   },
 
+  getPage({ commit, getters }, payload) {
+    return new Promise((resolve, reject) => {
+      api.getPage(payload.slug, response => {
+        console.log('store getpage', response);
+        if(response.length) {
+          let post = response[0];
+          commit(types.POST_CURRENT, post);
+          resolve(response[0]);
+        }
+        else {
+          console.log(response, 'error 404 post store - page');
+          reject(response);
+        }
+      });
+    });
+  },
+
   getPost({ commit, getters }, payload) {
     return new Promise((resolve, reject) => {
       for (const [idx, el] of getters.recentPosts.entries()) {
@@ -45,7 +62,6 @@ const actions = {
           return resolve(el);
         }
       }
-
       api.getPost(payload.slug, response => {
         console.log('store getpost', response);
         if(response.length) {

@@ -1,6 +1,6 @@
 <template>
   <div class="page page--home">
-    <hero :title="'HarrisonFM was here'" :img="this.hero"></hero>
+    <hero :title="'HarrisonFM was here'" :img="this.hero" />
     <recent-posts-widget class="xxl:rounded xxl:shadow xxl:-my-16">{{ this.pageString }}</recent-posts-widget>
   </div>
 </template>
@@ -15,10 +15,16 @@ export default {
   components: {
     Hero,
   },
+  data() {
+    return {
+      hero: ''
+    }
+  },
   beforeMount() {
     api.getHome(data => {
+      console.log(data.hero);
       this.hero = data.hero;
     });
-  }
+  },
 };
 </script>

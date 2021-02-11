@@ -1,15 +1,15 @@
 <template>
   <div v-if="post.post_content">
-    <hero :img="parseBackground()"></hero>
+    <hero :img="parseBackground()" />
     <div class="py-2 px-4 bg-white xxl:rounded xxl:shadow xxl:-my-16">
       <div class="flex flex-wrap items-center mb-4">
         <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
-        <p class="my-0 ml-4 lg:ml-auto"><span>Published on </span>{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
+        <p class="my-0 ml-4 lg:ml-auto">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
       </div>
       <div class="post" v-html="post.post_content"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>
       <div class="flex">
-        <span>Tagged:</span>
+        <span>Tags:</span>
         <router-link v-for="tag in this.post.tags" :key="tag.id" :to="{
           name: 'Tag',
           params: {tag: tag.slug}  
