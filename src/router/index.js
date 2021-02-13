@@ -12,6 +12,9 @@ import Post from "~/components/Post/Post.vue";
 import Page from "~/components/Page/Page.vue";
 import Photo from "~/components/Photo/Photo.vue";
 
+import Stories from "~/components/Stories.vue";
+import Story from "~/components/Story/Story.vue";
+
 Vue.use(Router);
 
 const router = new Router({
@@ -61,6 +64,16 @@ const router = new Router({
       path: "/photo/:idSlug",
       name: "PhotoViewer",
       component: Photo
+    },
+    {
+      path: "/stories",
+      name: "Stories",
+      component: Stories,
+    },
+    {
+      path: '/stories/:story',
+      name: "Story",
+      component: Story
     },
     {
       path: "/:year/:postSlug",
