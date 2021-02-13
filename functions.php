@@ -9,6 +9,8 @@ define( 'HFM_INC',          HFM_PATH . 'includes/' );
 // Include compartmentalized functions
 require_once HFM_INC . 'core.php';
 require_once HFM_INC . 'api.php';
+require_once HFM_INC . 'taxonomies.php';
 
 hfm\Core\setup();
 hfm\Api\setup();
+hfm\Taxonomies\setup();
