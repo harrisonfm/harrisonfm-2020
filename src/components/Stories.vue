@@ -1,11 +1,12 @@
 <template>
   <div class="page page--stories">
-    <div class="" v-if="storiesLoaded">
-      <article class="flex" v-for="story in stories" :key="story.term_id" >
-        <router-link :to="'/stories/'+story.slug">
-          <img class="" :src="story.image.url" />
+    <hero :title="'HFM Stories'" :img="this.storyHero.url" />
+    <div class="xxl:rounded xxl:shadow xxl:-my-16 bg-white p-4" v-if="storiesLoaded">
+      <article class="grid grid-cols-6 gap-4 bg-gray-100 mb-4 last:mb-0" v-for="story in stories" :key="story.term_id" >
+        <router-link class="col-span-2" :to="'/stories/'+story.slug">
+          <img class="w-full" :src="story.image.url" />
         </router-link>
-        <div>
+        <div class="col-span-4 p-4">
           <router-link :to="'/stories/'+story.slug"><h2 class="font-bold text-2xl">{{ story.name }}</h2></router-link>
           <p class="text-gray-700 text-base" v-html="story.description"></p>
         </div>
@@ -24,16 +25,10 @@ export default {
     this.getStories();
   },
   computed: {
-    ...mapGetters(['stories', 'storiesLoaded']),
+    ...mapGetters(['stories', 'storiesLoaded', 'storyHero']),
   },
   methods: {
-    ...mapActions(['getStories']),
-    parseBackground(post) {
-      console.log()
-      if(post.image) {
-        return 'background-image: url('+post.image.url+')';  
-      }
-    },
+    ...mapActions(['getStories'])
   }
 };
 </script>

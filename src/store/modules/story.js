@@ -4,6 +4,7 @@ import * as types from "../mutation-types";
 // initial state
 const state = {
   stories: [],
+  storyHero: {},
   currentStory: {
     title: 'Loading..',
     acf: {},
@@ -16,7 +17,8 @@ const state = {
 const getters = {
   stories: state => state.stories,
   storiesLoaded: state => state.loaded,
-  currentStory: state => state.currentStory
+  currentStory: state => state.currentStory,
+  storyHero: state => state.storyHero
 };
 
 // actions
@@ -52,6 +54,7 @@ const actions = {
 const mutations = {
   [types.STORE_FETCHED_STORIES](state, data) {
     state.stories = data.stories;
+    state.storyHero = data.hero;
   },
 
   [types.STORIES_LOADED](state, val) {

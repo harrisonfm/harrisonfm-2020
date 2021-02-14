@@ -38,4 +38,7 @@ function setup() {
   add_theme_support('post-thumbnails');
   add_theme_support('custom-logo');
   add_theme_support('custom-header');
+  if( function_exists('acf_add_options_page')) {
+    acf_add_options_page();
+  }
 }

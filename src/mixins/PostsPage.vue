@@ -5,7 +5,7 @@ import meta from '~/meta'
 import { mapGetters } from 'vuex'
 export default {
   components: {
-    RecentPostsWidget,
+    RecentPostsWidget, Hero
   },
   computed: {
     ...mapGetters(['maxPages']),

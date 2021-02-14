@@ -163,7 +163,8 @@ function setup() {
     }
 
     return new \WP_REST_Response(array(
-      'stories' => $terms
+      'stories' => $terms,
+      'hero' => get_field('stories_hero', 'options')
     ));
   }
 

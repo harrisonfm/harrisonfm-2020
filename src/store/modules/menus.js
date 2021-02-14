@@ -15,7 +15,7 @@ const getters = {
 const actions = {
   getHeader({ commit }, params) {
     api.getMenu('header-menu', menu => {
-      console.log(menu);
+      console.log('menu', menu);
 
       commit(types.HEADER_MENU, menu);
     });

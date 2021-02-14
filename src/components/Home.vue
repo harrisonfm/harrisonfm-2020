@@ -22,7 +22,6 @@ export default {
   },
   beforeMount() {
     api.getHome(data => {
-      console.log(data.hero);
       this.hero = data.hero;
     });
   },
