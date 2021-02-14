@@ -107,5 +107,29 @@ export default {
         cb(response.data);
       })
       .catch(error => console.log('menu not working'));
+  },
+
+  getStories(cb) {
+    console.log('api getstories');
+    axios
+      .get(`${SETTINGS.API_CUSTOM}stories`)
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
+  },
+
+  getStory(slug, cb) {
+    console.log('api getstory single');
+    axios
+      .get(`${SETTINGS.API_CUSTOM}story?slug=${slug}`)
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
   }
 };

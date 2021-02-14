@@ -8,6 +8,7 @@ import user from './modules/user'
 import post from './modules/post'
 import photo from './modules/photo'
 import menus from './modules/menus'
+import story from './modules/story'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,12 @@ let localStorage = createPersist({
     expires: 1.21e+9 // Two Weeks
 })
 
+let plugins = [];
+
+if(debug) {
+  plugins.push(localStorage);
+}
+
 export default new Vuex.Store({
   actions,
   getters,
@@ -27,8 +34,9 @@ export default new Vuex.Store({
     user,
     post,
     photo,
-    menus
+    menus,
+    story
   },
   strict: debug,
-  //plugins: [localStorage]
+  plugins: plugins
 })

@@ -25,3 +25,7 @@ export const PHOTO_LIKE = 'PHOTO_LIKE'
 export const LIKED = 'LIKED' 
 
 export const HEADER_MENU = 'HEADER_MENU'
+
+export const STORE_FETCHED_STORIES = 'STORE_FETCHED_STORIES'
+export const STORIES_LOADED = 'STORIES_LOADED'
+export const STORY_CURRENT = 'STORY_CURRENT'

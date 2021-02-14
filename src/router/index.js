@@ -73,7 +73,7 @@ const router = new Router({
     {
       path: '/stories/:story',
       name: "Story",
-      component: Story
+      component: Story, 
     },
     {
       path: "/:year/:postSlug",
