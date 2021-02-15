@@ -7,14 +7,10 @@
 
 <script>
 import postsPageMixin from '~/mixins/PostsPage.vue'
-import Hero from '~/components/partials/Hero.vue'
 import api from "~/api";
 
 export default {
   mixins: [postsPageMixin],
-  components: {
-    Hero,
-  },
   data() {
     return {
       hero: ''

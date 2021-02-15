@@ -6,17 +6,21 @@ const state = {
   stories: [],
   storyHero: {},
   currentStory: {
-    title: 'Loading..',
-    acf: {},
+    term: {
+      name: 'Loading',
+      image: {}
+    },
     posts: []
   },
-  loaded: false
+  loaded: false,
+  currentStoryLoaded: false
 };
 
 // getters
 const getters = {
   stories: state => state.stories,
   storiesLoaded: state => state.loaded,
+  currentStoryLoaded: state => state.currentStoryLoaded,
   currentStory: state => state.currentStory,
   storyHero: state => state.storyHero
 };
@@ -33,16 +37,28 @@ const actions = {
   },
 
   getStory({ commit, getters }, payload) {
+    let currentStoryInMemory = false;
+    for (const [idx, el] of getters.stories.entries()) {
+      if(payload.slug === el.term_name) {
+        currentStoryInMemory = el;
+        break;
+      }
+    }
     return new Promise((resolve, reject) => {
-      api.getStory(payload.slug, response => {
-        console.log('store getstory', response);
-        if(response.length) {
-          let story = response[0];
-          commit(types.STORY_CURRENT, story);
-          resolve(response[0]);
+      api.getStory({
+        slug: payload.slug,
+        queryForTerm: currentStoryInMemory ? true : false
+      }, response => {
+        console.log('store getstory');
+        if(response.posts) {
+          if(currentStoryInMemory) {
+            response.term = currentStoryInMemory;
+          }
+          commit(types.STORY_CURRENT, response);
+          commit(types.STORY_CURRENT_LOADED, true);
         }
         else {
-          console.log(response, 'error 404 story store');
+          console.log('error 404 story store');
           reject(response);
         }
       });
@@ -61,9 +77,16 @@ const mutations = {
     state.loaded = val;
   },
 
-  [types.STORY_CURRENT](state, story) {
-    console.log('current story set', story);
-    state.currentStory = story;
+  [types.STORY_CURRENT_LOADED](state, val) {
+    state.currentStoryLoaded = val;
+  },
+
+  [types.STORY_CURRENT](state, data) {
+    console.log('current story set', data);
+    state.currentStory = {
+      posts: data.posts,
+      term: data.term
+    };
   }
 };
 

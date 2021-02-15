@@ -62,7 +62,6 @@ function setup() {
       $args['s'] = $request['search'];
     }
 
-
     $query = new \WP_Query($args);
     formatPostsForApi($query->posts);
 
@@ -102,7 +101,7 @@ function setup() {
   function formatPostsForApi(&$posts) {
     foreach($posts as $post) {
       $post->acf = get_fields($post->ID);
-      if(isset($post->acf['gallery'])) {
+      if($post->acf['gallery']) {
         foreach($post->acf['gallery'] as &$galleryItem) {
           $galleryItem['acf'] = array();
           $likes = get_field('likes', $galleryItem['id']);
@@ -169,7 +168,38 @@ function setup() {
   }
 
   function getStory($request) {
+    $args = array(
+      'post_type' => 'post',
+      'order' => 'DESC',
+      'posts_per_page' => -1,
 
+      'tax_query' => array(
+        array(
+          'taxonomy' => 'story',
+          'field'    => 'slug',
+          'terms'    => $request['slug'],
+        ),
+      ),
+    );
+
+    $query = new \WP_Query($args);
+    formatPostsForApi($query->posts);
+
+    if($request['queryForTerm']) {
+       $args = array(
+        'taxonomy' => 'story',
+        'slug' => $request['slug']
+      );
+      $termQuery = new \WP_Term_Query($args);
+      $terms = $termQuery->get_terms();
+      
+      foreach($terms as &$term) {
+        $term->image = get_field('banner_image', 'story_'.$term->term_id);
+      }
+      $query->term = $terms[0];
+    }
+
+    return new \WP_REST_Response($query);
   }
 
   function register_rest_routes() {

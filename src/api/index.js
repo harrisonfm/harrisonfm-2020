@@ -121,10 +121,12 @@ export default {
       });
   },
 
-  getStory(slug, cb) {
-    console.log('api getstory single');
+  getStory(params, cb) {
+    console.log('api getstory single', params);
     axios
-      .get(`${SETTINGS.API_CUSTOM}story?slug=${slug}`)
+      .get(`${SETTINGS.API_CUSTOM}story`, {
+        params: params
+      })
       .then(response => {
         cb(response.data);
       })
