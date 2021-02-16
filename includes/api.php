@@ -98,7 +98,7 @@ function setup() {
     return new \WP_REST_Response($return);
   }
 
-  function formatPostsForApi(&$posts) {
+  function formatPostsForApi(&$posts, $ignoreStories = false) {
     foreach($posts as $post) {
       $post->acf = get_fields($post->ID);
       if($post->acf['gallery']) {
@@ -130,6 +130,42 @@ function setup() {
       if($media->posts) {
         $post->featured = array_merge((array) $media->posts[0], wp_get_attachment_metadata(get_post_thumbnail_id($post->ID)));
       }
+
+      if(!$ignoreStories) {
+        $postStories = wp_get_object_terms($post->ID, 'story');
+        if($postStories) {
+          $post->story = $postStories[0];
+
+          $args = array(
+            'post_type' => 'post',
+            'order' => 'DESC',
+            'posts_per_page' => -1,
+
+            'tax_query' => array(
+              array(
+                'taxonomy' => 'story',
+                'field'    => 'slug',
+                'terms'    => $post->story->slug,
+              ),
+            ),
+          );
+          $query = new \WP_Query($args);
+          $postsInStory = $query->posts;
+          formatPostsForApi($postsInStory, true);
+
+          for($i = 0; $i < count($postsInStory); $i++) {
+            if($postsInStory[$i]->ID === $post->ID) {
+              if($i !== 0) {
+                $post->storyPrev = $postsInStory[$i - 1];
+              }
+              if($i !== count($postsInStory) - 1) {
+                $post->storyNext = $postsInStory[$i + 1];
+              }
+              break;
+            }
+          }
+        }
+      }      
     }
   }
 

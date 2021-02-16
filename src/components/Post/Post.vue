@@ -8,7 +8,7 @@
       </div>
       <div class="post" v-html="post.post_content"></div>
       <Gallery :gallery="post.acf.gallery"></Gallery>
-      <div class="flex items-center mt-4" v-if="this.post.tags">
+      <div class="flex items-center mt-4" v-if="this.post.tags.length">
         <span>Tags:</span>
         <router-link class="focus:outline-none text-sm text-center ml-4 py-2 px-4 font-semibold text-white bg-gray-500 transition-colors duration-150 ring ring-gray-300 hover:bg-blue-500 hover:ring-blue-300" 
         v-for="tag in this.post.tags" :key="tag.id" :to="{
@@ -16,6 +16,29 @@
           params: {tag: tag.slug}  
         }">{{tag.name}}
         </router-link>
+      </div>
+      <div v-if="post.story">
+        <p class="text-gray-700 text-base" v-html="post.story.description"></p>
+        <div v-if="post.storyPrev || post.storyNext">
+          <article class="grid grid-cols-6 gap-4 bg-gray-100 mb-4 last:mb-0" v-if="post.storyNext" >
+            <router-link class="col-span-2" :to="post.storyNext.link">
+              <img class="w-full" :src="parseBackground(post.storyNext)" />
+            </router-link>
+            <div class="col-span-4 p-4">
+              <router-link :to="post.storyNext.link"><h2 class="font-bold text-2xl">{{ 'Next: '+post.storyNext.post_title }}</h2></router-link>
+              <p class="text-gray-700 text-base" v-html="post.storyNext.post_excerpt"></p>
+            </div>
+          </article>
+          <article class="grid grid-cols-6 gap-4 bg-gray-100 mb-4 last:mb-0" v-if="post.storyPrev" >
+            <router-link class="col-span-2" :to="post.storyPrev.link">
+              <img class="w-full" :src="parseBackground(post.storyPrev)" />
+            </router-link>
+            <div class="col-span-4 p-4">
+              <router-link :to="post.storyPrev.link"><h2 class="font-bold text-2xl">{{ 'Prev: '+post.storyPrev.post_title }}</h2></router-link>
+              <p class="text-gray-700 text-base" v-html="post.storyPrev.post_excerpt"></p>
+            </div>
+          </article>
+        </div>        
       </div>
     </div>
     <router-view></router-view>

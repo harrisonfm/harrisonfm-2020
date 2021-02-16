@@ -22,7 +22,7 @@ let localStorage = createPersist({
 
 let plugins = [];
 
-if(debug) {
+if(!debug) {
   plugins.push(localStorage);
 }
 
