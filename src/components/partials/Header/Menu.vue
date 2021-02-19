@@ -7,7 +7,7 @@
 				</router-link>
 			</li>
       <li>
-        <font-awesome-icon :icon="['fas', 'search']" class="text-2xl" @click="openSearch()" />
+        <font-awesome-icon :icon="['fas', 'search']" class="text-2xl" @click="$emit('toggle-search')" />
       </li>
 		</ul>
 	</nav>
@@ -25,9 +25,6 @@
 		props: ['menu'],
     mixins: [menuMixin],
     methods: {
-      search: function() {
-        console.log('search up');
-      }
     }
 	}
 </script>

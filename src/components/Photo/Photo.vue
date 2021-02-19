@@ -79,10 +79,7 @@ export default {
   },
 
   watch: {
-  	'$route': 'refreshPhoto',
-    post: function (val, oldVal) {
-      console.log('watching post:', val, oldVal);
-    }
+  	'$route': 'refreshPhoto'
   },
 
   methods: {
