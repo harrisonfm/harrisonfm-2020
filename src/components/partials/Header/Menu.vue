@@ -1,6 +1,6 @@
 <template>
 	<nav v-if="menu">
-		<ul class="header-menu-top flex items-center">
+		<ul class="header-menu-top flex items-center bg-white">
 			<li v-for="item in menu.items" :key="`menu_item_${item.ID}`" class="mr-4">
 				<router-link :to="getURLPath(item.url)" class="hover:text-blue-800 focus:text-blue-800 transition-colors duration-200">
 					{{ item.title }}
