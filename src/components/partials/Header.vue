@@ -1,7 +1,7 @@
 <template>
-  <header class="site-header relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 py-2 sticky top-0 z-20">
+  <header class="site-header relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 sticky top-0 z-20">
     <Logo />
-    <MainMenu :menu="headerMenu" @toggle-search="toggleSearch" />
+    <MainMenu :menu="headerMenu" @toggle-search="toggleSearch" :showSearch="showSearch" />
     <transition name="search-slide">
       <SearchForm v-if="showSearch" :showSearch="showSearch" @toggle-search="toggleSearch" />
     </transition>
@@ -17,9 +17,11 @@
 @keyframes search-slide-in {
   0% {
     top: 0;
+    opacity: 0;
   }
   100% {
     top: 100%;
+    opacity: 1;
   }
 }
 </style>

@@ -290,7 +290,8 @@ module.exports = {
       '0': '0',
       auto: 'auto',
       '1': '1rem',
-      'full': '100%'
+      'full': '100%',
+      '-1/2': '-50%'
     },
     letterSpacing: {
       tighter: '-0.05em',
@@ -419,7 +420,8 @@ module.exports = {
       '10/12': '83.333333%',
       '11/12': '91.666667%',
       full: '100%',
-      screen: '100vw'
+      screen: '100vw',
+      max: 'max-content'
     }),
     zIndex: {
       auto: 'auto',

@@ -10,7 +10,7 @@
     <template v-if="photo">
       <div class="absolute flex flex-col items-center top-1 right-1 p-1 text-4xl">
         <font-awesome-icon :icon="['fas', 'compress-alt']" class="rounded bg-white bg-opacity-25 cursor-pointer" @click="back"/>
-        <font-awesome-icon :icon="['fas', 'info-circle']" class="hidden mt-4 rounded bg-white bg-opacity-25 cursor-pointer lg:block" :class="{ 'text-blue-600': galleryInfo }" @click="setGalleryInfo"/>
+        <font-awesome-icon :icon="['fas', 'info-circle']" class="hidden mt-4 rounded bg-white bg-opacity-25 cursor-pointer lg:block" :class="{ 'text-blue-500': galleryInfo }" @click="setGalleryInfo"/>
       </div>
       <div :key="photo.id" class="photoBox overflow-auto mt-auto transition-opacity duration-1000 opacity-0 lg:my-auto">
         <img :src="photo.url" class="max-h-full m-auto" @load="handleImageLoad" />

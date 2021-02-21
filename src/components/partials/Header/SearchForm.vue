@@ -3,7 +3,8 @@
     @keyup.enter="search"
     @keyup.esc="exit">
     <input ref="input" type="text" class="p-4 h-full w-full" placeholder="Search..." v-model="searchInput" />
-    <font-awesome-icon :icon="['fas', 'sign-in-alt']" class="text-2xl mx-8 cursor-pointer" @click="search" />
+    <font-awesome-icon :icon="['fas', 'sign-in-alt']" class="text-2xl mx-8 cursor-pointer transition-colors duration-150 hover:text-blue-500"
+      @click="search" />
   </div>
 </template>
 

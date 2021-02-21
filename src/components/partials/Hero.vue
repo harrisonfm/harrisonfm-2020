@@ -3,6 +3,13 @@
     <h2 class="text-center m-auto text-white uppercase" v-if="title">{{ title }}</h2>
   </div>
 </template>
+<style>
+@screen xxl {
+  .hero {
+    margin-left: calc((100vw - theme('screens.xxl')) / -2);
+  }
+}
+</style>
 <script>
 export default {
   props: ['img', 'title']
