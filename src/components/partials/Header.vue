@@ -54,8 +54,13 @@
 
     methods: {
       ...mapActions(['getHeader']),
-      toggleSearch: function(e) {
-        this.showSearch = !this.showSearch;
+      toggleSearch: function(setSearch) {
+        if(typeof setSearch === 'undefined') {
+          this.showSearch = !this.showSearch;
+        }
+        else {
+          this.showSearch = setSearch;
+        }
       }
     }
   };

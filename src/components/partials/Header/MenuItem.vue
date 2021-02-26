@@ -1,9 +1,11 @@
 <template>
-  <li v-if="item.child_items" @mouseover="!isMobile ? subMenuOn() : ''" @mouseleave="!isMobile ? subMenuOff() : ''" class="flex w-full justify-start sm:justify-center">
-    <router-link :to="getURLPath(item.url)" class="hover:text-blue-800 block focus:text-blue-800 transition-colors duration-200 p-4 sm:p-0">
-      {{ item.title }}
-    </router-link>
-    <font-awesome-icon :icon="['fas', 'caret-up']" class="ml-2 text-2xl transition-transform transform inline duration-150 sm:hidden" :class="{'rotate-180' : showSubMenu}" @click="toggleSubMenu" />
+  <li v-if="item.child_items" @mouseover="!isMobile ? subMenuOn() : ''" @mouseleave="!isMobile ? subMenuOff() : ''" class="block sm:flex sm:justify-center">
+    <div class="flex items-center">
+      <router-link :to="getURLPath(item.url)" class="hover:text-blue-800 block focus:text-blue-800 transition-colors duration-200 p-4 sm:p-0">
+        {{ item.title }}
+      </router-link>
+      <font-awesome-icon :icon="['fas', 'caret-down']" class="ml-2 text-3xl transition-transform transform inline duration-150 sm:hidden" :class="{'rotate-180' : showSubMenu}" @click="toggleSubMenu" />
+    </div>
     <transition name="story">
       <ul v-if="showSubMenu" :class="isMobile ? 'header-submenu-mobile' : 'header-submenu'">
         <li v-for="childItem in item.child_items" :key="`menu_item_${childItem.ID}`" class="hover:bg-blue-500 focus:bg-blue-500 transition-colors duration-150">
@@ -55,7 +57,7 @@
     mixins: [menuMixin],
     data() {
       return {
-        showSubMenu: true,
+        showSubMenu: false,
       };
     },
     methods: {
