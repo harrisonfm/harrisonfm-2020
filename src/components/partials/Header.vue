@@ -1,13 +1,13 @@
 <template>
-  <header class="site-header relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 sticky top-0 z-20">
+  <header class="site-header relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 sticky -top-1 z-20">
     <Logo />
     <MainMenu :menu="headerMenu" @toggle-search="toggleSearch" :showSearch="showSearch" />
     <transition name="search-slide">
-      <SearchForm v-if="showSearch" :showSearch="showSearch" @toggle-search="toggleSearch" />
+      <SearchForm v-if="showSearch" @toggle-search="toggleSearch" :showSearch="showSearch" />
     </transition>
   </header>
 </template>
-<style>
+<style scoped>
 .search-slide-enter-active {
   animation: search-slide-in .25s;
 }

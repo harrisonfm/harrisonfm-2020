@@ -9,7 +9,8 @@ const state = {
   currentPost: {
     title: 'Loading..',
     acf: {},
-    categories: [{}]
+    categories: [{}],
+    loading: true
   }
 };
 

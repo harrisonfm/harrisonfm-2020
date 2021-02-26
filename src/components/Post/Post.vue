@@ -74,10 +74,6 @@ export default {
     this.handleGetPost(this.$route.params.postSlug);
   },
 
-  mounted: function() {
-    console.log('post mounted');
-  },
-
   beforeRouteUpdate(to, from, next) {
     if(to.name === 'Post' && from.name === 'Post') {
       console.log('update post', to, from);

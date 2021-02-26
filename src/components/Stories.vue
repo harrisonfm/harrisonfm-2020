@@ -18,6 +18,7 @@
 <script>
 import postsPageMixin from '~/mixins/PostsPage.vue'
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import meta from '~/meta';
 
 export default {
   mixins: [postsPageMixin],
@@ -29,6 +30,9 @@ export default {
   },
   methods: {
     ...mapActions(['getStories'])
-  }
+  },
+  metaInfo () {
+    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.url, window.location.href)
+  },
 };
 </script>

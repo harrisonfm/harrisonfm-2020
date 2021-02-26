@@ -48,11 +48,6 @@ import router from '~/router';
 import meta from '~/meta';
 
 export default {
-  data() {
-    return {
-    };
-  },
-
   computed: {
     ...mapGetters({
       photo: 'photo',
@@ -64,7 +59,7 @@ export default {
       galleryInfo: 'galleryInfo',
       galleryIndex: 'galleryIndex',
       likes: 'likes',
-      liked: 'liked'
+      liked: 'liked',
     })
   },
 
@@ -79,7 +74,10 @@ export default {
   },
 
   watch: {
-  	'$route': 'refreshPhoto'
+  	'$route': 'refreshPhoto',
+    'currentPost': function() {
+      this.getPhoto();
+    }
   },
 
   methods: {
@@ -97,6 +95,10 @@ export default {
   		return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
   	},
     getPhoto: function() {
+      if(this.currentPost.loading) {
+        return;
+      }
+      
       if(this.currentPost.acf.gallery) {
         let gallery = this.currentPost.acf.gallery;
         for (const [idx, el] of gallery.entries()) {
@@ -162,7 +164,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.photo.title, this.photo.caption, this.photo.url)
+    return meta.formatMeta(this.photo.title, this.photo.caption, this.photo.url, window.location.href)
   },
 
   components: { Loader }

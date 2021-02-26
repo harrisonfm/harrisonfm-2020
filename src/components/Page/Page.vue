@@ -13,6 +13,14 @@
   </div>
 </template>
 
+<style scoped>
+.page-content {
+  & >>> p {
+    margin-bottom: 1rem;
+  }
+}
+</style>
+
 <script>
 import Loader from '../partials/Loader.vue';
 import { mapActions, mapGetters } from 'vuex';
@@ -53,11 +61,3 @@ export default {
   },
 };
 </script>
-
-<style type="postcss" scoped>
-.page-content {
-  & >>> p {
-    margin-bottom: 1rem;
-  }
-}
-</style>

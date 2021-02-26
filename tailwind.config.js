@@ -291,6 +291,7 @@ module.exports = {
       auto: 'auto',
       '1': '1rem',
       'full': '100%',
+      '-1': '-1px',
       '-1/2': '-50%'
     },
     letterSpacing: {

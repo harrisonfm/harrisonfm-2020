@@ -17,6 +17,7 @@
 <script>
 import postsPageMixin from '~/mixins/PostsPage.vue'
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import meta from '~/meta';
 
 export default {
   mixins: [postsPageMixin],
@@ -25,17 +26,33 @@ export default {
       slug: this.$route.params.story
     });
   },
+  beforeRouteUpdate(to, from, next) {
+    if(to.name === 'Story' && from.name === 'Story') {
+      console.log('update story', to, from);
+      this.setCurrentStory({story: null});
+      this.getStory({
+        slug: to.params.story
+      });
+    }
+    next();
+  },
   computed: {
     ...mapGetters(['currentStoryLoaded', 'currentStory']),
   },
   methods: {
     ...mapActions(['getStory']),
+    ...mapMutations({
+      'setCurrentStory': 'STORY_CURRENT',
+    }),
     parseBackground(post) {
       if(post.featured) {
         return '/wp-content/uploads/'+post.featured.file;  
       }
       return 'https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg';
     },
-  }
+  },
+  metaInfo () {
+    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image.url, window.location.href);
+  },
 };
 </script>
