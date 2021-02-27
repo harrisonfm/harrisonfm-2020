@@ -24,7 +24,7 @@
 </template>
 <style scoped>
   .header-menu-top .router-link-active {
-    font-weight: bold;
+    font-weight: bolder;
   }
   .header-submenu {
     @apply absolute top-full -right-1/2 border-2 border-t-0 bg-gray-500 text-white w-max z-neg;

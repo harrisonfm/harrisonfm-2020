@@ -39,6 +39,29 @@ h4 {
   @apply bg-teal-500;
 }
 
+@font-face {
+  font-family: "Open Sans";
+  src: url("../fonts/OpenSans-Light.woff");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../fonts/OpenSans-Regular.woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../fonts/OpenSans-Bold.woff");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../fonts/OpenSans-ExtraBold.woff");
+  font-weight: 800;
+}
+
 /* end tailwind customizations */
 
 @tailwind utilities;

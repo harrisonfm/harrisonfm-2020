@@ -1,5 +1,5 @@
 <template>
-	<nav v-if="menu" class="flex justify-end items-center bg-white w-full">
+	<nav v-if="menu" class="flex justify-end items-center bg-white w-full uppercase font-bold">
     <transition name="mobile-menu-slide">
   		<ul class="header-menu-top" v-if="(showMobileMenu && isMobile) || !isMobile">
   			<MenuItem v-for="item in menu.items" :key="`menu_item_${item.ID}`" :item="item" :showMobileMenu="showMobileMenu" :isMobile="isMobile" class="relative items-center flex-wrap sm:mr-4 sm:h-16 sm:flex-nowrap" 
@@ -10,8 +10,8 @@
         </li>
   		</ul>
     </transition>
-    <i>
-      <font-awesome-icon :icon="showMobileMenu ? ['fas', 'times'] : ['fas', 'bars']" class="block sm:hidden text-2xl cursor-pointer transition-colors duration-150 hover:text-blue-500 flex items-center" @click="toggleMobileMenu" />
+    <i class="py-5 pl-5 text-2xl cursor-pointer transition-colors duration-150 hover:text-blue-500 sm:hidden">
+      <font-awesome-icon :icon="showMobileMenu ? ['fas', 'times'] : ['fas', 'bars']" class="" @click="toggleMobileMenu" />
     </i>
 	</nav>
 </template>
@@ -61,6 +61,12 @@
           this.isMobile = false;
           this.showMobileMenu = false;
           this.$emit('toggle-search', false);
+        }
+        
+        for(let i = 0; i < this.$children.length; i++) {
+          if(this.$children[i].item && this.$children[i].item.child_items) {
+            this.$children[i].subMenuOff();
+          }
         }
       }
     },

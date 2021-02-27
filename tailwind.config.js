@@ -252,7 +252,8 @@ module.exports = {
         '"Liberation Mono"',
         '"Courier New"',
         'monospace'
-      ]
+      ],
+      open: ['Open Sans', 'Roboto']
     },
     fontSize: {
       xs: '0.75rem',

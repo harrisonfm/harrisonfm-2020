@@ -10,4 +10,4 @@
     <?php wp_head(); ?>
   </head>
 
-  <body <?php body_class('bg-gray-200'); ?>>
+  <body <?php body_class('bg-gray-200 overflow-x-hidden'); ?>>

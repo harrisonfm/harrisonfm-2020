@@ -1,5 +1,5 @@
 <template>
-  <header class="site-header relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 sticky -top-1 z-20">
+  <header class="font-open site-header relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 sticky -top-1 z-20">
     <Logo />
     <MainMenu :menu="headerMenu" @toggle-search="toggleSearch" :showSearch="showSearch" />
     <transition name="search-slide">
