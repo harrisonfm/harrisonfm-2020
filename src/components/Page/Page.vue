@@ -7,9 +7,7 @@
           <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
         </div>
         <div class="post" v-html="post.post_content"></div>
-        <div v-if="post.post_name == 'web'" v-for="project in post.acf.projects" :key="project.title">
-          {{ project.title }}
-        </div>
+        <WebProjects :projects="projects" /> 
       </div>
     </div>
     <Loader v-else />
@@ -25,33 +23,51 @@
 </style>
 
 <script>
-import Loader from '../partials/Loader.vue';
-import { mapActions, mapGetters } from 'vuex';
+import Loader from '../partials/Loader.vue'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Hero from '../partials/Hero.vue'
+import WebProjects from './WebProjects.vue'
 
 export default {
   computed: {
     ...mapGetters({
       post: 'currentPost'
-    })
+    }),
+    projects: function() {
+      return this.post.acf && this.post.acf.projects ? this.post.acf.projects : [];
+    }
   },
 
   beforeMount() {
     console.log(this.$route.params);
-    this.getPage({
-      slug: this.$route.params.pageSlug
-    }).then(response => {
-      console.log('page component resolves', response);
-    }, error => {
-      console.log('page component errors', this.page, error);
-      this.$_error('ErrorPage', {
-        route: this.$route.params.pageSlug
-      });
-    });
+    this.handleGetPost(this.$route.params.pageSlug);
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    if(to.name === 'Page' && from.name === 'Page') {
+      this.setCurrentPost({post:null});
+      this.handleGetPost(to.params.pageSlug);
+    }
+    next();
   },
 
   methods: {
     ...mapActions(['getPage']),
+    ...mapMutations({
+      'setCurrentPost': 'POST_CURRENT',
+    }),
+    handleGetPost(slug) {
+      this.getPage({
+        slug: slug
+      }).then(response => {
+        console.log('page component resolves', response);
+      }, error => {
+        console.log('page component errors', this.page, error);
+        this.$_error('ErrorPage', {
+          route: slug
+        });
+      });
+    },
     parseBackground() {
       if(this.post.featured) {
         return '/wp-content/uploads/'+this.post.featured.file;
@@ -60,7 +76,7 @@ export default {
   },
 
   components: {
-    Loader, Hero
+    Loader, Hero, WebProjects
   },
 };
 </script>
