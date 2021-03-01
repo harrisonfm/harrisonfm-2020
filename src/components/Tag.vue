@@ -1,6 +1,6 @@
 <template>
   <div class="page page--tag">
-    <recent-posts-widget :tag="this.$route.params.tag" class="">{{ this.pageString }}</recent-posts-widget>
+    <recent-posts-widget :tag="this.$route.params.tag" :title="this.pageString" />
   </div>
 </template>
 

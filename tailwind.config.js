@@ -186,7 +186,8 @@ module.exports = {
       '0': '0',
       '2': '2px',
       '4': '4px',
-      '8': '8px'
+      '8': '8px',
+      '16': '16px'
     },
     boxShadow: {
       DEFAULT:
@@ -496,6 +497,7 @@ module.exports = {
     textAlign: ['responsive'],
     textColor: ['responsive', 'hover', 'focus'],
     textDecoration: ['responsive', 'hover', 'focus'],
+    transform: ['hover'],
     textTransform: ['responsive'],
     userSelect: ['responsive'],
     verticalAlign: ['responsive'],

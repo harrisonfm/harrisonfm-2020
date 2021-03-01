@@ -1,32 +1,46 @@
 <template>
   <div class="widget recent-posts p-4 bg-white">
-    <h3>
-      <slot></slot>
-    </h3>
+    <h3 class="leading-none mb-4" v-if="title">{{ title }}</h3>
     <div class="grid gap-4 grid-cols-1 md:grid-cols-2" v-if="recentPostsLoaded">
-      <article v-for="post in recentPosts" :key="post.id" >
-        <router-link :to="post.link">
-          <div class="bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500" :style="parseBackground(post)">
-            <div class="text-white font-bold text-2xl z-10 p-2 text-center">{{ post.post_title }}</div>
-            <div class="absolute inset-0 bg-black opacity-25 hover:opacity-50 transition-opacity duration-150 z-0"></div>
-          </div>
+      <article v-for="post in recentPosts" :key="post.id" :style="parseBackground(post)">
+        <router-link :to="post.link" class="" >
+          <div class="title">{{ post.post_title }}</div>
+          <div class="overlay "></div>
         </router-link>
         <p class="text-gray-700 text-base" v-html="post.excerpt"></p>
       </article>
-      <div class="w-full flex md:col-span-2">
-        <router-link :to="this.pageLink.prev" v-if="page > 1" class="font-semibold bg-gray-500 text-white px-4 py-2 mr-auto transition-colors duration-150 ring ring-inset ring-gray-300 hover:bg-blue-500 hover:ring-blue-300">Previous</router-link>
-        <router-link :to="this.pageLink.next" v-if="recentPosts.length >= 8" class="font-semibold bg-gray-500 text-white px-4 py-2 ml-auto transition-colors duration-150 ring ring-inset ring-gray-300 hover:bg-blue-500 hover:ring-blue-300">Next</router-link>
+      <div class="pagination">
+        <router-link :to="this.pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
+        <router-link :to="this.pageLink.next" v-if="recentPosts.length >= 8" class="ml-auto">Next</router-link>
       </div>
     </div>
     <div v-else>
       <div class="grid gap-4 md:grid-cols-2 mb-4">
-        <div class="animate-pulse bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500" v-for="n in this.limit"></div>
+        <article class="placeholder" v-for="n in this.limit" />
       </div>
     </div>
   </div>
-  
 </template>
-
+<style scoped>
+article {
+  @apply bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500 shadow transform transition-transform duration-200 shadow hover:-translate-y-px;
+}
+article .title {
+  @apply text-white font-bold text-2xl z-10 p-2 text-center
+}
+article .overlay {
+  @apply absolute inset-0 bg-black opacity-25 hover:opacity-50 transition-opacity duration-200 z-0
+}
+article .placeholder {
+  @apply animate-pulse h-article md:h-articleMD bg-gray-500
+}
+.pagination {
+  @apply w-full flex md:col-span-2
+}
+.pagination a {
+  @apply font-semibold bg-gray-500 text-white px-4 py-2 transition-colors duration-150 ring ring-inset ring-gray-300 hover:bg-blue-500 hover:ring-blue-300
+}
+</style>
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
@@ -43,7 +57,8 @@ export default {
     },
     search: {
       default: ''
-    }
+    },
+    title: ''
   },
 
   computed: {
@@ -79,7 +94,7 @@ export default {
         prev: lead+(this.page <= 2 ? '/' : '/p/'+(this.page - 1)),
         next: lead+'/p/'+(this.page + 1)
       }
-    },
+    }
   },
 
   methods: {

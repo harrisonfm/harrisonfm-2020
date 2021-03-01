@@ -1,8 +1,8 @@
 <template>
   <router-link to="/" class="flex items-center h-16 z-10">
-    <img :src="Bolt" class="inline h-8 transform rotate-180" />
-    <span class="font-bold tracking-wider mx-1">HFM</span>
-    <img :src="Bolt" class="inline h-8" />
+    <img :src="Bolt" class="transform rotate-180" />
+    <span class="font-bold mx-1">HFM</span>
+    <img :src="Bolt" />
   </router-link>
 </template>
 <style scoped>

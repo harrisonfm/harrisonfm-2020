@@ -2,9 +2,8 @@
 	<nav v-if="menu" class="flex justify-end items-center bg-white w-full uppercase font-bold">
     <transition name="mobile-menu-slide">
   		<ul class="header-menu-top" v-if="(showMobileMenu && isMobile) || !isMobile">
-  			<MenuItem v-for="item in menu.items" :key="`menu_item_${item.ID}`" :item="item" :showMobileMenu="showMobileMenu" :isMobile="isMobile" class="relative items-center flex-wrap sm:mr-4 sm:h-16 sm:flex-nowrap" 
-        ></MenuItem>
-        <li class="flex items-center">
+  			<MenuItem v-for="item in menu.items" :key="`menu_item_${item.ID}`" :item="item" :showMobileMenu="showMobileMenu" :isMobile="isMobile" class="header-menu-item" />
+        <li class="flex items-center bg-white">
           <font-awesome-icon :icon="['fas', 'search']" class="text-2xl cursor-pointer transition-colors duration-150 hover:text-blue-500 hidden sm:flex" :class="{'text-blue-500' : showSearch}" @click="$emit('toggle-search')" />
           <SearchForm class="sm:hidden" />
         </li>
@@ -18,6 +17,9 @@
 <style scoped>
   .header-menu-top {
     @apply flex flex-col absolute bg-white top-full right-0 border-l-2 border-b-2 border-gray-600 z-neg sm:flex-row sm:static sm:border-0 sm:z-0
+  }
+  .header-menu-item {
+    @apply relative items-center flex-wrap sm:border-solid sm:border-white sm:border-r-16 sm:h-16 sm:flex-nowrap bg-white
   }
   .mobile-menu-slide-enter-active {
     animation: mobile-menu-slide-in .25s;
