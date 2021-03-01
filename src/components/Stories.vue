@@ -1,6 +1,6 @@
 <template>
   <div class="page page--stories">
-    <hero :title="'HFM Stories'" :img="this.storyHero.url" />
+    <hero :title="'HFM Stories'" :img="storyHero.url" />
     <div class="xxl:rounded xxl:shadow xxl:-my-16 bg-white p-4" v-if="storiesLoaded">
       <article class="grid grid-cols-6 gap-4 bg-gray-100 mb-4 last:mb-0" v-for="story in stories" :key="story.term_id" >
         <router-link class="col-span-2" :to="'/stories/'+story.slug">

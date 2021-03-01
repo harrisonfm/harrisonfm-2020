@@ -1,14 +1,17 @@
 <template>
   <div class="">
-    <template v-if="this.post">
-      <hero :title="this.post.title" :img="parseBackground()" />
+    <div v-if="post">
+      <hero :title="post.title" :img="parseBackground()" />
       <div class="py-2 px-4 bg-white xxl:rounded xxl:shadow xxl:-my-16">
         <div class="flex flex-wrap items-center mb-4">
           <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
         </div>
         <div class="post" v-html="post.post_content"></div>
+        <div v-if="post.post_name == 'web'" v-for="project in post.acf.projects" :key="project.title">
+          {{ project.title }}
+        </div>
       </div>
-    </template>
+    </div>
     <Loader v-else />
   </div>
 </template>

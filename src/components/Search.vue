@@ -1,6 +1,6 @@
 <template>
   <div class="page page--search">
-    <recent-posts-widget :search="this.$route.params.search" :title="this.pageString" />
+    <recent-posts-widget :search="$route.params.search" :title="pageString" />
   </div>
 </template>
 

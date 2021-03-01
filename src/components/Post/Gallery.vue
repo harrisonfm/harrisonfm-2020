@@ -1,6 +1,6 @@
 <template>
   <div class="grid gap-4 auto-rows-fr md:grid-cols-2 xl:grid-cols-3">
-    <div v-for="photo in this.gallery" class="flex items-center justify-center" >
+    <div v-for="photo in gallery" class="flex items-center justify-center" >
       <router-link :to="{
           name: 'Photo',
           params: { idSlug: photo.id + '-' + photo.name }

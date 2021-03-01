@@ -9,10 +9,10 @@
         </div>
         <div class="post" v-html="post.post_content"></div>
         <Gallery :gallery="post.acf.gallery"></Gallery>
-        <div class="flex items-center mt-4" v-if="this.post.tags.length">
+        <div class="flex items-center mt-4" v-if="post.tags.length">
           <span>Tags:</span>
           <router-link class="focus:outline-none text-sm text-center ml-4 py-2 px-4 font-semibold text-white bg-gray-500 transition-colors duration-150 ring ring-gray-300 hover:bg-blue-500 hover:ring-blue-300" 
-          v-for="tag in this.post.tags" :key="tag.id" :to="{
+          v-for="tag in post.tags" :key="tag.id" :to="{
             name: 'Tag',
             params: {tag: tag.slug}  
           }">{{tag.name}}

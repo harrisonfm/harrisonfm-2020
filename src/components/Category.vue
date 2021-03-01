@@ -1,6 +1,6 @@
 <template>
   <div class="page page--category">
-    <recent-posts-widget :category="this.$route.params.category" :title="this.pageString" />
+    <recent-posts-widget :category="$route.params.category" :title="pageString" />
   </div>
 </template>
 

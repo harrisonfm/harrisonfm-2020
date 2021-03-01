@@ -48,6 +48,7 @@ function setup() {
   function getPostsByType($request) {
     $args = array(
       'posts_per_page' => $request['per_page'] ? $request['per_page'] : 8,
+      'post_type' => 'post',
       'paged' => $request['page'] ? $request['page'] : 1,
       'ignore_sticky_posts' => 1
     );
@@ -70,7 +71,8 @@ function setup() {
 
   function getPost($request) {
     $args = array(
-      'name' => $request['slug']
+      'name' => $request['slug'],
+      'post_type' => 'post'
     );
 
     $query = new \WP_Query($args);
@@ -81,7 +83,8 @@ function setup() {
 
   function getPage($request) {
     $args = array(
-      'pagename' => $request['slug']
+      'pagename' => $request['slug'],
+      'post_type' => 'page'
     );
 
     $query = new \WP_Query($args);
@@ -101,7 +104,8 @@ function setup() {
   function formatPostsForApi(&$posts, $ignoreStories = false) {
     foreach($posts as $post) {
       $post->acf = get_fields($post->ID);
-      if($post->acf['gallery']) {
+
+      if (isset($post->acf['gallery']) && (is_array($post->acf['gallery']) || is_object($post->acf['gallery']))) {
         foreach($post->acf['gallery'] as &$galleryItem) {
           $galleryItem['acf'] = array();
           $likes = get_field('likes', $galleryItem['id']);

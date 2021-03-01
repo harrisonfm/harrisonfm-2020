@@ -10,13 +10,13 @@
         <p class="text-gray-700 text-base" v-html="post.excerpt"></p>
       </article>
       <div class="pagination">
-        <router-link :to="this.pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
-        <router-link :to="this.pageLink.next" v-if="recentPosts.length >= 8" class="ml-auto">Next</router-link>
+        <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
+        <router-link :to="pageLink.next" v-if="recentPosts.length >= 8" class="ml-auto">Next</router-link>
       </div>
     </div>
     <div v-else>
       <div class="grid gap-4 md:grid-cols-2 mb-4">
-        <article class="placeholder" v-for="n in this.limit" />
+        <article class="placeholder" v-for="n in limit" />
       </div>
     </div>
   </div>
