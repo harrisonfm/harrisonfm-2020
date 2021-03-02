@@ -29,7 +29,7 @@ article .title {
   @apply text-white font-bold text-2xl z-10 p-2 text-center
 }
 article .overlay {
-  @apply absolute inset-0 bg-black opacity-25 hover:opacity-50 transition-opacity duration-200 z-0
+  @apply absolute inset-0 bg-black opacity-5 hover:opacity-15 transition-opacity duration-200 z-0
 }
 article .placeholder {
   @apply animate-pulse h-article md:h-articleMD bg-gray-500

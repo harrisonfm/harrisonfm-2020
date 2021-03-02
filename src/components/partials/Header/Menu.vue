@@ -50,6 +50,11 @@
         isMobile: true
       }
     },
+    watch: {
+      '$route': function() {
+        this.showMobileMenu = false;
+      }
+    },
     methods: {
       toggleMobileMenu: function() {
         this.showMobileMenu = !this.showMobileMenu;

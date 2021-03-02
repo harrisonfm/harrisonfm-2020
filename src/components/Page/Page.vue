@@ -7,7 +7,7 @@
           <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
         </div>
         <div class="post" v-html="post.post_content"></div>
-        <WebProjects :projects="projects" /> 
+        <WebProjects v-if="projects.length" :projects="projects" /> 
       </div>
     </div>
     <Loader v-else />
@@ -27,6 +27,7 @@ import Loader from '../partials/Loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Hero from '../partials/Hero.vue'
 import WebProjects from './WebProjects.vue'
+import meta from '~/meta';
 
 export default {
   computed: {
@@ -39,7 +40,6 @@ export default {
   },
 
   beforeMount() {
-    console.log(this.$route.params);
     this.handleGetPost(this.$route.params.pageSlug);
   },
 
@@ -77,6 +77,10 @@ export default {
 
   components: {
     Loader, Hero, WebProjects
+  },
+
+  metaInfo () {
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.parseBackground(), window.location.href)
   },
 };
 </script>
