@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full lg:w-3/4 border-black border-l-2 border-r-2 sm:border-l-4 sm:border-r-4">
+  <div class="project-container">
     <div v-for="project in projects" :key="project.title" :style="parseBackground(project)" class="project" @click="$event.target.classList.toggle('on')">
       <div class="title" @click="$event.target.parentNode.classList.toggle('on')">{{ project.title }}</div>
       <div class="project-description">
@@ -10,6 +10,9 @@
 </template>
 
 <style scoped>
+  .project-container {
+    @apply w-full lg:w-3/4 border-black border-l-2 border-r-2 sm:border-l-4 sm:border-r-4;
+  }
   .project {
     transition: height .5s;
     height: 40px;
@@ -30,9 +33,6 @@
   .project.on {
     height: 100vw;
   }
-  .project.on .title {
-
-  }
   .project.on .project-description {
     opacity: 1;
     z-index: 1;
@@ -50,7 +50,7 @@
     .project .title::after {
       content: '';
       transform: skew(-5deg);
-      background: #fff;
+      background: black;
       border-right: 4px solid black;
       position: absolute;
       width: 6px;

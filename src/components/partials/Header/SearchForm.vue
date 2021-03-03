@@ -33,8 +33,13 @@ input::placeholder {
         this.$emit('toggle-search');
       },
       search() {
-        router.push({ name: 'Search', params: { search: this.searchInput } });
-        this.$emit('toggle-search');
+        if(this.searchInput) {
+          router.push({ name: 'Search', params: { search: this.searchInput } });
+          this.$emit('toggle-search');
+        }
+        else {
+          this.$refs.input.focus();
+        }
       }
     },
     mounted(){

@@ -29,7 +29,10 @@ export default {
   beforeRouteUpdate(to, from, next) {
     if(to.name === 'Story' && from.name === 'Story') {
       console.log('update story', to, from);
-      this.setCurrentStory({story: null});
+      this.setCurrentStory({
+        term: {image: {}},
+        posts: {}
+      });
       this.getStory({
         slug: to.params.story
       });
