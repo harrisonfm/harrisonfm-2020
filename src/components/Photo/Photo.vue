@@ -12,12 +12,12 @@
         <font-awesome-icon :icon="['fas', 'compress-alt']" class="rounded bg-white bg-opacity-25 cursor-pointer" @click="back"/>
         <font-awesome-icon :icon="['fas', 'info-circle']" class="hidden mt-4 rounded bg-white bg-opacity-25 cursor-pointer lg:block" :class="{ 'text-blue-500': galleryInfo }" @click="setGalleryInfo"/>
       </div>
-      <div :key="photo.id" class="photoBox overflow-auto mt-auto transition-opacity duration-1000 opacity-0 lg:my-auto">
-        <img :src="photo.url" class="max-h-full m-auto" @load="handleImageLoad" />
+      <div :key="photo.ID" class="photoBox overflow-auto mt-auto transition-opacity duration-1000 opacity-0 lg:my-auto">
+        <img v-if="photo.images" :src="photo.images.full" class="max-h-full m-auto" @load="handleImageLoad" />
       </div>
       <div class="w-full text-center px-4 my-4" :class="{'lg:hidden' : !galleryInfo}">
-        <h2 class="leading-none">{{ photo.title }}</h2>
-        <p class="mb-0" v-if="photo.caption">{{ photo.caption }}</p>
+        <h2 class="leading-none">{{ photo.post_title }}</h2>
+        <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
       </div>
       <div class="relative w-full flex items-center mt-auto p-4 bg-gray-100 xs:flex-start xs:mb-4 xs:rounded-lg xs:shadow xs:max-w-md"
       :class="{'lg:hidden' : !galleryInfo}">
@@ -64,7 +64,7 @@ export default {
   },
 
   beforeMount() {
-  	this.id = this.parseIDSlug(this.$route.params.idSlug);
+  	this.ID = this.parseIDSlug(this.$route.params.idSlug);
     this.getPhoto();
   },
 
@@ -99,10 +99,10 @@ export default {
         return;
       }
       
-      if(this.currentPost.acf.gallery) {
-        let gallery = this.currentPost.acf.gallery;
+      if(this.currentPost.gallery) {
+        let gallery = this.currentPost.gallery;
         for (const [idx, el] of gallery.entries()) {
-          if(this.id === el.id) {
+          if(this.ID === el.ID) {
             console.log('getphoto from gallery', el);
             this.setPhoto(el);
             this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug)});
@@ -114,13 +114,13 @@ export default {
       }
       else {
         this.getSinglePhoto({
-          id: this.id, 
+          ID: this.ID, 
           liked: this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug)
         });
       }
     },
     refreshPhoto: function() {
-	  	this.id = this.parseIDSlug(this.$route.params.idSlug); 
+	  	this.ID = this.parseIDSlug(this.$route.params.idSlug); 
 	    this.getPhoto();
     },
     like: function() {
@@ -142,13 +142,13 @@ export default {
     goToNextPhoto: function() {
       router.push({
         name: 'Photo',
-        params: { idSlug: this.nextPhoto.id + '-' + this.nextPhoto.name }
+        params: { idSlug: this.nextPhoto.ID + '-' + this.nextPhoto.post_name }
       });
     },
     goToPrevPhoto: function() {
       router.push({
         name: 'Photo',
-        params: { idSlug: this.prevPhoto.id + '-' + this.prevPhoto.name }
+        params: { idSlug: this.prevPhoto.ID + '-' + this.prevPhoto.post_name }
       });
     },
     back: function() {
@@ -164,7 +164,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.photo.title, this.photo.caption, this.photo.url, window.location.href)
+    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images ? this.photo.images.full : '', window.location.href)
   },
 
   components: { Loader }

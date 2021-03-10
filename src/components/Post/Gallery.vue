@@ -3,9 +3,9 @@
     <div v-for="photo in gallery" class="flex items-center justify-center" >
       <router-link :to="{
           name: 'Photo',
-          params: { idSlug: photo.id + '-' + photo.name }
+          params: { idSlug: photo.ID + '-' + photo.post_name }
         }">
-        <img :src="photo.url" class="rounded shadow md:max-h-col2 xl:max-h-col3 xxl:max-h-col3xxl" />
+        <img :src="photo.images.full" class="rounded shadow md:max-h-col2 xl:max-h-col3 xxl:max-h-col3xxl" />
       </router-link>
     </div>
   </div>

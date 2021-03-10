@@ -8,7 +8,7 @@
           <p class="my-0 ml-4 lg:ml-auto">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
         </div>
         <div class="post" v-html="post.post_content"></div>
-        <Gallery v-if="post.acf.gallery" :gallery="post.acf.gallery"></Gallery>
+        <Gallery v-if="post.gallery" :gallery="post.gallery"></Gallery>
         <div class="flex items-center mt-4" v-if="post.tags.length">
           <span>Tags:</span>
           <router-link class="focus:outline-none text-sm text-center ml-4 py-2 px-4 font-semibold text-white bg-gray-500 transition-colors duration-150 ring ring-gray-300 hover:bg-blue-500 hover:ring-blue-300" 

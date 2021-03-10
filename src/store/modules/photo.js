@@ -35,7 +35,7 @@ const getters = {
 const actions = {
   like: function({ commit }, payload) {
     console.log(payload.photo);
-    api.like(payload.photo.id, payload.likes, response => {
+    api.like(payload.photo.ID, payload.likes, response => {
       commit(types.PHOTO_LIKE);
     });
   },
@@ -52,7 +52,7 @@ const mutations = {
   [types.PHOTO](state, photo) {
     console.log('commit photo', photo);
     state.photo = photo;
-    state.photo.likes = parseInt(photo.acf.likes);
+    state.photo.likes = parseInt(photo.likes);
     state.likes = state.photo.likes;
   },
 	[types.PHOTO_SLIDESHOW](state, payload) {
@@ -89,9 +89,9 @@ const mutations = {
   },
 
   [types.PHOTO_LIKE](state) {
-    state.photo['acf']['likes'] = parseInt(state.photo['acf']['likes'], 10) + (state.liked ? 1 : -1);
-    state.photo['acf']['likes'] = state.photo['acf']['likes'] < 0 ? 0 : state.photo['acf']['likes'];
-    state.likes = state.photo['acf']['likes'];
+    state.photo['likes'] = parseInt(state.photo['likes'], 10) + (state.liked ? 1 : -1);
+    state.photo['likes'] = state.photo['likes'] < 0 ? 0 : state.photo['likes'];
+    state.likes = state.photo['likes'];
   },
   [types.LIKED](state, payload) {
     state.liked = payload.liked;

@@ -24,14 +24,6 @@ function setup() {
       }
     };
 
-    //gallery override, not sure if the first foreach loop is needed
-    if (isset($data['acf']) && isset($data['acf']['gallery'])) {
-      foreach($data['acf']['gallery'] as &$galleryItem) {
-        $galleryItem['acf'] = get_fields($galleryItem["id"]);
-        $galleryItem['acf']['likes'] = $galleryItem['acf']['likes'] ? $galleryItem['acf']['likes'] : 0;
-      }
-    }
-
     return $data;
   }, 10, 3);
 
@@ -105,13 +97,35 @@ function setup() {
     foreach($posts as $post) {
       $post->acf = get_fields($post->ID);
 
-      if (isset($post->acf['gallery']) && (is_array($post->acf['gallery']) || is_object($post->acf['gallery']))) {
-        foreach($post->acf['gallery'] as &$galleryItem) {
-          $galleryItem['acf'] = array();
-          $likes = get_field('likes', $galleryItem['id']);
-          $galleryItem['acf']['likes'] = $likes ? $likes : 0;
+      if(isset($post->acf['gallery'])) {
+        $gallery = new \WP_Query(array(
+          'post_type' => 'attachment',
+          'post_status' => 'any',
+          'tax_query' => array(
+            array(
+              'taxonomy' => 'wpmf-category',
+              'terms'    => $post->acf['gallery'][0],
+            ),
+          ),
+        ));
+        $galleryItems = $gallery->posts;
+        $imageSizes = wp_get_registered_image_subsizes();
+        $imageSizes['full'] = 'full';
+
+        foreach($galleryItems as $galleryItem) {
+          $likes = get_field('likes', $galleryItem->ID);
+          $galleryItem->likes = $likes ? $likes : 0;
+          $galleryItem->images = array();
+
+          foreach($imageSizes as $size => $dimensions) {
+            $imageForSize = wp_get_attachment_image_src($galleryItem->ID, $size)[0];
+            $galleryItem->images["$size"] = $imageForSize;
+          }
         }
+        
+        $post->gallery = $galleryItems;
       }
+
       $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
 
       $post->categories = array();
@@ -169,7 +183,7 @@ function setup() {
             }
           }
         }
-      }      
+      }
     }
   }
 
