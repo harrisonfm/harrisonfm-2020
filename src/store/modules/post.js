@@ -41,10 +41,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       api.getPage(payload.slug, response => {
         console.log('store getpage', response);
-        if(response.length) {
-          let post = response[0];
-          commit(types.POST_CURRENT, post);
-          resolve(response[0]);
+        if(response) {
+          commit(types.POST_CURRENT, response);
+          resolve(response);
         }
         else {
           console.log(response, 'error 404 post store - page');

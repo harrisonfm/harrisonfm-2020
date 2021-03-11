@@ -80,9 +80,19 @@ function setup() {
     );
 
     $query = new \WP_Query($args);
+
     formatPostsForApi($query->posts);
+    if(!empty($query->posts)) {
+      $page = $query->posts[0];
+      if($page->post_name === 'photos') {
+        $page->stories = getStories(true);
+      }
+    }
+    else {
+      $page = false;
+    }
     
-    return new \WP_REST_Response($query->posts);
+    return new \WP_REST_Response($page);
   }
 
   function getHome() {
@@ -101,10 +111,15 @@ function setup() {
         $gallery = new \WP_Query(array(
           'post_type' => 'attachment',
           'post_status' => 'any',
+          'order' => 'ASC',
+          'orderby'   => 'meta_value_num',
+          'meta_key'  => 'wpmf_order',
+          'posts_per_page' => -1,
           'tax_query' => array(
             array(
               'taxonomy' => 'wpmf-category',
               'terms'    => $post->acf['gallery'][0],
+              'include_children' => false
             ),
           ),
         ));
@@ -202,7 +217,7 @@ function setup() {
     ));
   }
 
-  function getStories() {
+  function getStories($photosPage = false) {
     $args = array(
       'taxonomy' => 'story',
       'orderby' => 'name',
@@ -215,10 +230,12 @@ function setup() {
       $term->image = get_field('banner_image', 'story_'.$term->term_id);
     }
 
-    return new \WP_REST_Response(array(
+    $response = $photosPage ? $terms : new \WP_REST_Response(array(
       'stories' => $terms,
       'hero' => get_field('stories_hero', 'options')
     ));
+
+    return $response;
   }
 
   function getStory($request) {

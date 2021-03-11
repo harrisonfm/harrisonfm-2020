@@ -11,6 +11,7 @@ import ErrorPage from "~/components/Page/ErrorPage.vue";
 import Post from "~/components/Post/Post.vue";
 import Page from "~/components/Page/Page.vue";
 import Photo from "~/components/Photo/Photo.vue";
+import PhotosPage from "~/components/PhotosPage.vue";
 
 import Stories from "~/components/Stories.vue";
 import Story from "~/components/Story/Story.vue";
@@ -86,6 +87,11 @@ const router = new Router({
           component: Photo
         }
       ]
+    },
+    {
+      path: "/photos",
+      name: "PhotosPage",
+      component: PhotosPage
     },
     {
       path: "/:pageSlug",

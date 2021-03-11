@@ -7,7 +7,6 @@
           <div class="title">{{ post.post_title }}</div>
           <div class="overlay "></div>
         </router-link>
-        <p class="text-gray-700 text-base" v-html="post.excerpt"></p>
       </article>
       <div class="pagination">
         <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
