@@ -85,7 +85,7 @@ function setup() {
     if(!empty($query->posts)) {
       $page = $query->posts[0];
       if($page->post_name === 'photos') {
-        $page->stories = getStories(true);
+        $page->stories = getStories(false, true);
       }
     }
     else {
@@ -217,7 +217,7 @@ function setup() {
     ));
   }
 
-  function getStories($photosPage = false) {
+  function getStories($request, $photosPage = false) {
     $args = array(
       'taxonomy' => 'story',
       'orderby' => 'name',

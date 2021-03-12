@@ -12,6 +12,8 @@ import Post from "~/components/Post/Post.vue";
 import Page from "~/components/Page/Page.vue";
 import Photo from "~/components/Photo/Photo.vue";
 import PhotosPage from "~/components/PhotosPage.vue";
+import PhotosHome from "~/components/PhotosPage/Home.vue";
+import PhotosGallery from "~/components/PhotosPage/Gallery.vue";
 
 import Stories from "~/components/Stories.vue";
 import Story from "~/components/Story/Story.vue";
@@ -77,6 +79,29 @@ const router = new Router({
       component: Story, 
     },
     {
+      path: "/photos",
+      component: PhotosPage,
+      children: [
+        {
+          path: "/",
+          name: 'PhotoHome',
+          component: PhotosHome
+        },
+        {
+          path: ":gallery",
+          name: 'PhotosGallery',
+          component: PhotosGallery,
+          children: [
+            {
+              path: ":idSlug",
+              name: "PhotosDetail",
+              component: Photo
+            }
+          ]
+        }
+      ]
+    },
+    {
       path: "/:year/:postSlug",
       name: "Post",
       component: Post,
@@ -87,11 +112,6 @@ const router = new Router({
           component: Photo
         }
       ]
-    },
-    {
-      path: "/photos",
-      name: "PhotosPage",
-      component: PhotosPage
     },
     {
       path: "/:pageSlug",
