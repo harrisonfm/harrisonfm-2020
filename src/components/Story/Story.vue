@@ -49,9 +49,8 @@ export default {
     }),
     parseBackground(post) {
       if(post.featured) {
-        return '/wp-content/uploads/'+post.featured.file;  
+        return post.featured.images.full;
       }
-      return 'https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg';
     },
   },
   metaInfo () {

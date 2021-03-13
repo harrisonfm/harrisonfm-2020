@@ -105,9 +105,8 @@ export default {
     }),
     parseBackground(post) {
       if(post.featured) {
-        return 'background-image: url(/wp-content/uploads/'+post.featured.file+')';  
+        return 'background-image: url('+post.featured.images.full+')';  
       }
-      return 'background-image: url(https://res.cloudinary.com/evanagee/image/upload/c_scale,h_400/v1580267636/VueWP/Youtube-bg_00240.jpg)';      
     },
 
     updatePosts(to, from) {

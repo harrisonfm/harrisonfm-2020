@@ -1,5 +1,5 @@
 <template>
-  <div class="photo-modal fixed inset-0 ph-5 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 opacity-0 bg-white z-30"
+  <div class="photo-modal"
     tabindex="0"
     @keyup.right="goToNextPhoto"
     @keyup.left="goToPrevPhoto"
@@ -8,20 +8,19 @@
     @keyup.esc="back"
     @keyup.space="toggleSlideshow">
     <template v-if="photo">
-      <div class="absolute flex flex-col items-center top-1 right-1 p-1 text-4xl">
-        <font-awesome-icon :icon="['fas', 'compress-alt']" class="rounded bg-white bg-opacity-25 cursor-pointer" @click="back"/>
-        <font-awesome-icon :icon="['fas', 'info-circle']" class="hidden mt-4 rounded bg-white bg-opacity-25 cursor-pointer lg:block" :class="{ 'text-blue-500': galleryInfo }" @click="setGalleryInfo"/>
+      <div class="controls">
+        <font-awesome-icon :icon="['fas', 'compress-alt']" @click="back"/>
+        <font-awesome-icon :icon="['fas', 'info-circle']" class="hidden mt-4 lg:block" :class="{ 'text-blue-500': galleryInfo }" @click="setGalleryInfo"/>
       </div>
-      <div :key="photo.ID" class="photoBox overflow-auto mt-auto transition-opacity duration-1000 opacity-0 lg:my-auto">
+      <div :key="photo.ID" class="photo-box">
         <img v-if="photo.images" :src="photo.images.full" class="max-h-full m-auto" @load="handleImageLoad" />
       </div>
       <div class="w-full text-center px-4 my-4" :class="{'lg:hidden' : !galleryInfo}">
         <h2 class="leading-none">{{ photo.post_title }}</h2>
         <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
       </div>
-      <div class="relative w-full flex items-center mt-auto p-4 bg-gray-100 xs:flex-start xs:mb-4 xs:rounded-lg xs:shadow xs:max-w-md"
-      :class="{'lg:hidden' : !galleryInfo}">
-        <font-awesome-icon :icon="['fas', 'chevron-circle-left']" v-if="prevPhoto" class="flex mr-auto text-4xl xs:ml-0 cursor-pointer" @click="goToPrevPhoto"/>
+      <nav :class="{'lg:hidden' : !galleryInfo}">
+        <font-awesome-icon :icon="['fas', 'chevron-circle-left']" v-if="prevPhoto" @click="goToPrevPhoto"/>
         <div class="text-4xl mx-auto" >
           <div v-if="nextPhoto" class="inline">
             <font-awesome-icon :icon="['fas', 'play']" v-if="!slideshow" class="cursor-pointer" @click="toggleSlideshow"/>
@@ -32,13 +31,32 @@
             <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
           </font-awesome-layers>
         </div>
-        <font-awesome-icon :icon="['fas', 'chevron-circle-right']" v-if="nextPhoto" class="flex ml-auto text-4xl xs:mr-0 cursor-pointer" @click="goToNextPhoto"/>
-      </div>
+        <font-awesome-icon :icon="['fas', 'chevron-circle-right']" v-if="nextPhoto" @click="goToNextPhoto"/>
+      </nav>
     </template>
     <Loader v-else/>
   </div>
 </template>
-
+<style scoped>
+.photo-modal {
+  @apply fixed inset-0 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 bg-white z-30 opacity-0;
+}
+.controls {
+  @apply absolute flex flex-col items-center top-1 right-1 p-1 text-4xl;
+}
+.controls svg {
+  @apply rounded bg-white bg-opacity-25 cursor-pointer;
+}
+.photo-box {
+  @apply overflow-auto mt-auto transition-opacity duration-1000 lg:my-auto opacity-0;
+}
+nav {
+  @apply relative w-full flex items-center mt-auto p-4 bg-gray-100 xs:mb-4 xs:rounded-lg xs:shadow xs:max-w-md
+}
+nav > svg {
+  @apply text-4xl xs:ml-0 cursor-pointer;
+}
+</style>
 <script>
 import Loader from "~/components/partials/Loader.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
@@ -70,7 +88,7 @@ export default {
 
   mounted() {
     this.$el.focus();
-    this.$el.classList.remove("opacity-0");
+    this.$el.style.opacity = 1;
   },
 
   watch: {
@@ -158,8 +176,8 @@ export default {
       });
     },
     handleImageLoad: function() {
-      let photoBox = document.getElementsByClassName('photoBox')[0];
-      photoBox.classList.remove("opacity-0");
+      let photoBox = document.getElementsByClassName('photo-box')[0];
+      photoBox.style.opacity = 1;
     }
   },
 

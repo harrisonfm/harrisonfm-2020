@@ -70,7 +70,7 @@ export default {
     },
     parseBackground() {
       if(this.post.featured) {
-        return '/wp-content/uploads/'+this.post.featured.file;
+        return this.post.featured.images.full;
       }
     }
   },

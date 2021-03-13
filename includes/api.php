@@ -64,11 +64,12 @@ function setup() {
   function getPost($request) {
     $args = array(
       'name' => $request['slug'],
-      'post_type' => 'post'
+      'post_type' => 'post',
+      'post_status' => 'publish'
     );
 
     $query = new \WP_Query($args);
-    formatPostsForApi($query->posts);
+    formatPostForApi($query->posts[0]);
     
     return new \WP_REST_Response($query->posts);
   }
@@ -81,9 +82,9 @@ function setup() {
 
     $query = new \WP_Query($args);
 
-    formatPostsForApi($query->posts);
     if(!empty($query->posts)) {
       $page = $query->posts[0];
+      formatPostForApi($page);
       if($page->post_name === 'photos') {
         $page->stories = getStories(false, true);
       }
@@ -103,45 +104,53 @@ function setup() {
     return new \WP_REST_Response($return);
   }
 
-  function formatPostsForApi(&$posts, $ignoreStories = false) {
+  function formatPostsForApi(&$posts) {
     foreach($posts as $post) {
-      $post->acf = get_fields($post->ID);
+      formatPostForApi($post);
+    }
+  }
 
-      if(isset($post->acf['gallery'])) {
-        $gallery = new \WP_Query(array(
-          'post_type' => 'attachment',
-          'post_status' => 'any',
-          'order' => 'ASC',
-          'orderby'   => 'meta_value_num',
-          'meta_key'  => 'wpmf_order',
-          'posts_per_page' => -1,
-          'tax_query' => array(
-            array(
-              'taxonomy' => 'wpmf-category',
-              'terms'    => $post->acf['gallery'][0],
-              'include_children' => false
-            ),
+  function formatPostForApi(&$post, $ignoreStories = false) {
+    $post->acf = get_fields($post->ID);
+
+    if(isset($post->acf['gallery'])) {
+      $gallery = new \WP_Query(array(
+        'post_type' => 'attachment',
+        'post_status' => 'any',
+        'order' => 'ASC',
+        'orderby'   => 'meta_value_num',
+        'meta_key'  => 'wpmf_order',
+        'posts_per_page' => -1,
+        'tax_query' => array(
+          array(
+            'taxonomy' => 'wpmf-category',
+            'terms'    => $post->acf['gallery'][0],
+            'include_children' => false
           ),
-        ));
-        formatGalleryImages($gallery->posts);
-      }
+        ),
+      ));
+      formatGalleryImages($gallery->posts);
+      $post->gallery = $gallery->posts;
+      unset($post->acf['gallery']);
+    }
 
-      $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
+    $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
 
-      $post->categories = array();
-      $cats = wp_get_post_categories($post->ID);
-      foreach($cats as $c){
-        $post->categories[] = get_category($c);
-      }
+    $post->categories = array();
+    $cats = wp_get_post_categories($post->ID);
+    foreach($cats as $c){
+      $post->categories[] = get_category($c);
+    }
 
-      $post->post_date = date_format(date_create($post->post_date), 'M jS, Y');
+    $post->post_date = date_format(date_create($post->post_date), 'M jS, Y');
 
-      $post->post_content = apply_filters('the_content', $post->post_content);
+    $post->post_content = apply_filters('the_content', $post->post_content);
 
-      $post->tags = wp_get_post_terms($post->ID);
+    $post->tags = wp_get_post_terms($post->ID);
 
+    if($featuredMediaID = get_post_thumbnail_id($post->ID)) {
       $featuredMedia = new \WP_Query(array(
-        'p' => get_post_thumbnail_id($post->ID),
+        'p' => $featuredMediaID,
         'post_type' => 'attachment',
         'post_status' => 'any'
       ));
@@ -150,39 +159,40 @@ function setup() {
         formatGalleryImages($featuredMedia->posts);
         $post->featured = $featuredMedia->posts[0];
       }
+    }
 
-      if(!$ignoreStories) { //recursive to get next/prev navigation on story posts
-        $postStories = wp_get_object_terms($post->ID, 'story');
-        if($postStories) {
-          $post->story = $postStories[0];
+    if(!$ignoreStories) { //recursive to get next/prev navigation on story posts
+      $postStories = wp_get_object_terms($post->ID, 'story');
+      if($postStories) {
+        $post->story = $postStories[0];
 
-          $args = array(
-            'post_type' => 'post',
-            'order' => 'DESC',
-            'posts_per_page' => -1,
+        $args = array(
+          'post_type' => 'post',
+          'order' => 'DESC',
+          'posts_per_page' => -1,
 
-            'tax_query' => array(
-              array(
-                'taxonomy' => 'story',
-                'field'    => 'slug',
-                'terms'    => $post->story->slug,
-              ),
+          'tax_query' => array(
+            array(
+              'taxonomy' => 'story',
+              'field'    => 'slug',
+              'terms'    => $post->story->slug,
             ),
-          );
-          $query = new \WP_Query($args);
-          $postsInStory = $query->posts;
-          formatPostsForApi($postsInStory, true);
+          ),
+        );
+        $query = new \WP_Query($args);
+        $postsInStory = $query->posts;
 
-          for($i = 0; $i < count($postsInStory); $i++) {
-            if($postsInStory[$i]->ID === $post->ID) {
-              if($i !== 0) {
-                $post->storyPrev = $postsInStory[$i - 1];
-              }
-              if($i !== count($postsInStory) - 1) {
-                $post->storyNext = $postsInStory[$i + 1];
-              }
-              break;
+        for($i = 0; $i < count($postsInStory); $i++) {
+          if($postsInStory[$i]->ID === $post->ID) {
+            if($i !== 0) {
+              $post->storyPrev = $postsInStory[$i - 1];
+              formatPostForApi($post->storyPrev, true);
             }
+            if($i !== count($postsInStory) - 1) {
+              $post->storyNext = $postsInStory[$i + 1];
+              formatPostForApi($post->storyNext, true);
+            }
+            break;
           }
         }
       }

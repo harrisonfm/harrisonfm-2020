@@ -72,7 +72,6 @@ export default {
       let slug = this.$route.params.gallery;
       for (const [idx, el] of this.genres.entries()) {
         if(slug === el.title.toLowerCase().replace(' ','-')) {
-          console.log(el);
           return el;
         }
       }
@@ -113,7 +112,6 @@ export default {
       }
     },
     parseStoryBackground(image) {
-      console.log(image);
       if(image) {
         return 'background-image: url('+image.full+')';  
       }
