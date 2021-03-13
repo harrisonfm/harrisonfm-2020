@@ -133,5 +133,19 @@ export default {
       .catch(e => {
         cb(e);
       });
+  },
+
+  getStoryMedia(params, cb) {
+    console.log('api getstorymedia', params);
+    axios
+      .get(`${SETTINGS.API_CUSTOM}storymedia`, {
+        params: params
+      })
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
   }
 };

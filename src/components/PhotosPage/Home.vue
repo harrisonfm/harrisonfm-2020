@@ -8,7 +8,10 @@
       <h1 class="">Highlighted Genres</h1>
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
         <article v-for="genre in genres" :style="parseBackground(genre.image)" class="bg-cover bg-gray-500">
-          <router-link :to="genre.title.toLowerCase().replace(' ','-')" class="" >
+          <router-link :to="{
+            name: 'PhotosGallery',
+            params: { gallery: genre.title.toLowerCase().replace(' ','-') }
+          }">
             <div class="title">{{ genre.title }}</div>
             <div class="overlay "></div>
           </router-link>
@@ -17,7 +20,10 @@
       <h1 class="">Stories</h1>
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
         <article v-for="story in stories" :style="parseBackground(story.image)" class="bg-cover bg-gray-500">
-          <router-link :to="story.slug" class="" >
+          <router-link :to="{
+            name: 'PhotosGallery',
+            params: { gallery: story.slug }
+          }">
             <div class="title">{{ story.name }}</div>
             <div class="overlay "></div>
           </router-link>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hero :img="parseBackground()" />
+    <hero :img="parseFeatured()" />
     <div class="pt-2 px-4 pb-4 bg-white xxl:rounded xxl:shadow xxl:-my-16">
       <div v-if="post.post_content"> 
         <div class="flex flex-wrap items-center mb-4">
@@ -24,7 +24,7 @@
           <div v-if="post.storyPrev || post.storyNext">
             <article class="grid grid-cols-6 gap-4 bg-gray-100 mb-4 last:mb-0" v-if="post.storyNext" >
               <router-link class="col-span-2" :to="post.storyNext.link">
-                <img class="w-full" :src="parseBackground(post.storyNext)" />
+                <img class="w-full" :src="post.storyNext.featured.images.full" />
               </router-link>
               <div class="col-span-4 p-4">
                 <router-link :to="post.storyNext.link"><h2 class="font-bold text-2xl">{{ 'Next: '+post.storyNext.post_title }}</h2></router-link>
@@ -33,7 +33,7 @@
             </article>
             <article class="grid grid-cols-6 gap-4 bg-gray-100 mb-4 last:mb-0" v-if="post.storyPrev" >
               <router-link class="col-span-2" :to="post.storyPrev.link">
-                <img class="w-full" :src="parseBackground(post.storyPrev)" />
+                <img class="w-full" :src="post.storyPrev.featured.images.full" />
               </router-link>
               <div class="col-span-4 p-4">
                 <router-link :to="post.storyPrev.link"><h2 class="font-bold text-2xl">{{ 'Prev: '+post.storyPrev.post_title }}</h2></router-link>
@@ -94,9 +94,9 @@ export default {
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
     }),
-    parseBackground() {
+    parseFeatured() {
       if(this.post.featured) {
-        return '/wp-content/uploads/'+this.post.featured.file;
+        return this.post.featured.images.full;
       }
       return '';
     },
@@ -115,7 +115,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.parseBackground(this.post.img), this.post.link)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.parseFeatured(), this.post.link)
   },
 
   components: { Loader, Gallery, Hero }

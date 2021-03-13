@@ -18,6 +18,25 @@
       </div>
     </div>
   </div>
+  <div v-else-if="storyImages">
+    <div class="mx-auto max-w-8xl py-2 px-4">
+      <div class="flex flex-wrap items-center mb-4">
+        <h1 class="leading-none mb-0">{{ storyImages.term.name }}</h1>
+      </div>
+      <div class="post" v-html="storyImages.term.description"></div>
+      <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
+        <article v-for="photo in storyImages.media" :style="parseStoryBackground(photo.images)" class="bg-cover bg-gray-500">
+          <router-link :to="{
+            name: 'PhotosDetail',
+            params: { idSlug: photo.ID + '-' + photo.post_name }
+          }" class="" >
+            <div class="title">{{ photo.post_title }}</div>
+            <div class="overlay "></div>
+          </router-link>
+        </article>
+      </div>
+    </div>
+  </div>
   <Loader v-else />
 </template>
 
@@ -43,18 +62,17 @@ import meta from '~/meta';
 export default {
   computed: {
     ...mapGetters({
-      post: 'currentPost'
+      post: 'currentPost',
+      storyImages: 'storyImages'
     }),
     genres: function() {
       return this.post.acf && this.post.acf.highlighted_genres ? this.post.acf.highlighted_genres : [];
-    },
-    stories: function() {
-      return this.post.stories ? this.post.stories : [];
     },
     gallery: function() {
       let slug = this.$route.params.gallery;
       for (const [idx, el] of this.genres.entries()) {
         if(slug === el.title.toLowerCase().replace(' ','-')) {
+          console.log(el);
           return el;
         }
       }
@@ -63,10 +81,17 @@ export default {
 
   beforeMount() {
     this.handleGetPost('photos');
+    this.getStoryImages({
+      slug: this.$route.params.gallery
+    }).then(response => {
+      console.log('story images resolves', response);
+    }, error => {
+      console.log('story images errors', this.page, error);
+    });
   },
 
   methods: {
-    ...mapActions(['getPage']),
+    ...mapActions(['getPage', 'getStoryImages']),
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
     }),
@@ -85,6 +110,12 @@ export default {
     parseBackground(image) {
       if(image) {
         return 'background-image: url('+image.url+')';  
+      }
+    },
+    parseStoryBackground(image) {
+      console.log(image);
+      if(image) {
+        return 'background-image: url('+image.full+')';  
       }
     },
   },

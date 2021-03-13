@@ -123,22 +123,7 @@ function setup() {
             ),
           ),
         ));
-        $galleryItems = $gallery->posts;
-        $imageSizes = wp_get_registered_image_subsizes();
-        $imageSizes['full'] = 'full';
-
-        foreach($galleryItems as $galleryItem) {
-          $likes = get_field('likes', $galleryItem->ID);
-          $galleryItem->likes = $likes ? $likes : 0;
-          $galleryItem->images = array();
-
-          foreach($imageSizes as $size => $dimensions) {
-            $imageForSize = wp_get_attachment_image_src($galleryItem->ID, $size)[0];
-            $galleryItem->images["$size"] = $imageForSize;
-          }
-        }
-        
-        $post->gallery = $galleryItems;
+        formatGalleryImages($gallery->posts);
       }
 
       $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
@@ -155,16 +140,18 @@ function setup() {
 
       $post->tags = wp_get_post_terms($post->ID);
 
-      $media = new \WP_Query(array(
+      $featuredMedia = new \WP_Query(array(
         'p' => get_post_thumbnail_id($post->ID),
-        'post_type' => 'attachment'
+        'post_type' => 'attachment',
+        'post_status' => 'any'
       ));
 
-      if($media->posts) {
-        $post->featured = array_merge((array) $media->posts[0], wp_get_attachment_metadata(get_post_thumbnail_id($post->ID)));
+      if($featuredMedia->posts) {
+        formatGalleryImages($featuredMedia->posts);
+        $post->featured = $featuredMedia->posts[0];
       }
 
-      if(!$ignoreStories) {
+      if(!$ignoreStories) { //recursive to get next/prev navigation on story posts
         $postStories = wp_get_object_terms($post->ID, 'story');
         if($postStories) {
           $post->story = $postStories[0];
@@ -202,40 +189,53 @@ function setup() {
     }
   }
 
+  function formatGalleryImages(&$galleryItems) {
+    $imageSizes = wp_get_registered_image_subsizes();
+    $imageSizes['full'] = 'full';
+
+    foreach($galleryItems as $galleryItem) {
+      $likes = get_field('likes', $galleryItem->ID);
+      $galleryItem->likes = $likes ? $likes : 0;
+      $galleryItem->images = array();
+
+      foreach($imageSizes as $size => $dimensions) {
+        $imageForSize = wp_get_attachment_image_src($galleryItem->ID, $size)[0];
+        $galleryItem->images["$size"] = $imageForSize;
+      }
+    }
+  }
+
   function getMedia() {
-    //todo get media item with custom call.. may be less buggy
+    //todo if I support getting photos out of gallery context
   }
 
   function getSiteMeta() {
     $custom_logo_id = get_theme_mod('custom_logo');
-    $logo = wp_get_attachment_image_src($custom_logo_id , 'full');
+
     return new \WP_REST_Response(array(
       'title' => get_bloginfo('name'),
       'tagline' => get_bloginfo('description'),
       'url' => get_bloginfo('url'),
-      'img' => $logo
+      'img' => wp_get_attachment_image_src($custom_logo_id , 'full')
     ));
   }
 
   function getStories($request, $photosPage = false) {
-    $args = array(
-      'taxonomy' => 'story',
-      'orderby' => 'name',
-      'order' => 'ASC'
-    );
-    $query = new \WP_Term_Query($args);
-    $terms = $query->get_terms();
+    $terms = getStoryTerms();
 
     foreach($terms as &$term) {
       $term->image = get_field('banner_image', 'story_'.$term->term_id);
     }
 
-    $response = $photosPage ? $terms : new \WP_REST_Response(array(
-      'stories' => $terms,
-      'hero' => get_field('stories_hero', 'options')
-    ));
-
-    return $response;
+    if($photosPage) {
+      return $terms;
+    }
+    else{
+      return new \WP_REST_Response(array(
+        'stories' => $terms,
+        'hero' => get_field('stories_hero', 'options')
+      ));
+    }
   }
 
   function getStory($request) {
@@ -271,6 +271,57 @@ function setup() {
     }
 
     return new \WP_REST_Response($query);
+  }
+
+  function getStoryMedia($request) {
+    $terms = getStoryTerms();
+    $currentTerm = false;
+    foreach ($terms as $term) {
+      if($term->slug === $request['slug']) {
+        $currentTerm = $term;
+        break;
+      }
+    }
+    if(!$currentTerm) {
+      return new \WP_REST_Response(array(
+        'media' => false
+      ));
+    }
+
+    $args = array(
+      'post_type' => 'attachment',
+      'post_status' => 'any',
+      'order' => 'ASC',
+      'orderby'   => 'meta_value_num',
+      'meta_key'  => 'wpmf_order',
+      'posts_per_page' => -1,
+      'tax_query' => array(
+        array(
+          'taxonomy' => 'wpmf-category',
+          'field' => 'slug',
+          'terms'    => $request['slug'],
+          'include_children' => true
+        ),
+      ),
+    );
+    $query = new \WP_Query($args);
+
+    formatGalleryImages($query->posts);
+
+    return new \WP_REST_Response(array(
+      'media' => $query->posts,
+      'term' => $currentTerm
+    ));
+  }
+
+  function getStoryTerms() {
+    $args = array(
+      'taxonomy' => 'story',
+      'orderby' => 'name',
+      'order' => 'ASC'
+    );
+    $query = new \WP_Term_Query($args);
+    return $query->get_terms();
   }
 
   function register_rest_routes() {
@@ -327,6 +378,12 @@ function setup() {
       'methods' => 'GET',
       'callback' => $n('getStory'),
       'permission_callback' => '__return_true'
-    ));    
+    ));
+
+    register_rest_route('hfm/v1', '/storymedia', array(
+      'methods' => 'GET',
+      'callback' => $n('getStoryMedia'),
+      'permission_callback' => '__return_true'
+    ));
   }
 }

@@ -13,7 +13,11 @@ const state = {
     posts: []
   },
   loaded: false,
-  currentStoryLoaded: false
+  currentStoryLoaded: false,
+  storyImages: {
+    media: [],
+    term: {}
+  }
 };
 
 // getters
@@ -22,7 +26,8 @@ const getters = {
   storiesLoaded: state => state.loaded,
   currentStoryLoaded: state => state.currentStoryLoaded,
   currentStory: state => state.currentStory,
-  storyHero: state => state.storyHero
+  storyHero: state => state.storyHero,
+  storyImages: state => state.storyImages
 };
 
 // actions
@@ -63,6 +68,24 @@ const actions = {
         }
       });
     });
+  },
+
+  getStoryImages({ commit }, payload) {
+    console.log(payload);
+    return new Promise((resolve, reject) => {
+      api.getStoryMedia({
+        slug: payload.slug
+      }, response => {
+        console.log('store getstory images', response);
+        if(response.media) {
+          commit(types.STORY_IMAGES, response);
+        }
+        else {
+          console.log('error 404 story store');
+          reject(response);
+        }
+      });
+    });
   }
 };
 
@@ -85,6 +108,14 @@ const mutations = {
     console.log('current story set', data);
     state.currentStory = {
       posts: data.posts,
+      term: data.term
+    };
+  },
+
+  [types.STORY_IMAGES](state, data) {
+    console.log('story images set', data);
+    state.storyImages = {
+      media: data.media,
       term: data.term
     };
   }
