@@ -28,6 +28,7 @@ const router = new Router({
       name: "Home",
       component: Home,
       alias: '/blog',
+      props: true,
       children: [
         {
           path: "p/:page"
@@ -38,6 +39,7 @@ const router = new Router({
       path: "/category/:category",
       name: "Category",
       component: Category,
+      props: true,
       children: [
         {
           path: "p/:page"
@@ -48,6 +50,7 @@ const router = new Router({
       path: "/tag/:tag",
       name: "Tag",
       component: Tag,
+      props: true,
       children: [
         {
           path: "p/:page"
@@ -58,6 +61,7 @@ const router = new Router({
       path: "/search/:search",
       name: "Search",
       component: Search,
+      props: true,
       children: [
         {
           path: "p/:page"
@@ -75,9 +79,10 @@ const router = new Router({
       component: Stories,
     },
     {
-      path: '/stories/:story',
+      path: '/stories/:storySlug',
       name: "Story",
-      component: Story, 
+      component: Story,
+      props: true
     },
     {
       path: "/photos",
@@ -92,11 +97,13 @@ const router = new Router({
           path: ":gallery",
           name: 'PhotosGallery',
           component: PhotosGallery,
+          props: true,
           children: [
             {
               path: ":idSlug",
               name: "PhotosSingle",
-              component: PhotosSingle
+              component: PhotosSingle,
+              props: true
             }
           ]
         }
@@ -106,18 +113,21 @@ const router = new Router({
       path: "/:year/:postSlug",
       name: "Post",
       component: Post,
+      props: true,
       children: [
         {
           path: ":idSlug",
           name: 'PostPhoto',
-          component: PostPhoto
+          component: PostPhoto,
+          props: true
         }
       ]
     },
     {
       path: "/:pageSlug",
       name: "Page",
-      component: Page
+      component: Page,
+      props: true
     }
   ],
   mode: "history",

@@ -57,13 +57,14 @@ export default {
     search: {
       default: ''
     },
-    title: ''
+    title: '',
+    page: ''
   },
 
   computed: {
     ...mapGetters(['recentPosts', 'recentPostsLoaded']),
     page: function() {
-      return this.$route.params.page ? parseInt(this.$route.params.page) : 1;
+      return this.page ? parseInt(this.page) : 1;
     },
     params: function() {
       let params = {

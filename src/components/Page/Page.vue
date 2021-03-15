@@ -39,8 +39,10 @@ export default {
     }
   },
 
+  props: ['pageSlug'],
+
   beforeMount() {
-    this.handleGetPost(this.$route.params.pageSlug);
+    this.handleGetPost(this.pageSlug);
   },
 
   beforeRouteUpdate(to, from, next) {

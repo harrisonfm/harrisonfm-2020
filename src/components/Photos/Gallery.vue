@@ -8,7 +8,7 @@
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
         <article v-for="photo in gallery.gallery" :style="parseBackground(photo)" class="bg-cover bg-gray-500">
           <router-link :to="{
-            name: 'PhotosPhoto',
+            name: 'Photos',
             params: { idSlug: photo.ID + '-' + photo.name }
           }" class="" >
             <div class="title">{{ photo.title }}</div>
@@ -28,7 +28,7 @@
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
         <article v-for="photo in storyImages.media" :style="parseStoryBackground(photo.images)" class="bg-cover bg-gray-500">
           <router-link :to="{
-            name: 'PhotosPhoto',
+            name: 'Photos',
             params: { idSlug: photo.ID + '-' + photo.post_name }
           }" class="" >
             <div class="title">{{ photo.post_title }}</div>
@@ -71,7 +71,7 @@ export default {
       return this.post.acf && this.post.acf.highlighted_genres ? this.post.acf.highlighted_genres : [];
     },
     gallery: function() {
-      let slug = this.$route.params.gallery;
+      let slug = this.gallerySlug;
       for (const [idx, el] of this.genres.entries()) {
         if(slug === el.title.toLowerCase().replace(' ','-')) {
           return el;
@@ -79,11 +79,12 @@ export default {
       }
     }
   },
+  props: ['gallerySlug'],
 
   beforeMount() {
     this.handleGetPost('photos');
     this.getStoryImages({
-      slug: this.$route.params.gallery
+      slug: this.gallerySlug
     }).then(response => {
       console.log('story images resolves', response);
     }, error => {

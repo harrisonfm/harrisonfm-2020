@@ -80,8 +80,11 @@ export default {
     })
   },
 
+  props: ['idSlug'],
+
   beforeMount() {
-    this.ID = this.parseIDSlug(this.$route.params.idSlug);
+    console.log(this.idSlug);
+    this.ID = this.parseIDSlug(idSlug);
     this.getPhoto();
   },
 
@@ -122,7 +125,7 @@ export default {
           if(this.ID === el.ID) {
             console.log('getphoto from gallery', el);
             this.setPhoto(el);
-            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug)});
+            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+idSlug)});
             this.setGallery({ gallery, idx });
             this.setSlideshow({ toggleSlideshow: false });
             break;
@@ -132,20 +135,20 @@ export default {
       else {
         this.getSinglePhoto({
           ID: this.ID, 
-          liked: this.$cookies.isKey("hfm-liked-"+this.$route.params.idSlug)
+          liked: this.$cookies.isKey("hfm-liked-"+idSlug)
         });
       }
     },
     refreshPhoto: function() {
-      this.ID = this.parseIDSlug(this.$route.params.idSlug); 
+      this.ID = this.parseIDSlug(idSlug); 
       this.getPhoto();
     },
     like: function() {
       if(this.liked) {
-        this.$cookies.remove("hfm-liked-"+this.$route.params.idSlug);
+        this.$cookies.remove("hfm-liked-"+idSlug);
       }
       else {
-        this.$cookies.set("hfm-liked-"+this.$route.params.idSlug,'',"7d");
+        this.$cookies.set("hfm-liked-"+idSlug,'',"7d");
       }
       store.dispatch('like', {
         photo: this.photo, 

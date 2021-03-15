@@ -70,8 +70,10 @@ export default {
     })
   },
 
+  props: ['postSlug'],
+
   beforeMount() {
-    this.handleGetPost(this.$route.params.postSlug);
+    this.handleGetPost(this.postSlug);
   },
 
   beforeRouteUpdate(to, from, next) {
@@ -108,7 +110,7 @@ export default {
       }, error => {
         console.log('post component errors', this.post, error);
         this.$_error('ErrorPage', {
-          route: this.$route.params.postSlug
+          route: this.postSlug
         });
       });
     }

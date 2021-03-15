@@ -21,9 +21,10 @@ import meta from '~/meta';
 
 export default {
   mixins: [postsPageMixin],
+  props: ['story'],
   beforeMount: function() {
     this.getStory({
-      slug: this.$route.params.story
+      slug: storySlug
     });
   },
   beforeRouteUpdate(to, from, next) {

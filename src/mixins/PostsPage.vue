@@ -7,27 +7,28 @@ export default {
   components: {
     RecentPostsWidget, Hero
   },
+  props: ['page', 'category', 'tag', 'search'],
   computed: {
     ...mapGetters(['maxPages']),
     pageString: function() {
       let lead = '';
-      const paged = `Page ${this.$route.params.page} of ${this.maxPages}`;
+      const paged = `Page ${this.page} of ${this.maxPages}`;
 
-      if(this.$route.params.category) {
-        lead = `Category: ${this.$route.params.category }`;
+      if(this.category) {
+        lead = `Category: ${this.category }`;
       }
-      if(this.$route.params.tag) {
-        lead = `Tagged: ${this.$route.params.tag }`;
+      if(this.tag) {
+        lead = `Tagged: ${this.tag }`;
       }
-      if(this.$route.params.search) {
-        lead = `Search: ${this.$route.params.search }`;
+      if(this.search) {
+        lead = `Search: ${this.search }`;
       }
 
       if(!lead) {
-        return this.$route.params.page && this.maxPages ? paged : ''
+        return this.page && this.maxPages ? paged : ''
       }
       else {
-        return this.$route.params.page && this.maxPages ? lead + ' | ' + paged : lead;
+        return this.page && this.maxPages ? lead + ' | ' + paged : lead;
       }
     }
   },
