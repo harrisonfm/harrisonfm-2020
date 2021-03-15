@@ -10,10 +10,11 @@ import Search from "~/components/Search.vue";
 import ErrorPage from "~/components/Page/ErrorPage.vue";
 import Post from "~/components/Post/Post.vue";
 import Page from "~/components/Page/Page.vue";
-import Photo from "~/components/Photo/Photo.vue";
-import PhotosPage from "~/components/PhotosPage.vue";
-import PhotosHome from "~/components/PhotosPage/Home.vue";
-import PhotosGallery from "~/components/PhotosPage/Gallery.vue";
+import PostPhoto from "~/components/Post/Photo.vue";
+import Photos from "~/components/Photos.vue";
+import PhotosHome from "~/components/Photos/Home.vue";
+import PhotosGallery from "~/components/Photos/Gallery.vue";
+import PhotosSingle from "~/components/Photos/Photo.vue";
 
 import Stories from "~/components/Stories.vue";
 import Story from "~/components/Story/Story.vue";
@@ -63,11 +64,11 @@ const router = new Router({
         }
       ]
     },
-    {
-      path: "/photo/:idSlug",
-      name: "PhotoViewer",
-      component: Photo
-    },
+    // {
+    //   path: "/photo/:idSlug",
+    //   name: "PhotoViewer",
+    //   component: Photo
+    // },
     {
       path: "/stories",
       name: "Stories",
@@ -80,11 +81,11 @@ const router = new Router({
     },
     {
       path: "/photos",
-      component: PhotosPage,
+      component: Photos,
       children: [
         {
           path: "/",
-          name: 'PhotoHome',
+          name: 'PhotosHome',
           component: PhotosHome
         },
         {
@@ -94,8 +95,8 @@ const router = new Router({
           children: [
             {
               path: ":idSlug",
-              name: "PhotosDetail",
-              component: Photo
+              name: "PhotosSingle",
+              component: PhotosSingle
             }
           ]
         }
@@ -107,9 +108,9 @@ const router = new Router({
       component: Post,
       children: [
         {
-          path: "photo/:idSlug",
-          name: 'Photo',
-          component: Photo
+          path: ":idSlug",
+          name: 'PostPhoto',
+          component: PostPhoto
         }
       ]
     },
@@ -125,8 +126,8 @@ const router = new Router({
   // Prevents window from scrolling back to top
   // when navigating between components/views
   scrollBehavior(to, from, savedPosition) {
-    if(to.name === "Photo" || 
-      (to.name === "Post" && from.name === "Photo")) {
+    if(to.name === "PostPhoto" || 
+      (to.name === "Post" && from.name === "PostPhoto")) {
       return false;
     }
     if (savedPosition) {
@@ -148,10 +149,10 @@ router.afterEach((to, from) => {
     );
   }
 
-  if(to.name === "Photo") {
+  if(to.name === "PostPhoto") {
     body.classList.add('overflow-hidden');
   }
-  else if(from.name === "Photo") {
+  else if(from.name === "PostPhoto") {
     body.classList.remove('overflow-hidden'); 
   }
 

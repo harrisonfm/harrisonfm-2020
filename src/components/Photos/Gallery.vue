@@ -8,7 +8,7 @@
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
         <article v-for="photo in gallery.gallery" :style="parseBackground(photo)" class="bg-cover bg-gray-500">
           <router-link :to="{
-            name: 'PhotosDetail',
+            name: 'PhotosPhoto',
             params: { idSlug: photo.ID + '-' + photo.name }
           }" class="" >
             <div class="title">{{ photo.title }}</div>
@@ -17,6 +17,7 @@
         </article>
       </div>
     </div>
+    <router-view />
   </div>
   <div v-else-if="storyImages">
     <div class="mx-auto max-w-8xl py-2 px-4">
@@ -27,7 +28,7 @@
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
         <article v-for="photo in storyImages.media" :style="parseStoryBackground(photo.images)" class="bg-cover bg-gray-500">
           <router-link :to="{
-            name: 'PhotosDetail',
+            name: 'PhotosPhoto',
             params: { idSlug: photo.ID + '-' + photo.post_name }
           }" class="" >
             <div class="title">{{ photo.post_title }}</div>
@@ -36,6 +37,7 @@
         </article>
       </div>
     </div>
+    <router-view />
   </div>
   <Loader v-else />
 </template>

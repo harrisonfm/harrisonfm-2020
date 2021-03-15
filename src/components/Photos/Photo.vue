@@ -1,6 +1,5 @@
 <template>
-  <div class="photo-modal"
-    tabindex="0"
+  <div class="photo-modal" tabindex="0"
     @keyup.right="goToNextPhoto"
     @keyup.left="goToPrevPhoto"
     @keyup.up="back"
