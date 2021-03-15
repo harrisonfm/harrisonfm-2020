@@ -41,7 +41,8 @@
               </div>
             </article>
           </div>
-        </div>        
+        </div>
+        <router-view @back="back" @next="goToNextPhoto" @prev="goToNextPhoto" />
       </div>
       <div v-else>
         <div class="flex flex-wrap items-center mb-4">
@@ -50,7 +51,6 @@
         <div class="post h-40"></div>
       </div>
     </div>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -113,7 +113,26 @@ export default {
           route: this.postSlug
         });
       });
-    }
+    },
+    back: function() {
+      router.push({
+        name: 'Post',
+        params: { slug: this.post.slug }
+      });
+    },
+    goToNextPhoto: function(idSlug) {
+      console.log(idSlug);
+      router.push({
+        name: 'PostPhoto',
+        params: { idSlug: idSlug }
+      });
+    },
+    goToPrevPhoto: function(idSlug) {
+      router.push({
+        name: 'PostPhoto',
+        params: { idSlug: idSlug }
+      });
+    },
   },
 
   metaInfo () {

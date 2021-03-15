@@ -1,34 +1,14 @@
 <template>
-  <div v-if="gallery">
+  <div v-if="genreGallery">
     <div class="mx-auto max-w-8xl py-2 px-4">
       <div class="flex flex-wrap items-center mb-4">
-        <h1 class="leading-none mb-0">{{ gallery.title }}</h1>
+        <h1 class="leading-none mb-0">{{ genreGallery.title }}</h1>
       </div>
-      <div class="post" v-html="gallery.description"></div>
+      <div class="post" v-html="genreGallery.description"></div>
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
-        <article v-for="photo in gallery.gallery" :style="parseBackground(photo)" class="bg-cover bg-gray-500">
+        <article v-for="photo in genreGallery.gallery" :style="parseBackground(photo.images)" class="bg-cover bg-gray-500">
           <router-link :to="{
-            name: 'Photos',
-            params: { idSlug: photo.ID + '-' + photo.name }
-          }" class="" >
-            <div class="title">{{ photo.title }}</div>
-            <div class="overlay "></div>
-          </router-link>
-        </article>
-      </div>
-    </div>
-    <router-view />
-  </div>
-  <div v-else-if="storyImages">
-    <div class="mx-auto max-w-8xl py-2 px-4">
-      <div class="flex flex-wrap items-center mb-4">
-        <h1 class="leading-none mb-0">{{ storyImages.term.name }}</h1>
-      </div>
-      <div class="post" v-html="storyImages.term.description"></div>
-      <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
-        <article v-for="photo in storyImages.media" :style="parseStoryBackground(photo.images)" class="bg-cover bg-gray-500">
-          <router-link :to="{
-            name: 'Photos',
+            name: 'PhotosSingle',
             params: { idSlug: photo.ID + '-' + photo.post_name }
           }" class="" >
             <div class="title">{{ photo.post_title }}</div>
@@ -37,7 +17,27 @@
         </article>
       </div>
     </div>
-    <router-view />
+    <router-view @back="back" @next="goToNextPhoto" @prev="goToNextPhoto" />
+  </div>
+  <div v-else-if="storyImages">
+    <div class="mx-auto max-w-8xl py-2 px-4">
+      <div class="flex flex-wrap items-center mb-4">
+        <h1 class="leading-none mb-0">{{ storyImages.term.name }}</h1>
+      </div>
+      <div class="post" v-html="storyImages.term.description"></div>
+      <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
+        <article v-for="photo in storyImages.media" :style="parseBackground(photo.images)" class="bg-cover bg-gray-500">
+          <router-link :to="{
+            name: 'PhotosSingle',
+            params: { idSlug: photo.ID + '-' + photo.post_name }
+          }" class="" >
+            <div class="title">{{ photo.post_title }}</div>
+            <div class="overlay "></div>
+          </router-link>
+        </article>
+      </div>
+    </div>
+    <router-view @back="back" @next="goToNextPhoto" @prev="goToNextPhoto" />
   </div>
   <Loader v-else />
 </template>
@@ -60,20 +60,25 @@ article .placeholder {
 import Loader from '~/components/partials/Loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import meta from '~/meta';
+import router from '~/router';
 
 export default {
   computed: {
     ...mapGetters({
       post: 'currentPost',
-      storyImages: 'storyImages'
+      storyImages: 'storyImages',
+      gallery: 'gallery'
     }),
     genres: function() {
       return this.post.acf && this.post.acf.highlighted_genres ? this.post.acf.highlighted_genres : [];
     },
-    gallery: function() {
+    genreGallery: function() {
       let slug = this.gallerySlug;
+      console.log(this.genres, this.gallerySlug);
       for (const [idx, el] of this.genres.entries()) {
         if(slug === el.title.toLowerCase().replace(' ','-')) {
+          this.setGallery(el);
+          console.log(this.gallery);
           return el;
         }
       }
@@ -83,19 +88,22 @@ export default {
 
   beforeMount() {
     this.handleGetPost('photos');
-    this.getStoryImages({
-      slug: this.gallerySlug
-    }).then(response => {
-      console.log('story images resolves', response);
-    }, error => {
-      console.log('story images errors', this.page, error);
-    });
+    if(!this.genreGallery) {
+      this.getStoryImages({
+        slug: this.gallerySlug
+      }).then(response => {
+        console.log('story images resolves', response);
+      }, error => {
+        console.log('story images errors', this.page, error);
+      });
+    }
   },
 
   methods: {
     ...mapActions(['getPage', 'getStoryImages']),
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
+      'setGallery' : 'GALLERY',
     }),
     handleGetPost(slug) {
       this.getPage({
@@ -111,13 +119,26 @@ export default {
     },
     parseBackground(image) {
       if(image) {
-        return 'background-image: url('+image.url+')';  
-      }
-    },
-    parseStoryBackground(image) {
-      if(image) {
         return 'background-image: url('+image.full+')';  
       }
+    },
+    back: function() {
+      router.push({
+        name: 'PhotosGallery',
+        params: { gallery: this.gallerySlug }
+      });
+    },
+    goToNextPhoto: function(idSlug) {
+      router.push({
+        name: 'PhotosSingle',
+        params: { idSlug: idSlug }
+      });
+    },
+    goToPrevPhoto: function(idSlug) {
+      router.push({
+        name: 'PhotosSingle',
+        params: { idSlug: idSlug }
+      });
     },
   },
 

@@ -14,7 +14,7 @@ import PostPhoto from "~/components/Post/Photo.vue";
 import Photos from "~/components/Photos.vue";
 import PhotosHome from "~/components/Photos/Home.vue";
 import PhotosGallery from "~/components/Photos/Gallery.vue";
-import PhotosSingle from "~/components/Photos/Photo.vue";
+import PhotosSingle from "~/components/Post/Photo.vue";
 
 import Stories from "~/components/Stories.vue";
 import Story from "~/components/Story/Story.vue";
@@ -94,7 +94,7 @@ const router = new Router({
           component: PhotosHome
         },
         {
-          path: ":gallery",
+          path: ":gallerySlug",
           name: 'PhotosGallery',
           component: PhotosGallery,
           props: true,

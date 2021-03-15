@@ -84,7 +84,7 @@ export default {
 
   beforeMount() {
     console.log(this.idSlug);
-    this.ID = this.parseIDSlug(idSlug);
+    this.ID = this.parseIDSlug(this.idSlug);
     this.getPhoto();
   },
 
@@ -95,9 +95,7 @@ export default {
 
   watch: {
     '$route': 'refreshPhoto',
-    'currentPost': function() {
-      this.getPhoto();
-    }
+    'gallery': 'getPhoto'
   },
 
   methods: {
@@ -108,47 +106,43 @@ export default {
       'setPhoto': 'PHOTO',
       'setSlideshow': 'PHOTO_SLIDESHOW',
       'setGalleryInfo': 'GALLERY_INFO',
-      'setGallery' : 'GALLERY',
+      'setGalleryIndex' : 'GALLERY_INDEX',
       'setLiked': 'LIKED'
     }),
     parseIDSlug: function(idSlug) {
       return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
     },
     getPhoto: function() {
-      if(this.currentPost.loading) {
-        return;
-      }
-      
-      if(this.currentPost.gallery) {
-        let gallery = this.currentPost.gallery;
-        for (const [idx, el] of gallery.entries()) {
+      console.log('getphoto', this.ID, this.gallery);
+      if(this.gallery) {
+        for (const [idx, el] of this.gallery.entries()) {
           if(this.ID === el.ID) {
             console.log('getphoto from gallery', el);
             this.setPhoto(el);
-            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+idSlug)});
-            this.setGallery({ gallery, idx });
+            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)});
+            this.setGalleryIndex({ idx });
             this.setSlideshow({ toggleSlideshow: false });
             break;
           }
         }
       }
-      else {
-        this.getSinglePhoto({
-          ID: this.ID, 
-          liked: this.$cookies.isKey("hfm-liked-"+idSlug)
-        });
-      }
+      // else {
+      //   this.getSinglePhoto({
+      //     ID: this.ID, 
+      //     liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)
+      //   });
+      // }
     },
     refreshPhoto: function() {
-      this.ID = this.parseIDSlug(idSlug); 
+      this.ID = this.parseIDSlug(this.idSlug); 
       this.getPhoto();
     },
     like: function() {
       if(this.liked) {
-        this.$cookies.remove("hfm-liked-"+idSlug);
+        this.$cookies.remove("hfm-liked-"+this.idSlug);
       }
       else {
-        this.$cookies.set("hfm-liked-"+idSlug,'',"7d");
+        this.$cookies.set("hfm-liked-"+this.idSlug,'',"7d");
       }
       store.dispatch('like', {
         photo: this.photo, 
@@ -160,22 +154,13 @@ export default {
       this.setSlideshow({toggleSlideshow: true});
     },
     goToNextPhoto: function() {
-      router.push({
-        name: 'PostPhoto',
-        params: { idSlug: this.nextPhoto.ID + '-' + this.nextPhoto.post_name }
-      });
+      this.$emit('next', this.nextPhoto.ID + '-' + this.nextPhoto.post_name);
     },
     goToPrevPhoto: function() {
-      router.push({
-        name: 'PostPhoto',
-        params: { idSlug: this.prevPhoto.ID + '-' + this.prevPhoto.post_name }
-      });
+      this.$emit('prev', this.prevPhoto.ID + '-' + this.prevPhoto.post_name);
     },
     back: function() {
-      router.push({
-        name: 'Post',
-        params: { slug: this.currentPost.slug }
-      });
+      this.$emit('back');
     },
     handleImageLoad: function() {
       let photoBox = document.getElementsByClassName('photo-box')[0];

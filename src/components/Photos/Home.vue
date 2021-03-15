@@ -10,7 +10,7 @@
         <article v-for="genre in genres" :style="parseBackground(genre.image)" class="bg-cover bg-gray-500">
           <router-link :to="{
             name: 'PhotosGallery',
-            params: { gallery: genre.title.toLowerCase().replace(' ','-') }
+            params: { gallerySlug: genre.title.toLowerCase().replace(' ','-') }
           }">
             <div class="title">{{ genre.title }}</div>
             <div class="overlay "></div>
@@ -22,7 +22,7 @@
         <article v-for="story in stories" :style="parseBackground(story.image)" class="bg-cover bg-gray-500">
           <router-link :to="{
             name: 'PhotosGallery',
-            params: { gallery: story.slug }
+            params: { gallerySlug: story.slug }
           }">
             <div class="title">{{ story.name }}</div>
             <div class="overlay "></div>

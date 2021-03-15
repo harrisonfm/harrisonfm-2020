@@ -1,6 +1,6 @@
 <template>
   <div class="page page--tag">
-    <recent-posts-widget :tag="tag" :title="pageString" />
+    <posts :tag="tag" :title="pageString" :page="page" />
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <script>
-import RecentPostsWidget from '~/components/widgets/RecentPosts.vue'
+import Posts from '~/components/widgets/Posts.vue'
 import Hero from '~/components/partials/Hero.vue'
 import meta from '~/meta'
 import { mapGetters } from 'vuex'
 export default {
   components: {
-    RecentPostsWidget, Hero
+    Posts, Hero
   },
   props: ['page', 'category', 'tag', 'search'],
   computed: {

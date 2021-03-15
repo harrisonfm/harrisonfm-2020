@@ -1,8 +1,8 @@
 <template>
-  <div class="widget recent-posts p-4 bg-white">
+  <div class="posts-container p-4 bg-white">
     <h3 class="leading-none mb-4" v-if="title">{{ title }}</h3>
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2" v-if="recentPostsLoaded">
-      <article v-for="post in recentPosts" :key="post.id" :style="parseBackground(post)">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2" v-if="postsLoaded">
+      <article v-for="post in posts" :key="post.id" :style="parseBackground(post)">
         <router-link :to="post.link" class="" >
           <div class="title">{{ post.post_title }}</div>
           <div class="overlay "></div>
@@ -10,7 +10,7 @@
       </article>
       <div class="pagination">
         <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
-        <router-link :to="pageLink.next" v-if="recentPosts.length >= 8" class="ml-auto">Next</router-link>
+        <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto">Next</router-link>
       </div>
     </div>
     <div v-else>
@@ -58,18 +58,17 @@ export default {
       default: ''
     },
     title: '',
-    page: ''
+    page: {
+      default: 1
+    }
   },
 
   computed: {
-    ...mapGetters(['recentPosts', 'recentPostsLoaded']),
-    page: function() {
-      return this.page ? parseInt(this.page) : 1;
-    },
+    ...mapGetters(['posts', 'postsLoaded']),
     params: function() {
       let params = {
         per_page: this.limit,
-        page: this.page ? this.page : 1,
+        page: this.page,
       };
       if(this.category) {
         params.category = this.category;
@@ -118,6 +117,7 @@ export default {
 
   beforeMount() {
     this.getPosts(this.params);
+    console.log(this.page, this.$route.params.page);
   },
 
   watch: {

@@ -1,6 +1,6 @@
 <template>
   <div class="page page--search">
-    <recent-posts-widget :search="search" :title="pageString" />
+    <posts :search="search" :title="pageString" :page="page" />
   </div>
 </template>
 

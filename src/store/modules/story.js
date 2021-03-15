@@ -1,5 +1,6 @@
 import api from "~/api";
 import * as types from "../mutation-types";
+import store from '~/store';
 
 // initial state
 const state = {
@@ -61,6 +62,7 @@ const actions = {
           }
           commit(types.STORY_CURRENT, response);
           commit(types.STORY_CURRENT_LOADED, true);
+          resolve(response);
         }
         else {
           console.log('error 404 story store');
@@ -79,6 +81,7 @@ const actions = {
         console.log('store getstory images', response);
         if(response.media) {
           commit(types.STORY_IMAGES, response);
+          resolve(response);
         }
         else {
           console.log('error 404 story store');
@@ -118,6 +121,7 @@ const mutations = {
       media: data.media,
       term: data.term
     };
+    store.state.post.gallery = data.media;
   }
 };
 

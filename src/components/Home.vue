@@ -1,7 +1,7 @@
 <template>
   <div class="page page--home">
     <hero :title="'HarrisonFM was here'" :img="hero" />
-    <recent-posts-widget class="xxl:rounded xxl:shadow xxl:-my-16" :title="pageString" />
+    <posts class="xxl:rounded xxl:shadow xxl:-my-16" :title="pageString" :page="page" />
   </div>
 </template>
 

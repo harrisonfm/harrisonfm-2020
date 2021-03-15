@@ -1,6 +1,7 @@
 import api from "~/api";
 import * as types from "../mutation-types";
 import router from '~/router';
+import store from '~/store';
 
 // slideshow off always / turn on with button click on photo component
 // does the state of the gallery need to be here too?
@@ -10,7 +11,6 @@ const state = {
   photo: false,
   liked: false,
   likes: 0,
-	gallery: {},
 	galleryIndex: 0,
   galleryInfo: true,
   slideshow: false,
@@ -24,7 +24,6 @@ const getters = {
   slideshow: state => state.slideshow,
   prevPhoto: state => state.prevPhoto,
   nextPhoto: state => state.nextPhoto,
-  gallery: state => state.gallery,
   galleryInfo: state => state.galleryInfo,
   galleryIndex: state => state.galleryIndex,
   likes: state => state.likes,
@@ -76,12 +75,12 @@ const mutations = {
 		}
 	},
 
-  [types.GALLERY](state, payload) {
-    state.gallery = payload.gallery;
+  [types.GALLERY_INDEX](state, payload) {
+    const gallery = store.getters.gallery;
     state.galleryIndex = payload.idx;
     
-    state.prevPhoto = payload.idx > 0 ? payload.gallery[payload.idx - 1] : payload.gallery[payload.gallery.length - 1];
-    state.nextPhoto = payload.idx < payload.gallery.length - 1 ? payload.gallery[payload.idx + 1] : payload.gallery[0];
+    state.prevPhoto = payload.idx > 0 ? gallery[payload.idx - 1] : gallery[gallery.length - 1];
+    state.nextPhoto = payload.idx < gallery.length - 1 ? gallery[payload.idx + 1] : gallery[0];
   },
 
   [types.GALLERY_INFO](state) {

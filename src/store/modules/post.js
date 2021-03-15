@@ -3,7 +3,7 @@ import * as types from "../mutation-types";
 
 // initial state
 const state = {
-  recent: [],
+  posts: [],
   maxPages: 0,
   loaded: false,
   currentPost: {
@@ -11,18 +11,17 @@ const state = {
     acf: {},
     categories: [{}],
     loading: true
-  }
+  },
+  gallery: []
 };
 
 // getters
 const getters = {
-  recentPosts: state => state.recent,
-
+  posts: state => state.posts,
   maxPages: state => state.maxPages,
-
-  recentPostsLoaded: state => state.loaded,
-
-  currentPost: state => state.currentPost
+  postsLoaded: state => state.loaded,
+  currentPost: state => state.currentPost,
+  gallery: state => state.gallery
 };
 
 // actions
@@ -55,7 +54,7 @@ const actions = {
 
   getPost({ commit, getters }, payload) {
     return new Promise((resolve, reject) => {
-      for (const [idx, el] of getters.recentPosts.entries()) {
+      for (const [idx, el] of getters.posts.entries()) {
         if(payload.slug === el.post_name) {
           console.log('getpost from memory', el);
           commit(types.POST_CURRENT, el);
@@ -81,7 +80,7 @@ const actions = {
 // mutations
 const mutations = {
   [types.STORE_FETCHED_POSTS](state, data) {
-    state.recent = data.posts;
+    state.posts = data.posts;
     state.maxPages = data.max_num_pages;
   },
 
@@ -92,7 +91,13 @@ const mutations = {
   [types.POST_CURRENT](state, post) {
     console.log('current post set', post);
     state.currentPost = post;
-  }
+    state.gallery = post.gallery;
+  },
+
+  [types.GALLERY](state, gallery) {
+    console.log('genre gallery set', gallery);
+    state.gallery = gallery.gallery;
+  },
 };
 
 export default {

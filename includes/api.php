@@ -134,6 +134,12 @@ function setup() {
       unset($post->acf['gallery']);
     }
 
+    if(isset($post->acf['highlighted_genres'])) {
+      foreach($post->acf['highlighted_genres'] as &$genre) {
+        formatGalleryImages($genre['gallery'], true);
+      }
+    }
+
     $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
 
     $post->categories = array();
@@ -199,11 +205,14 @@ function setup() {
     }
   }
 
-  function formatGalleryImages(&$galleryItems) {
+  function formatGalleryImages(&$galleryItems, $getPost = false) {
     $imageSizes = wp_get_registered_image_subsizes();
     $imageSizes['full'] = 'full';
 
-    foreach($galleryItems as $galleryItem) {
+    foreach($galleryItems as &$galleryItem) {
+      if($getPost) {
+        $galleryItem = get_post($galleryItem);
+      }
       $likes = get_field('likes', $galleryItem->ID);
       $galleryItem->likes = $likes ? $likes : 0;
       $galleryItem->images = array();
