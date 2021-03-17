@@ -103,6 +103,13 @@ export default {
     this.getPhoto();
   },
 
+  beforeRouteLeave: function(to,from,next) {
+    if(this.slideshow) {
+      this.toggleSlideshow();
+    }
+    next();
+  },
+
   mounted() {
     this.$el.focus();
     this.$el.style.opacity = 1;
@@ -174,16 +181,22 @@ export default {
         params: { slug: this.routes.parentSlug }
       });
     },
-    goToNextPhoto: function(idSlug) {
-      router.replace({
-        name: this.routes.photo,
-        params: { idSlug: this.nextPhoto.ID + '-' + this.nextPhoto.post_name }
-      });
+    goToNextPhoto: function() {
+      if(this.slideshow) {
+        this.toggleSlideshow();
+      }
+      this.routeToPhoto(this.nextPhoto);
     },
-    goToPrevPhoto: function(idSlug) {
+    goToPrevPhoto: function() {
+      if(this.slideshow) {
+        this.toggleSlideshow();
+      }
+      this.routeToPhoto(this.prevPhoto);
+    },
+    routeToPhoto: function(photo) {
       router.replace({
         name: this.routes.photo,
-        params: { idSlug: this.prevPhoto.ID + '-' + this.prevPhoto.post_name }
+        params: { idSlug: photo.ID + '-' + photo.post_name }
       });
     },
     handleImageLoad: function() {
@@ -194,7 +207,7 @@ export default {
     handleSlideShow: function() {
       if(this.slideshow) {
         this.activeSlide = setTimeout(function(that) {
-          that.$emit('next', that.nextPhoto.ID + '-' + that.nextPhoto.post_name);
+          that.routeToPhoto(that.nextPhoto);
         }, 5000, this);
       }
       else {
