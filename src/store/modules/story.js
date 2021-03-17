@@ -14,11 +14,7 @@ const state = {
     posts: []
   },
   loaded: false,
-  currentStoryLoaded: false,
-  storyImages: {
-    media: [],
-    term: {}
-  }
+  currentStoryLoaded: false
 };
 
 // getters
@@ -27,8 +23,7 @@ const getters = {
   storiesLoaded: state => state.loaded,
   currentStoryLoaded: state => state.currentStoryLoaded,
   currentStory: state => state.currentStory,
-  storyHero: state => state.storyHero,
-  storyImages: state => state.storyImages
+  storyHero: state => state.storyHero
 };
 
 // actions
@@ -116,12 +111,12 @@ const mutations = {
   },
 
   [types.STORY_IMAGES](state, data) {
-    console.log('story images set', data);
-    state.storyImages = {
-      media: data.media,
-      term: data.term
+    console.log('story images set as gallery', data);
+    store.state.post.gallery = {
+      images: data.media,
+      title: data.term_name,
+      description: data.term_description
     };
-    store.state.post.gallery = data.media;
   }
 };
 

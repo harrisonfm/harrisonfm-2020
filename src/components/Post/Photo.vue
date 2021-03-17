@@ -59,9 +59,7 @@ nav > svg {
 <script>
 import Loader from "~/components/partials/Loader.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import SETTINGS from "~/settings";
 import store from '~/store';
-import router from '~/router';
 import meta from '~/meta';
 
 export default {
@@ -115,13 +113,12 @@ export default {
     getPhoto: function() {
       console.log('getphoto', this.ID, this.gallery);
       if(this.gallery) {
-        for (const [idx, el] of this.gallery.entries()) {
+        for (const [idx, el] of this.gallery.images.entries()) {
           if(this.ID === el.ID) {
             console.log('getphoto from gallery', el);
             this.setPhoto(el);
             this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)});
             this.setGalleryIndex({ idx });
-            this.setSlideshow({ toggleSlideshow: false });
             break;
           }
         }
@@ -151,7 +148,8 @@ export default {
       this.setLiked({liked: !this.liked});
     },
     toggleSlideshow: function() {
-      this.setSlideshow({toggleSlideshow: true});
+      this.setSlideshow();
+      this.handleSlideShow();
     },
     goToNextPhoto: function() {
       this.$emit('next', this.nextPhoto.ID + '-' + this.nextPhoto.post_name);
@@ -165,6 +163,18 @@ export default {
     handleImageLoad: function() {
       let photoBox = document.getElementsByClassName('photo-box')[0];
       photoBox.style.opacity = 1;
+      this.handleSlideShow();
+    },
+    handleSlideShow: function() {
+      if(this.slideshow) {
+        this.activeSlide = setTimeout(function(that) {
+          that.$emit('next', that.nextPhoto.ID + '-' + that.nextPhoto.post_name);
+        }, 5000, this);
+      }
+      else {
+        clearTimeout(this.activeSlide);
+      }
+      console.log(this.slideshow, 'slideshow update');
     }
   },
 

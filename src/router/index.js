@@ -137,7 +137,7 @@ const router = new Router({
   // when navigating between components/views
   scrollBehavior(to, from, savedPosition) {
     if(to.name === "PostPhoto" || 
-      (to.name === "Post" && from.name === "PostPhoto")) {
+      ((to.name === "Post" || to.name === "PhotosGallery") && from.name === "PostPhoto")) {
       return false;
     }
     if (savedPosition) {

@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-4 auto-rows-fr md:grid-cols-2 xl:grid-cols-3">
-    <div v-for="photo in gallery" class="flex items-center justify-center" >
-      <router-link :to="{
+    <div v-for="photo in gallery.images" class="flex items-center justify-center" >
+      <router-link replace :to="{
           name: 'PostPhoto',
           params: { idSlug: photo.ID + '-' + photo.post_name }
         }">
@@ -12,8 +12,6 @@
 </template>
 <script>
 export default {
-  props: {
-    gallery: Array
-  }
+  props: ['gallery']
 };
 </script>

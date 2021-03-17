@@ -15,7 +15,7 @@ span {
   export default {
     data() {
       return {
-        Bolt: '/wp-content/themes/hfm-2020-theme/dist/'+Bolt
+        Bolt: Bolt
       };
     }
   }

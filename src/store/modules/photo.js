@@ -1,6 +1,5 @@
 import api from "~/api";
 import * as types from "../mutation-types";
-import router from '~/router';
 import store from '~/store';
 
 // slideshow off always / turn on with button click on photo component
@@ -54,29 +53,12 @@ const mutations = {
     state.photo.likes = parseInt(photo.likes);
     state.likes = state.photo.likes;
   },
-	[types.PHOTO_SLIDESHOW](state, payload) {
-		if(payload.toggleSlideshow) {
-			if(state.slideshow) {
-				clearTimeout(state.slideshow);
-				state.slideshow = false;
-				return;
-			}
-			else {
-				state.slideshow = true;
-			}
-		}
-		if(state.slideshow) {
-	    state.slideshow = setTimeout(function(nextPhoto) {
-	      router.push({
-	        name: 'Photo',
-	        params: { idSlug: nextPhoto.id + '-' + nextPhoto.name }
-	      });
-	    }, 1000, state.nextPhoto);
-		}
+	[types.PHOTO_SLIDESHOW](state) {
+    state.slideshow = !state.slideshow;
 	},
 
   [types.GALLERY_INDEX](state, payload) {
-    const gallery = store.getters.gallery;
+    const gallery = store.getters.gallery.images;
     state.galleryIndex = payload.idx;
     
     state.prevPhoto = payload.idx > 0 ? gallery[payload.idx - 1] : gallery[gallery.length - 1];

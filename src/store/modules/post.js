@@ -12,7 +12,7 @@ const state = {
     categories: [{}],
     loading: true
   },
-  gallery: []
+  gallery: {}
 };
 
 // getters
@@ -91,12 +91,16 @@ const mutations = {
   [types.POST_CURRENT](state, post) {
     console.log('current post set', post);
     state.currentPost = post;
-    state.gallery = post.gallery;
+    if(post) {
+      state.gallery.images = post.gallery;
+    } else {
+      state.gallery = {};
+    }
   },
 
   [types.GALLERY](state, gallery) {
     console.log('genre gallery set', gallery);
-    state.gallery = gallery.gallery;
+    state.gallery = gallery;
   },
 };
 
