@@ -134,10 +134,11 @@ function setup() {
       unset($post->acf['gallery']);
     }
 
-    if(isset($post->acf['highlighted_genres'])) {
-      foreach($post->acf['highlighted_genres'] as &$genre) {
+    if(isset($post->acf['genres'])) {
+      foreach($post->acf['genres'] as &$genre) {
         formatGalleryImages($genre['gallery'], true);
       }
+      $post->genres = $post->acf['genres'];
     }
 
     $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));

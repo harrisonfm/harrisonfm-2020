@@ -17,7 +17,7 @@
         </article>
       </div>
     </div>
-    <router-view @back="back" @next="goToNextPhoto" @prev="goToNextPhoto" />
+    <router-view />
   </div>
   <Loader v-else />
 </template>
@@ -40,17 +40,13 @@ article .placeholder {
 import Loader from '~/components/partials/Loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import meta from '~/meta';
-import router from '~/router';
 
 export default {
   computed: {
     ...mapGetters({
       post: 'currentPost',
       gallery: 'gallery'
-    }),
-    genres: function() {
-      return this.post.acf && this.post.acf.highlighted_genres ? this.post.acf.highlighted_genres : [];
-    }
+    })
   },
   props: ['gallerySlug'],
 
@@ -94,9 +90,8 @@ export default {
       });
     },
     setGenreGallery: function() {
-      for (const [idx, el] of this.genres.entries()) {
+      for (const [idx, el] of this.post.genres.entries()) {
         if(this.gallerySlug === el.title.toLowerCase().replace(' ','-')) {
-          console.log(el);
           this.setGallery({
             images: el.gallery,
             title: el.title,
@@ -109,25 +104,7 @@ export default {
       if(image) {
         return 'background-image: url('+image.full+')';  
       }
-    },
-    back: function() {
-      router.replace({
-        name: 'PhotosGallery',
-        params: { gallery: this.gallerySlug }
-      });
-    },
-    goToNextPhoto: function(idSlug) {
-      router.replace({
-        name: 'PhotosSingle',
-        params: { idSlug: idSlug }
-      });
-    },
-    goToPrevPhoto: function(idSlug) {
-      router.replace({
-        name: 'PhotosSingle',
-        params: { idSlug: idSlug }
-      });
-    },
+    }
   },
 
   components: {

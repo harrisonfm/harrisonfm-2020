@@ -61,6 +61,7 @@ import Loader from "~/components/partials/Loader.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import store from '~/store';
 import meta from '~/meta';
+import router from '~/router';
 
 export default {
   computed: {
@@ -75,13 +76,29 @@ export default {
       galleryIndex: 'galleryIndex',
       likes: 'likes',
       liked: 'liked',
-    })
+    }),
+    routes: function() {
+      if(this.postSlug) {
+        return {
+          parent: 'Post',
+          parentSlug: this.postSlug,
+          photo: 'PostPhoto'
+        }
+      }
+      else if(this.gallerySlug) {
+        return {
+          parent: 'PhotosGallery',
+          parentSlug: this.gallerySlug,
+          photo: 'PhotosSingle'
+        }
+      }
+    }
   },
 
-  props: ['idSlug'],
+  props: ['idSlug', 'postSlug', 'gallerySlug'],
 
   beforeMount() {
-    console.log(this.idSlug);
+    console.log(this.postSlug, this.gallerySlug);
     this.ID = this.parseIDSlug(this.idSlug);
     this.getPhoto();
   },
@@ -151,14 +168,23 @@ export default {
       this.setSlideshow();
       this.handleSlideShow();
     },
-    goToNextPhoto: function() {
-      this.$emit('next', this.nextPhoto.ID + '-' + this.nextPhoto.post_name);
-    },
-    goToPrevPhoto: function() {
-      this.$emit('prev', this.prevPhoto.ID + '-' + this.prevPhoto.post_name);
-    },
     back: function() {
-      this.$emit('back');
+      router.replace({
+        name: this.routes.parent,
+        params: { slug: this.routes.parentSlug }
+      });
+    },
+    goToNextPhoto: function(idSlug) {
+      router.replace({
+        name: this.routes.photo,
+        params: { idSlug: this.nextPhoto.ID + '-' + this.nextPhoto.post_name }
+      });
+    },
+    goToPrevPhoto: function(idSlug) {
+      router.replace({
+        name: this.routes.photo,
+        params: { idSlug: this.prevPhoto.ID + '-' + this.prevPhoto.post_name }
+      });
     },
     handleImageLoad: function() {
       let photoBox = document.getElementsByClassName('photo-box')[0];
@@ -174,7 +200,6 @@ export default {
       else {
         clearTimeout(this.activeSlide);
       }
-      console.log(this.slideshow, 'slideshow update');
     }
   },
 

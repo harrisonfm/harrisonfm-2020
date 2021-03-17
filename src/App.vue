@@ -7,7 +7,7 @@
     </transition>
 
     <transition name="page-transition" mode="out-in" appear>
-      <div class="site-content relative" :class="{'mx-auto max-w-8xl' : !isFullScreen}">
+      <div class="site-content relative" :class="{'mx-auto max-w-8xl' : !fullScreen}">
         <app-view></app-view>
       </div>
     </transition>
@@ -34,9 +34,8 @@ export default {
       loadingProgress: 'loadingProgress',
     }),
 
-    isFullScreen: function() {
-      console.log(this.$route);
-      return this.$route.name === 'PhotosPage' ? true : false;
+    fullScreen: function() {
+      return (this.$route.name === 'PhotosHome' || this.$route.name === 'PhotosGallery') ? true : false;
     },
 
     loaderStyle() {

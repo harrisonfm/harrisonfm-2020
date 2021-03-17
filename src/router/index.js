@@ -68,11 +68,6 @@ const router = new Router({
         }
       ]
     },
-    // {
-    //   path: "/photo/:idSlug",
-    //   name: "PhotoViewer",
-    //   component: Photo
-    // },
     {
       path: "/stories",
       name: "Stories",

@@ -7,7 +7,7 @@
       <div class="post" v-html="post.post_content"></div>
       <h1 class="">Highlighted Genres</h1>
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
-        <article v-for="genre in genres" :style="parseBackground(genre.image)" class="bg-cover bg-gray-500">
+        <article v-for="genre in post.genres" :style="parseBackground(genre.image)" class="bg-cover bg-gray-500">
           <router-link :to="{
             name: 'PhotosGallery',
             params: { gallerySlug: genre.title.toLowerCase().replace(' ','-') }
@@ -58,9 +58,6 @@ export default {
     ...mapGetters({
       post: 'currentPost'
     }),
-    genres: function() {
-      return this.post.acf && this.post.acf.highlighted_genres ? this.post.acf.highlighted_genres : [];
-    },
     stories: function() {
       return this.post.stories ? this.post.stories : [];
     },

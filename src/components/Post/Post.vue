@@ -42,7 +42,7 @@
             </article>
           </div>
         </div>
-        <router-view @back="back" @next="goToNextPhoto" @prev="goToNextPhoto" />
+        <router-view />
       </div>
       <div v-else>
         <div class="flex flex-wrap items-center mb-4">
@@ -59,7 +59,6 @@ import Loader from "../partials/Loader.vue";
 import Gallery from "./Gallery.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import SETTINGS from "~/settings";
-import router from '~/router';
 import meta from '~/meta';
 import Hero from '../partials/Hero.vue'
 
@@ -113,25 +112,6 @@ export default {
         this.$_error('ErrorPage', {
           route: this.postSlug
         });
-      });
-    },
-    back: function() {
-      router.replace({
-        name: 'Post',
-        params: { slug: this.post.slug }
-      });
-    },
-    goToNextPhoto: function(idSlug) {
-      console.log(idSlug);
-      router.replace({
-        name: 'PostPhoto',
-        params: { idSlug: idSlug }
-      });
-    },
-    goToPrevPhoto: function(idSlug) {
-      router.replace({
-        name: 'PostPhoto',
-        params: { idSlug: idSlug }
       });
     },
   },

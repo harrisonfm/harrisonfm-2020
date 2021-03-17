@@ -7,7 +7,7 @@
           <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
         </div>
         <div class="post" v-html="post.post_content"></div>
-        <WebProjects v-if="projects.length" :projects="projects" /> 
+        <WebProjects v-if="pageSlug === 'web'" :projects="projects" /> 
       </div>
     </div>
     <Loader v-else />
