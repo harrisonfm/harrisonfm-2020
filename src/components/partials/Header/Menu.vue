@@ -1,20 +1,23 @@
 <template>
-	<nav v-if="menu" class="flex justify-end items-center bg-white w-full uppercase font-bold">
+	<nav v-if="menu">
     <transition name="mobile-menu-slide">
   		<ul class="header-menu-top" v-if="(showMobileMenu && isMobile) || !isMobile">
   			<MenuItem v-for="item in menu.items" :key="`menu_item_${item.ID}`" :item="item" :showMobileMenu="showMobileMenu" :isMobile="isMobile" class="header-menu-item" />
         <li class="flex items-center bg-white">
-          <font-awesome-icon :icon="['fas', 'search']" class="text-2xl cursor-pointer transition-colors duration-150 hover:text-blue-500 hidden sm:flex" :class="{'text-blue-500' : showSearch}" @click="$emit('toggle-search')" />
+          <font-awesome-icon :icon="['fas', 'search']" class="hidden sm:flex" :class="{'text-blue-500' : showSearch}" @click="$emit('toggle-search')" />
           <SearchForm class="sm:hidden" />
         </li>
   		</ul>
     </transition>
-    <i class="py-5 pl-5 text-2xl cursor-pointer transition-colors duration-150 hover:text-blue-500 sm:hidden">
-      <font-awesome-icon :icon="showMobileMenu ? ['fas', 'times'] : ['fas', 'bars']" class="" @click="toggleMobileMenu" />
+    <i class="py-5 pl-5 sm:hidden" @click="toggleMobileMenu" >
+      <font-awesome-icon :icon="['fas', showMobileMenu ? 'times' : 'bars']" />
     </i>
 	</nav>
 </template>
 <style scoped>
+  nav {
+    @apply flex justify-end items-center bg-white w-full uppercase font-bold;
+  }
   .header-menu-top {
     @apply flex flex-col absolute bg-white top-full right-0 border-l-2 border-b-2 border-gray-600 z-neg sm:flex-row sm:static sm:border-0 sm:z-0
   }
@@ -26,6 +29,9 @@
   }
   .mobile-menu-slide-leave-active {
     animation: mobile-menu-slide-in .25s reverse;
+  }
+  svg {
+    @apply text-2xl cursor-pointer transition-colors duration-150 hover:text-blue-500;
   }
   @keyframes mobile-menu-slide-in {
     0% {

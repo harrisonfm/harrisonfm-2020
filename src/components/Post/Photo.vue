@@ -8,29 +8,38 @@
     @keyup.space="toggleSlideshow">
     <template v-if="photo">
       <div class="controls">
-        <font-awesome-icon :icon="['fas', 'compress-alt']" @click="back"/>
-        <font-awesome-icon :icon="['fas', 'info-circle']" class="hidden mt-4 lg:block" :class="{ 'text-blue-500': galleryInfo }" @click="setGalleryInfo"/>
-      </div>
-      <div :key="photo.ID" class="photo-box">
-        <img v-if="photo.images" :src="photo.images.full" class="max-h-full m-auto" @load="handleImageLoad" />
-      </div>
-      <div class="w-full text-center px-4 my-4" :class="{'lg:hidden' : !galleryInfo}">
-        <h2 class="leading-none">{{ photo.post_title }}</h2>
-        <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
-      </div>
-      <nav :class="{'lg:hidden' : !galleryInfo}">
-        <font-awesome-icon :icon="['fas', 'chevron-circle-left']" v-if="prevPhoto" @click="goToPrevPhoto"/>
-        <div class="text-4xl mx-auto" >
-          <div v-if="nextPhoto" class="inline">
-            <font-awesome-icon :icon="['fas', 'play']" v-if="!slideshow" class="cursor-pointer" @click="toggleSlideshow"/>
-            <font-awesome-icon :icon="['fas', 'pause']" v-if="slideshow" class="cursor-pointer" @click="toggleSlideshow"/>
-          </div>
-          <font-awesome-layers full-width class="cursor-pointer" :class="{ 'text-red-600': liked }" @click="like">
+        <i @click="back">
+          <font-awesome-icon :icon="['fas', 'compress-alt']" />
+        </i>
+        <i @click="setGalleryInfo" class="hidden lg:block">
+          <font-awesome-icon :icon="['fas', 'info-circle']" :class="{'text-blue-500': galleryInfo}" />
+        </i>
+        <i @click="toggleSlideshow">
+          <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" class="cursor-pointer" />
+        </i>
+        <i @click="like">
+          <font-awesome-layers full-width class="cursor-pointer" :class="{'text-red-600': liked}" >
             <font-awesome-icon :icon="['fas', 'heart']" />
             <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
           </font-awesome-layers>
+        </i>
+      </div>
+      <div class="photo-box" :class="{'pb-4': galleryInfo}">
+        <img :src="photo.images.full" class="max-h-full m-auto" @load="handleImageLoad" />
+      </div>
+      <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
+        <h2 class="leading-none">{{ photo.post_title }}</h2>
+        <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
+      </div>
+      <nav :class="{'infoOff' : !galleryInfo}">
+        <!-- <font-awesome-icon :icon="['fas', 'chevron-circle-left']" v-if="prevPhoto" @click="goToPrevPhoto"/> -->
+        <img :src="prevPhoto.images.thumbnail" v-if="prevPhoto" @click="goToPrevPhoto" alt="previous photo" />
+        <div class="text-center hidden sm:block" >
+          <h2 class="leading-none">{{ photo.post_title }}</h2>
+          <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
         </div>
-        <font-awesome-icon :icon="['fas', 'chevron-circle-right']" v-if="nextPhoto" @click="goToNextPhoto"/>
+        <!-- <font-awesome-icon :icon="['fas', 'chevron-circle-right']" v-if="nextPhoto" @click="goToNextPhoto"/> -->
+        <img :src="nextPhoto.images.thumbnail" v-if="nextPhoto" @click="goToNextPhoto" alt="next photo" />
       </nav>
     </template>
     <Loader v-else/>
@@ -38,22 +47,31 @@
 </template>
 <style scoped>
 .photo-modal {
-  @apply fixed inset-0 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 bg-white z-30 opacity-0;
+  @apply fixed inset-0 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 bg-white z-30 opacity-0 font-open;
 }
 .controls {
-  @apply absolute flex flex-col items-center top-1 right-1 p-1 text-4xl;
+  @apply absolute flex flex-col items-center py-3 right-0 top-0 text-3xl rounded bg-white bg-opacity-25 transition-none z-10;
 }
-.controls svg {
-  @apply rounded bg-white bg-opacity-25 cursor-pointer;
+.controls > * {
+  @apply cursor-pointer py-1 px-4 leading-none;
+}
+.controls i:not(:first-of-type) {
+  @apply mt-3;
 }
 .photo-box {
-  @apply overflow-auto mt-auto transition-opacity duration-1000 lg:my-auto opacity-0;
+  @apply w-screen overflow-auto mt-auto transition-opacity duration-1000 lg:my-auto opacity-0;
 }
 nav {
-  @apply relative w-full flex items-center mt-auto p-4 bg-gray-100 xs:mb-4 xs:rounded-lg xs:shadow xs:max-w-md
+  @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow;
+}
+nav.infoOff {
+  @apply lg:hidden;
 }
 nav > svg {
   @apply text-4xl xs:ml-0 cursor-pointer;
+}
+nav img {
+  height: 75px;
 }
 </style>
 <script>
