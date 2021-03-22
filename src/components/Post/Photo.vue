@@ -7,38 +7,37 @@
     @keyup.esc="back"
     @keyup.space="toggleSlideshow">
     <template v-if="photo">
-      <div class="controls">
+      <div class="controls" v-if="galleryInfo">
         <i @click="back">
           <font-awesome-icon :icon="['fas', 'compress-alt']" />
         </i>
-        <i @click="setGalleryInfo" class="hidden lg:block">
+        <i @click="setGalleryInfo">
           <font-awesome-icon :icon="['fas', 'info-circle']" :class="{'text-blue-500': galleryInfo}" />
         </i>
         <i @click="toggleSlideshow">
           <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" class="cursor-pointer" />
         </i>
         <i @click="like">
-          <font-awesome-layers full-width class="cursor-pointer" :class="{'text-red-600': liked}" >
+          <font-awesome-layers full-width class="cursor-pointer not-italic" :class="{'text-red-600': liked}" >
             <font-awesome-icon :icon="['fas', 'heart']" />
             <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
           </font-awesome-layers>
         </i>
       </div>
-      <div class="photo-box" :class="{'pb-4': galleryInfo}">
+      <div class="controls-mini" v-if="!galleryInfo" @click="setGalleryInfo" />
+      <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}">
         <img :src="photo.images.full" class="max-h-full m-auto" @load="handleImageLoad" />
       </div>
       <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
-        <h2 class="leading-none">{{ photo.post_title }}</h2>
+        <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
         <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
       </div>
-      <nav :class="{'infoOff' : !galleryInfo}">
-        <!-- <font-awesome-icon :icon="['fas', 'chevron-circle-left']" v-if="prevPhoto" @click="goToPrevPhoto"/> -->
+      <nav v-if="galleryInfo">
         <img :src="prevPhoto.images.thumbnail" v-if="prevPhoto" @click="goToPrevPhoto" alt="previous photo" />
-        <div class="text-center hidden sm:block" >
-          <h2 class="leading-none">{{ photo.post_title }}</h2>
+        <div class="text-center px-4 hidden sm:block" >
+          <h2 class="leading-none text-2xl lg:text-4xl">{{ photo.post_title }}</h2>
           <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
         </div>
-        <!-- <font-awesome-icon :icon="['fas', 'chevron-circle-right']" v-if="nextPhoto" @click="goToNextPhoto"/> -->
         <img :src="nextPhoto.images.thumbnail" v-if="nextPhoto" @click="goToNextPhoto" alt="next photo" />
       </nav>
     </template>
@@ -50,22 +49,30 @@
   @apply fixed inset-0 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 bg-white z-30 opacity-0 font-open;
 }
 .controls {
-  @apply absolute flex flex-col items-center py-3 right-0 top-0 text-3xl rounded bg-white bg-opacity-25 transition-none z-10;
+  @apply absolute flex flex-col items-center py-3 px-2 right-0 top-0 text-xl rounded-bl-lg bg-white bg-opacity-25 transition-none z-10 md:text-3xl;
 }
 .controls > * {
-  @apply cursor-pointer py-1 px-4 leading-none;
+  @apply cursor-pointer py-1 px-2 leading-none;
 }
 .controls i:not(:first-of-type) {
   @apply mt-3;
+}
+.controls-mini {
+  @apply absolute right-0 top-0 bg-gray-300 opacity-50 w-4 h-24 cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg text-white;
 }
 .photo-box {
   @apply w-screen overflow-auto mt-auto transition-opacity duration-1000 lg:my-auto opacity-0;
 }
 nav {
-  @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow;
+  @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow xxl:w-4/5;
+  @media(max-height: 500px) {
+    margin-bottom: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
 nav.infoOff {
-  @apply lg:hidden;
+  @apply hidden;
 }
 nav > svg {
   @apply text-4xl xs:ml-0 cursor-pointer;

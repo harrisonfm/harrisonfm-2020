@@ -52,6 +52,14 @@
       ...mapGetters(['headerMenu'])
     },
 
+    watch: {
+      '$route': function() {
+        if(this.showSearch) {
+          this.showSearch = false;
+        }
+      }
+    },
+
     methods: {
       ...mapActions(['getHeader']),
       toggleSearch: function(setSearch) {

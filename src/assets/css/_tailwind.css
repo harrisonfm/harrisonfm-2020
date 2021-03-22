@@ -31,6 +31,14 @@ h4 {
   @apply mb-5;
 }
 
+.post a {
+  text-decoration: underline;
+  transition: color .25s;
+}
+.post a:hover, .post a:active {
+  @apply text-blue-700;
+}
+
 .liked {
 	color: red;
 }
