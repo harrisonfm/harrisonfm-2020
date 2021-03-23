@@ -44,7 +44,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['posts', 'postsLoaded']),
+    ...mapGetters(['posts', 'postsLoaded', 'maxPages']),
     params: function() {
       let params = {
         per_page: this.limit,
@@ -92,10 +92,10 @@ export default {
       }
 
       if(!lead) {
-        return this.page && this.maxPages ? paged : ''
+        return this.page && this.maxPages > 1 ? paged : ''
       }
       else {
-        return this.page && this.maxPages ? lead + ' | ' + paged : lead;
+        return this.page && this.maxPages > 1 ? lead + ' | ' + paged : lead;
       }
     }
   },

@@ -10,7 +10,6 @@ import PostPhoto from "~/components/Post/Photo.vue";
 import Photos from "~/components/Photos.vue";
 import PhotosHome from "~/components/Photos/Home.vue";
 import PhotosGallery from "~/components/Photos/Gallery.vue";
-import PhotosSingle from "~/components/Post/Photo.vue";
 import PostsPage from "~/components/PostsPage.vue";
 
 import Stories from "~/components/Stories.vue";
@@ -18,21 +17,20 @@ import Story from "~/components/Story/Story.vue";
 
 Vue.use(Router);
 
+const paged = [{ path: "p/:page" }];
+
 const router = new Router({
   routes: [
     {
       path: "/",
+      name: 'Home',
       component: PostsPage,
       alias: '/blog',
       props: route => ({
         page: route.params.page,
-        type: 'home'
+        type: 'home',
       }),
-      children: [
-        {
-          path: "p/:page"
-        }
-      ]
+      children: paged
     },
     {
       path: "/category/:category",
@@ -43,11 +41,7 @@ const router = new Router({
         type: 'category',
         slug: route.params.category
       }),
-      children: [
-        {
-          path: "p/:page"
-        }
-      ]
+      children: paged
     },
     {
       path: "/tag/:tag",
@@ -58,11 +52,7 @@ const router = new Router({
         type: 'tag',
         slug: route.params.tag
       }),
-      children: [
-        {
-          path: "p/:page"
-        }
-      ]
+      children: paged
     },
     {
       path: "/search/:search",
@@ -73,11 +63,7 @@ const router = new Router({
         type: 'search',
         slug: route.params.search
       }),
-      children: [
-        {
-          path: "p/:page"
-        }
-      ]
+      children: paged
     },
     {
       path: "/stories",
@@ -108,7 +94,7 @@ const router = new Router({
             {
               path: ":idSlug",
               name: "PhotosSingle",
-              component: PhotosSingle,
+              component: PostPhoto,
               props: true
             }
           ]
