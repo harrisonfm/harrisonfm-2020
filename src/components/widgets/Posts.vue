@@ -2,7 +2,7 @@
   <div class="posts-container p-4 bg-white">
     <h3 class="leading-none mb-4" v-if="title">{{ title }}</h3>
     <div class="grid gap-4 grid-cols-1 md:grid-cols-2" v-if="postsLoaded">
-      <article v-for="post in posts" :key="post.id" :style="parseBackground(post)">
+      <article v-for="post in posts" :key="post.id" :style="parseBackground(post)" class="overlay-article jiggle-on-hover">
         <router-link :to="post.link" class="" >
           <div class="title">{{ post.post_title }}</div>
           <div class="overlay "></div>
@@ -21,18 +21,6 @@
   </div>
 </template>
 <style scoped>
-article {
-  @apply bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500 shadow transform transition-transform duration-200 shadow hover:-translate-y-px;
-}
-article .title {
-  @apply text-white font-bold text-2xl z-10 p-2 text-center
-}
-article .overlay {
-  @apply absolute inset-0 bg-black opacity-5 hover:opacity-15 transition-opacity duration-200 z-0
-}
-article .placeholder {
-  @apply animate-pulse h-article md:h-articleMD bg-gray-500
-}
 .pagination {
   @apply w-full flex md:col-span-2
 }

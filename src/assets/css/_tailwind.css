@@ -2,7 +2,9 @@
 @tailwind components;
 
 /* Begin tailwind customizations */
-
+body {
+  @apply font-open;
+}
 h1,
 h2,
 h3,
@@ -32,8 +34,7 @@ h4 {
 }
 
 .post a {
-  text-decoration: underline;
-  transition: color .25s;
+  @apply underline transition-colors duration-150;
 }
 .post a:hover, .post a:active {
   @apply text-blue-700;
@@ -45,6 +46,22 @@ h4 {
 
 .loader .progress-bar {
   @apply bg-teal-500;
+}
+
+.jiggle-on-hover {
+  @apply transform transition-transform duration-200 hover:-translate-y-px;
+}
+.overlay-article {
+  @apply bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500 shadow;
+}
+.overlay-article .title {
+  @apply text-white font-bold text-2xl z-10 p-2 text-center
+}
+.overlay-article .overlay {
+  @apply absolute inset-0 bg-black opacity-5 hover:opacity-15 transition-opacity duration-200 z-0
+}
+.overlay-article .placeholder {
+  @apply animate-pulse h-article md:h-articleMD bg-gray-500
 }
 
 @font-face {

@@ -6,7 +6,7 @@
       </div>
       <div class="post" v-html="gallery.description"></div>
       <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
-        <article v-for="photo in gallery.images" :style="parseBackground(photo.images)" class="bg-cover bg-gray-500">
+        <article v-for="photo in gallery.images" :style="parseBackground(photo.images)" class="overlay-article bg-cover bg-gray-500">
           <router-link replace :to="{
             name: 'PhotosSingle',
             params: { idSlug: photo.ID + '-' + photo.post_name }
@@ -22,20 +22,6 @@
   <Loader v-else />
 </template>
 
-<style scoped>
-article {
-  @apply bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500 shadow transform transition-transform duration-200 shadow hover:-translate-y-px;
-}
-article .title {
-  @apply text-white font-bold text-2xl z-10 p-2 text-center
-}
-article .overlay {
-  @apply absolute inset-0 bg-black opacity-5 hover:opacity-15 transition-opacity duration-200 z-0
-}
-article .placeholder {
-  @apply animate-pulse h-article md:h-articleMD bg-gray-500
-}
-</style>
 <script>
 import Loader from '~/components/partials/Loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'

@@ -5,7 +5,8 @@
     @keyup.up="back"
     @keyup.down="back"
     @keyup.esc="back"
-    @keyup.space="toggleSlideshow">
+    @keyup.space="toggleSlideshow"
+    @keyup.enter="setGalleryInfo">
     <template v-if="photo">
       <div class="controls" v-if="galleryInfo">
         <i @click="back">
