@@ -36,16 +36,8 @@ export default {
     limit: {
       default: 8
     },
-    category: {
-      default: ''
-    },
-    tag: {
-      default: ''
-    },
-    search: {
-      default: ''
-    },
-    title: '',
+    type: '',
+    slug: '',
     page: {
       default: 1
     }
@@ -58,28 +50,52 @@ export default {
         per_page: this.limit,
         page: this.page,
       };
-      if(this.category) {
-        params.category = this.category;
+      if(this.type === 'category') {
+        params.category = this.slug;
       }
-      else if(this.tag) {
-        params.tag = this.tag;
+      else if(this.type === 'tag') {
+        params.tag = this.slug;
       }
-      else if(this.search) {
-        params.search = this.search;
+      else if(this.type === 'search') {
+        params.search = this.slug;
       }
       return params;
     },
     pageLink: function() {
       let lead = '';
-      if(this.category) {
-        lead = '/category/'+this.category;
+      if(this.type === 'category') {
+        lead = '/category/'+this.slug;
       }
-      if(this.tag) {
-        lead = '/tag/'+this.tag;
+      else if(this.type === 'tag') {
+        lead = '/tag/'+this.slug;
+      }
+      else if(this.type === 'search') {
+        lead = '/search/'+this.slug;
       }
       return {
         prev: lead+(this.page <= 2 ? '/' : '/p/'+(this.page - 1)),
         next: lead+'/p/'+(this.page + 1)
+      }
+    },
+    title: function() {
+      let lead = '';
+      const paged = `Page ${this.page} of ${this.maxPages}`;
+
+      if(this.type === 'category') {
+        lead = `Category: ${this.slug }`;
+      }
+      else if(this.type === 'tag') {
+        lead = `Tagged: ${this.slug }`;
+      }
+      else if(this.type === 'search') {
+        lead = `Search: ${this.slug }`;
+      }
+
+      if(!lead) {
+        return this.page && this.maxPages ? paged : ''
+      }
+      else {
+        return this.page && this.maxPages ? lead + ' | ' + paged : lead;
       }
     }
   },
@@ -105,7 +121,6 @@ export default {
 
   beforeMount() {
     this.getPosts(this.params);
-    console.log(this.page, this.$route.params.page);
   },
 
   watch: {

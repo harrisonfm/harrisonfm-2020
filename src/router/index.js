@@ -3,10 +3,6 @@ import Vue from "vue";
 import Router from "vue-router";
 
 // Components
-import Home from "~/components/Home.vue";
-import Category from "~/components/Category.vue";
-import Tag from "~/components/Tag.vue";
-import Search from "~/components/Search.vue";
 import ErrorPage from "~/components/Page/ErrorPage.vue";
 import Post from "~/components/Post/Post.vue";
 import Page from "~/components/Page/Page.vue";
@@ -15,6 +11,7 @@ import Photos from "~/components/Photos.vue";
 import PhotosHome from "~/components/Photos/Home.vue";
 import PhotosGallery from "~/components/Photos/Gallery.vue";
 import PhotosSingle from "~/components/Post/Photo.vue";
+import PostsPage from "~/components/PostsPage.vue";
 
 import Stories from "~/components/Stories.vue";
 import Story from "~/components/Story/Story.vue";
@@ -25,10 +22,12 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "Home",
-      component: Home,
+      component: PostsPage,
       alias: '/blog',
-      props: true,
+      props: route => ({
+        page: route.params.page,
+        type: 'home'
+      }),
       children: [
         {
           path: "p/:page"
@@ -38,8 +37,12 @@ const router = new Router({
     {
       path: "/category/:category",
       name: "Category",
-      component: Category,
-      props: true,
+      component: PostsPage,
+      props: route => ({
+        page: route.params.page,
+        type: 'category',
+        slug: route.params.category
+      }),
       children: [
         {
           path: "p/:page"
@@ -49,8 +52,12 @@ const router = new Router({
     {
       path: "/tag/:tag",
       name: "Tag",
-      component: Tag,
-      props: true,
+      component: PostsPage,
+      props: route => ({
+        page: route.params.page,
+        type: 'tag',
+        slug: route.params.tag
+      }),
       children: [
         {
           path: "p/:page"
@@ -60,8 +67,12 @@ const router = new Router({
     {
       path: "/search/:search",
       name: "Search",
-      component: Search,
-      props: true,
+      component: PostsPage,
+      props: route => ({
+        page: route.params.page,
+        type: 'search',
+        slug: route.params.search
+      }),
       children: [
         {
           path: "p/:page"

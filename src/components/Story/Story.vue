@@ -15,12 +15,11 @@
   </div>
 </template>
 <script>
-import postsPageMixin from '~/mixins/PostsPage.vue'
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import meta from '~/meta';
+import Hero from '~/components/partials/Hero.vue'
 
 export default {
-  mixins: [postsPageMixin],
   props: ['storySlug'],
   beforeMount: function() {
     this.getStory({
@@ -56,6 +55,9 @@ export default {
   },
   metaInfo () {
     return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image.url, window.location.href);
+  },
+  components: {
+    Hero
   },
 };
 </script>

@@ -16,12 +16,11 @@
 </template>
 
 <script>
-import postsPageMixin from '~/mixins/PostsPage.vue'
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import meta from '~/meta';
+import Hero from '~/components/partials/Hero.vue'
 
 export default {
-  mixins: [postsPageMixin],
   beforeMount: function() {
     this.getStories();
   },
@@ -33,6 +32,9 @@ export default {
   },
   metaInfo () {
     return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.url, window.location.href)
+  },
+  components: {
+    Hero
   },
 };
 </script>
