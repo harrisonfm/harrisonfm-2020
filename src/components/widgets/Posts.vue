@@ -92,7 +92,7 @@ export default {
       }
 
       if(!lead) {
-        return this.page && this.maxPages > 1 ? paged : ''
+        return this.page > 1 && this.maxPages > 1 ? paged : ''
       }
       else {
         return this.page && this.maxPages > 1 ? lead + ' | ' + paged : lead;

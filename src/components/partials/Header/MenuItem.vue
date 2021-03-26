@@ -1,8 +1,8 @@
 <template>
-  <li v-if="item.child_items" @mouseover="!isMobile ? subMenuOn() : ''" @mouseleave="!isMobile ? subMenuOff() : ''" class="flex flex-col justify-end sm:justify-center sm:flex-row">
-    <div class="flex items-center justify-end">
+  <li v-if="item.child_items" class="flex flex-col justify-end sm:justify-center sm:flex-row">
+    <div class="flex items-center justify-end menu-parent" @click="toggleSubMenu" v-on-clickaway="subMenuOff">
       <router-link :to="getURLPath(item.url)" class="menu-link">{{ item.title }}</router-link>
-      <i class="menu-link-icon" @click="toggleSubMenu">
+      <i class="menu-link-icon">
         <font-awesome-icon class="transform duration-150 transition-transform" :class="{'rotate-180' : showSubMenu}" :icon="['fas', 'caret-down']" />
       </i>
     </div>
@@ -35,15 +35,16 @@
     @apply border-2 bg-gray-500 text-white w-full flex flex-col items-end;
   }
   .submenu-item {
-    @apply hover:bg-blue-500 focus:bg-blue-500 transition-colors duration-200 w-full text-right;
+    @apply hover:bg-blue-500 focus:bg-blue-500 transition-colors duration-200 w-full text-right sm:text-left;
   }
 </style>
 <script>
   import menuMixin from '~/mixins/Menu.vue'
+  import { mixin as clickaway } from 'vue-clickaway';
   
   export default {
     props: ['item', 'showMobileMenu', 'isMobile'],
-    mixins: [menuMixin],
+    mixins: [menuMixin, clickaway],
     data() {
       return {
         showSubMenu: false,
