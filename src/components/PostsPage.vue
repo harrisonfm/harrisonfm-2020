@@ -1,7 +1,7 @@
 <template>
   <div :class="`page page--${type}`">
     <hero :title="'HarrisonFM was here'" v-if="type === 'home'" :img="hero" />
-    <posts :class="{'post-container': type === 'home'}" :type="type" :slug="slug" :page="page ? parseInt(page) : page" />
+    <posts :class="{'hero-support': type === 'home'}" :type="type" :slug="slug" :page="page ? parseInt(page) : page" />
   </div>
 </template>
 <script>

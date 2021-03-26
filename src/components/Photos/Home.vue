@@ -1,31 +1,29 @@
 <template>
   <div v-if="post">
-    <div class="mx-auto max-w-8xl py-2 px-4">
-      <div class="flex flex-wrap items-center mb-4">
-        <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
-      </div>
-      <div class="post" v-html="post.post_content"></div>
+    <div class="photos-page">
+      <h1 class="leading-none mb-4">{{ post.post_title }}</h1>
+      <div class="post" v-html="post.post_content" />
       <h1 class="">Highlighted Genres</h1>
-      <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
-        <article v-for="genre in post.genres" :style="parseBackground(genre.image)" class="overlay-article bg-cover bg-gray-500">
+      <div class="photos-grid">
+        <article v-for="genre in post.genres" :style="parseBackground(genre.image)" class="overlay-article bg-cover bg-gray-500 jiggle-on-hover">
           <router-link :to="{
             name: 'PhotosGallery',
             params: { gallerySlug: genre.title.toLowerCase().replace(' ','-') }
           }">
             <div class="title">{{ genre.title }}</div>
-            <div class="overlay "></div>
+            <div class="overlay" />
           </router-link>
         </article>
       </div>
       <h1 class="">Stories</h1>
-      <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
-        <article v-for="story in stories" :style="parseBackground(story.image)" class="overlay-article bg-cover bg-gray-500">
+      <div class="photos-grid">
+        <article v-for="story in stories" :style="parseBackground(story.image)" class="overlay-article bg-cover bg-gray-500 jiggle-on-hover">
           <router-link :to="{
             name: 'PhotosGallery',
             params: { gallerySlug: story.slug }
           }">
             <div class="title">{{ story.name }}</div>
-            <div class="overlay "></div>
+            <div class="overlay" />
           </router-link>
         </article>
       </div>
@@ -33,6 +31,11 @@
   </div>
   <Loader v-else />
 </template>
+<style scoped>
+.photos-grid {
+  @apply w-full grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2
+}
+</style>
 <script>
 import Loader from '~/components/partials/Loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'

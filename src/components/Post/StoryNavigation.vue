@@ -1,8 +1,8 @@
 <template>
   <div class="mt-4">
     <h2 class="font-open font-bold text-xl mb-4">{{ storyName }}</h2>
-    <div v-if="story.prev || story.next" class="grid gap-4 grid-cols-1 md:grid-cols-2">
-      <div v-if="story.prev">
+    <div v-if="story.prev || story.next" class="post-story-container">
+      <div v-if="story.prev" class="post-story-item">
         <h3 class="story-dir">Previously</h3>
         <article :style="parseBackground(story.prev.featured.images)" class="overlay-article bg-cover bg-gray-500">
           <router-link :to="story.prev.link">
@@ -11,7 +11,7 @@
           </router-link>
         </article>
       </div>
-      <div v-if="story.next">
+      <div v-if="story.next" class="post-story-item">
         <h3 class="story-dir" :class="{'md:text-right': story.prev}">Next</h3>
         <article :style="parseBackground(story.next.featured.images)" class="overlay-article bg-cover bg-gray-500">
           <router-link :to="story.next.link">
@@ -26,6 +26,15 @@
 <style scoped>
 .story-dir {
   @apply mb-0 text-base;
+}
+.post-story-container {
+  @apply flex flex-col-reverse md:flex-row;
+}
+.post-story-item {
+  @apply w-full md:w-1/2;
+}
+.post-story-item:first-of-type {
+  @apply mt-2 md:mr-2 md:mt-0 lg:mr-4;
 }
 </style>
 <script>

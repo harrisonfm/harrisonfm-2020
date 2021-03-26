@@ -9,7 +9,7 @@
 </template>
 <style scoped>
 header {
-  @apply font-open relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-2 md:px-4 sticky -top-1 z-20;
+  @apply font-open relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-2 lg:px-4 sticky -top-1 z-20;
 }
 </style>
 

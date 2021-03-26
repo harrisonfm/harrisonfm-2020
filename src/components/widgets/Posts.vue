@@ -1,7 +1,7 @@
 <template>
-  <div class="posts-container p-4 bg-white">
+  <div class="post-container">
     <h3 class="leading-none mb-4" v-if="title">{{ title }}</h3>
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2" v-if="postsLoaded">
+    <div class="grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2" v-if="postsLoaded">
       <article v-for="post in posts" :key="post.id" :style="parseBackground(post)" class="overlay-article jiggle-on-hover">
         <router-link :to="post.link" class="" >
           <div class="title">{{ post.post_title }}</div>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div v-else>
-      <div class="grid gap-4 md:grid-cols-2 mb-4">
+      <div class="grid gap-2 lg:gap-4 md:grid-cols-2 mb-4">
         <article class="placeholder" v-for="n in limit" />
       </div>
     </div>

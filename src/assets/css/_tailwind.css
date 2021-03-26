@@ -29,7 +29,10 @@ h4 {
   @apply text-xl;
 }
 .post-container {
-  @apply p-2 md:px-4 bg-white xxl:rounded xxl:shadow xxl:-my-16
+ @apply p-2 lg:p-4 bg-white xxl:shadow;
+}
+.hero-support {
+  @apply xxl:rounded xxl:-my-16;
 }
 
 .post p {
@@ -43,10 +46,13 @@ h4 {
   @apply text-blue-700;
 }
 .post-gallery {
-  @apply xs:grid xs:gap-2 md:gap-4 xs:auto-rows-fr xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
+  @apply xs:grid xs:gap-2 lg:gap-4 xs:auto-rows-fr xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
 }
 .post-gallery > a {
   @apply block relative mb-4 xs:m-0
+}
+.photos-page {
+  @apply mx-auto max-w-8xl p-2 lg:px-4;
 }
 
 .liked {

@@ -1,9 +1,7 @@
 <template>
   <div v-if="gallery">
-    <div class="mx-auto max-w-8xl p-2 md:px-4">
-      <div class="flex flex-wrap items-center mb-4">
-        <h1 class="leading-none mb-0">{{ gallery.title }}</h1>
-      </div>
+    <div class="photos-page">
+      <h1 class="leading-none mb-4">{{ gallery.title }}</h1>
       <div class="post mb-4">
         <p>{{gallery.description}}</p>
       </div>
@@ -13,7 +11,7 @@
           params: { idSlug: photo.ID + '-' + photo.post_name }
         }">
           <img :src="photo.images.square_gallery" class="rounded shadow" />
-          <div class="overlay "></div>
+          <div class="overlay" />
         </router-link>
         </article>
       </div>

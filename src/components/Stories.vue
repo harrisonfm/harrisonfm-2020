@@ -1,7 +1,7 @@
 <template>
   <div class="page page--stories">
     <hero :title="'HFM Stories'" :img="storyHero.url" />
-    <div class="post-container" v-if="storiesLoaded">
+    <div class="post-container hero-support" v-if="storiesLoaded">
       <article class="story-article" v-for="story in stories" :key="story.term_id" >
         <router-link class="col-span-2" :to="'/stories/'+story.slug">
           <img class="w-full" :src="story.image.url" />

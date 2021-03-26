@@ -1,5 +1,5 @@
 <template>
-  <div class="search-form flex items-center bg-white"
+  <div class="search-form flex items-center bg-white" v-on-clickaway="exit"
     @keyup.enter="search"
     @keyup.esc="exit">
     <input ref="input" type="text" class="p-4 h-full w-full" placeholder="Search..." v-model="searchInput" />
@@ -22,8 +22,10 @@ input::placeholder {
 
 <script>
   import router from '~/router';
+  import { mixin as clickaway } from 'vue-clickaway';
 
   export default {
+    mixins: [clickaway],
     data() {
       return {
         searchInput: ''

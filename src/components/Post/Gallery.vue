@@ -5,7 +5,7 @@
         params: { idSlug: photo.ID + '-' + photo.post_name }
       }">
       <img :src="photo.images.square_gallery" class="rounded shadow" />
-      <div class="overlay"></div>
+      <div class="overlay" />
     </router-link>
   </div>
 </template>

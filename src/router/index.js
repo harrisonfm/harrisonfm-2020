@@ -6,7 +6,7 @@ import Router from "vue-router";
 import ErrorPage from "~/components/Page/ErrorPage.vue";
 import Post from "~/components/Post/Post.vue";
 import Page from "~/components/Page/Page.vue";
-import PostPhoto from "~/components/Post/Photo.vue";
+import Photo from "~/components/Photo.vue";
 import Photos from "~/components/Photos.vue";
 import PhotosHome from "~/components/Photos/Home.vue";
 import PhotosGallery from "~/components/Photos/Gallery.vue";
@@ -94,7 +94,7 @@ const router = new Router({
             {
               path: ":idSlug",
               name: "PhotosSingle",
-              component: PostPhoto,
+              component: Photo,
               props: true
             }
           ]
@@ -110,7 +110,7 @@ const router = new Router({
         {
           path: ":idSlug",
           name: 'PostPhoto',
-          component: PostPhoto,
+          component: Photo,
           props: true
         }
       ]

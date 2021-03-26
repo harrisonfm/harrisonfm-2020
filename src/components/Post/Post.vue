@@ -1,7 +1,7 @@
 <template>
   <div>
     <hero :img="parseFeatured()" />
-    <div class="post-container">
+    <div class="post-container hero-support">
       <div v-if="post.post_content"> 
         <div class="mb-8">
           <h1 class="leading-none">{{ post.post_title }}</h1>
@@ -14,10 +14,8 @@
         <router-view />
       </div>
       <div v-else>
-        <div class="flex flex-wrap items-center mb-4">
-          <h1 class="leading-none mb-0">{{ 'Loading..' }}</h1>
-        </div>
-        <div class="post h-40"></div>
+        <h1 class="leading-none mb-4">{{ 'Loading..' }}</h1>
+        <div class="post h-40" />
       </div>
     </div>
   </div>

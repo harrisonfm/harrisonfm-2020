@@ -1,7 +1,7 @@
 <template>
   <li v-if="item.child_items" class="flex flex-col justify-end sm:justify-center sm:flex-row">
-    <div class="flex items-center justify-end menu-parent" @click="toggleSubMenu" v-on-clickaway="subMenuOff">
-      <router-link :to="getURLPath(item.url)" class="menu-link">{{ item.title }}</router-link>
+    <div class="flex items-center justify-end" @click="toggleSubMenu" v-on-clickaway="subMenuOff">
+      <span class="menu-link cursor-pointer">{{ item.title }}</span>
       <i class="menu-link-icon">
         <font-awesome-icon class="transform duration-150 transition-transform" :class="{'rotate-180' : showSubMenu}" :icon="['fas', 'caret-down']" />
       </i>
@@ -40,7 +40,7 @@
 </style>
 <script>
   import menuMixin from '~/mixins/Menu.vue'
-  import { mixin as clickaway } from 'vue-clickaway';
+  import { mixin as clickaway } from 'vue-clickaway'
   
   export default {
     props: ['item', 'showMobileMenu', 'isMobile'],
