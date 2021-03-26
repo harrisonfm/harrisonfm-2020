@@ -41,4 +41,6 @@ function setup() {
   if( function_exists('acf_add_options_page')) {
     acf_add_options_page();
   }
+
+  add_image_size('square_gallery', 800, 800, true);
 }

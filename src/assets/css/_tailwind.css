@@ -28,6 +28,9 @@ h3 {
 h4 {
   @apply text-xl;
 }
+.post-container {
+  @apply p-2 md:px-4 bg-white xxl:rounded xxl:shadow xxl:-my-16
+}
 
 .post p {
   @apply mb-5;
@@ -38,6 +41,12 @@ h4 {
 }
 .post a:hover, .post a:active {
   @apply text-blue-700;
+}
+.post-gallery {
+  @apply xs:grid xs:gap-2 md:gap-4 xs:auto-rows-fr xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
+}
+.post-gallery > a {
+  @apply block relative mb-4 xs:m-0
 }
 
 .liked {
@@ -57,11 +66,28 @@ h4 {
 .overlay-article .title {
   @apply text-white font-bold text-2xl z-10 p-2 text-center
 }
-.overlay-article .overlay {
-  @apply absolute inset-0 bg-black opacity-5 hover:opacity-15 transition-opacity duration-200 z-0
-}
 .overlay-article .placeholder {
   @apply animate-pulse h-article md:h-articleMD bg-gray-500
+}
+.overlay {
+  @apply absolute inset-0 bg-black opacity-5 hover:opacity-15 transition-opacity duration-200 z-0
+}
+
+.slide-down-enter-active {
+  animation: slide-down-in .25s;
+}
+.slide-down-leave-active {
+  animation: slide-down-in .25s reverse;
+}
+@keyframes slide-down-in {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  100% {
+    top: 100%;
+    opacity: 1;
+  }
 }
 
 @font-face {

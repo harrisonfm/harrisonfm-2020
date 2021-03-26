@@ -1,52 +1,41 @@
 <template>
-  <li v-if="item.child_items" @mouseover="!isMobile ? subMenuOn() : ''" @mouseleave="!isMobile ? subMenuOff() : ''" class="block sm:flex sm:justify-center">
-    <div class="flex items-center">
-      <router-link :to="getURLPath(item.url)" class="hover:text-blue-800 block focus:text-blue-800 transition-colors duration-200 p-4 sm:p-0">
-        {{ item.title }}
-      </router-link>
-      <font-awesome-icon :icon="['fas', 'caret-down']" class="ml-2 text-3xl transition-transform transform inline duration-150 sm:hidden" :class="{'rotate-180' : showSubMenu}" @click="toggleSubMenu" />
+  <li v-if="item.child_items" @mouseover="!isMobile ? subMenuOn() : ''" @mouseleave="!isMobile ? subMenuOff() : ''" class="flex flex-col justify-end sm:justify-center sm:flex-row">
+    <div class="flex items-center justify-end">
+      <router-link :to="getURLPath(item.url)" class="menu-link">{{ item.title }}</router-link>
+      <i class="menu-link-icon" @click="toggleSubMenu">
+        <font-awesome-icon class="transform duration-150 transition-transform" :class="{'rotate-180' : showSubMenu}" :icon="['fas', 'caret-down']" />
+      </i>
     </div>
-    <transition name="story">
+    <transition name="slide-down">
       <ul v-if="showSubMenu" :class="isMobile ? 'header-submenu-mobile' : 'header-submenu'">
-        <li v-for="childItem in item.child_items" :key="`menu_item_${childItem.ID}`" class="hover:bg-blue-500 focus:bg-blue-500 transition-colors duration-150">
-          <router-link :to="getURLPath(childItem.url)" class="block py-4 px-4">
-            {{ childItem.title }}
-          </router-link>
+        <li v-for="childItem in item.child_items" :key="`menu_item_${childItem.ID}`" class="submenu-item">
+          <router-link :to="getURLPath(childItem.url)" class="block py-4 px-4">{{ childItem.title }}</router-link>
         </li>
       </ul>
     </transition>
   </li>
   <li v-else class="flex w-max">
-    <router-link :to="getURLPath(item.url)" class="hover:text-blue-800 focus:text-blue-800 transition-colors duration-200 p-4 sm:p-0">
-      {{ item.title }}
-    </router-link>
+    <router-link :to="getURLPath(item.url)" class="menu-link">{{ item.title }}</router-link>
   </li>
 </template>
 <style scoped>
-  .header-menu-top .router-link-active {
+  .router-link-active {
     font-weight: bolder;
+  }
+  .menu-link {
+    @apply block hover:text-blue-800 focus:text-blue-800 transition-colors duration-200 p-4 sm:p-0;
+  }
+  .menu-link-icon {
+    @apply ml-2 text-3xl inline pr-4 sm:hidden;
   }
   .header-submenu {
     @apply absolute top-full -right-1/2 border-2 border-t-0 bg-gray-500 text-white w-max z-neg;
   }
   .header-submenu-mobile {
-    @apply border-2 bg-gray-500 text-white w-full
+    @apply border-2 bg-gray-500 text-white w-full flex flex-col items-end;
   }
-  .story-enter-active {
-    animation: story-in .25s;
-  }
-  .story-leave-active {
-    animation: story-in .25s reverse;
-  }
-  @keyframes story-in {
-    0% {
-      top: 0;
-      opacity: 0;
-    }
-    100% {
-      top: 90%;
-      opacity: 1;
-    }
+  .submenu-item {
+    @apply hover:bg-blue-500 focus:bg-blue-500 transition-colors duration-200 w-full text-right;
   }
 </style>
 <script>

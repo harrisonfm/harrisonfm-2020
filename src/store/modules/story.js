@@ -114,8 +114,8 @@ const mutations = {
     console.log('story images set as gallery', data);
     store.state.post.gallery = {
       images: data.media,
-      title: data.term_name,
-      description: data.term_description
+      title: data.term.name,
+      description: data.term.description
     };
   }
 };

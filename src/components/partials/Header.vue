@@ -1,28 +1,15 @@
 <template>
-  <header class="font-open site-header relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-4 sticky -top-1 z-20">
+  <header>
     <Logo />
     <MainMenu :menu="headerMenu" @toggle-search="toggleSearch" :showSearch="showSearch" />
-    <transition name="search-slide">
+    <transition name="slide-down">
       <SearchForm v-if="showSearch" @toggle-search="toggleSearch" :showSearch="showSearch" />
     </transition>
   </header>
 </template>
 <style scoped>
-.search-slide-enter-active {
-  animation: search-slide-in .25s;
-}
-.search-slide-leave-active {
-  animation: search-slide-in .25s reverse;
-}
-@keyframes search-slide-in {
-  0% {
-    top: 0;
-    opacity: 0;
-  }
-  100% {
-    top: 100%;
-    opacity: 1;
-  }
+header {
+  @apply font-open relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-2 md:px-4 sticky -top-1 z-20;
 }
 </style>
 

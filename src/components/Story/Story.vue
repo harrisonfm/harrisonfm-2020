@@ -2,6 +2,9 @@
   <div class="page page--stories">
     <hero :title="currentStory.term.name" :img="currentStory.term.image.url" />
     <div class="xxl:rounded xxl:shadow xxl:-my-16 bg-white p-4" v-if="currentStoryLoaded">
+      <div class="mb-4">
+        <p>currentStory.description</p>
+      </div>
       <article class="grid grid-cols-6 gap-4 bg-gray-100 mb-4 last:mb-0" v-for="post in currentStory.posts" :key="post.id" >
         <router-link class="col-span-2" :to="post.link">
           <img class="w-full" :src="parseBackground(post)" />

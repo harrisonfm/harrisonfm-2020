@@ -1,19 +1,20 @@
 <template>
   <div v-if="gallery">
-    <div class="mx-auto max-w-8xl py-2 px-4">
+    <div class="mx-auto max-w-8xl p-2 md:px-4">
       <div class="flex flex-wrap items-center mb-4">
         <h1 class="leading-none mb-0">{{ gallery.title }}</h1>
       </div>
-      <div class="post" v-html="gallery.description"></div>
-      <div class="highlighted_genres w-full grid gap-4 grid-cols-1 md:grid-cols-2">
-        <article v-for="photo in gallery.images" :style="parseBackground(photo.images)" class="overlay-article bg-cover bg-gray-500">
-          <router-link replace :to="{
-            name: 'PhotosSingle',
-            params: { idSlug: photo.ID + '-' + photo.post_name }
-          }" class="" >
-            <div class="title">{{ photo.post_title }}</div>
-            <div class="overlay "></div>
-          </router-link>
+      <div class="post mb-4">
+        <p>{{gallery.description}}</p>
+      </div>
+      <div class="post-gallery">
+        <router-link v-for="photo in gallery.images" :to="{
+          name: 'PhotosSingle',
+          params: { idSlug: photo.ID + '-' + photo.post_name }
+        }">
+          <img :src="photo.images.square_gallery" class="rounded shadow" />
+          <div class="overlay "></div>
+        </router-link>
         </article>
       </div>
     </div>

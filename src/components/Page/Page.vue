@@ -2,7 +2,7 @@
   <div class="">
     <div v-if="post">
       <hero :title="post.title" :img="parseBackground()" />
-      <div class="py-2 px-4 bg-white xxl:rounded xxl:shadow xxl:-my-16">
+      <div class="post-container">
         <div class="flex flex-wrap items-center mb-4">
           <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
         </div>
