@@ -1,7 +1,7 @@
 <template>
   <div class="page page--stories">
     <hero :title="currentStory.term.name" :img="currentStory.term.image.url" />
-    <div class="post-container hero-support" v-if="currentStoryLoaded">
+    <div class="post-container" v-if="currentStoryLoaded">
       <div class="mb-4">
         <p>{{currentStory.term.description}}</p>
       </div>

@@ -31,7 +31,7 @@ h4 {
 .post-container {
  @apply p-2 lg:p-4 bg-white xxl:shadow;
 }
-.hero-support {
+.hero + .post-container {
   @apply xxl:rounded xxl:-my-16;
 }
 

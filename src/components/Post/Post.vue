@@ -1,7 +1,7 @@
 <template>
   <div>
     <hero :img="parseFeatured()" />
-    <div class="post-container hero-support">
+    <div class="post-container">
       <div v-if="post.post_content"> 
         <div class="mb-8">
           <h1 class="leading-none">{{ post.post_title }}</h1>
