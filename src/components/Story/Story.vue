@@ -1,6 +1,6 @@
 <template>
   <div class="page page--stories">
-    <hero :title="currentStory.term.name" :img="currentStory.term.image.url" />
+    <hero :title="currentStory.term.name" :img="currentStory.term.image" />
     <div class="post-container" v-if="currentStoryLoaded">
       <div class="mb-4">
         <p>{{currentStory.term.description}}</p>

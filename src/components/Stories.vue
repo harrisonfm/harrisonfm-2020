@@ -1,10 +1,10 @@
 <template>
   <div class="page page--stories">
-    <hero :title="'HFM Stories'" :img="storyHero.url" />
+    <hero :title="'HFM Stories'" :img="storyHero" />
     <div class="post-container" v-if="storiesLoaded">
       <article class="story-article" v-for="story in stories" :key="story.term_id" >
         <router-link class="col-span-2" :to="'/stories/'+story.slug">
-          <img class="w-full" :src="story.image.url" />
+          <img class="w-full" :src="story.image.images.full" />
         </router-link>
         <div class="col-span-4 p-4">
           <router-link :to="'/stories/'+story.slug"><h2 class="font-bold text-2xl">{{ story.name }}</h2></router-link>

@@ -1,11 +1,9 @@
 <template>
   <div class="">
     <div v-if="post">
-      <hero :title="post.title" :img="parseBackground()" />
+      <hero :title="post.title" :img="post.featured" />
       <div class="post-container">
-        <div class="flex flex-wrap items-center mb-4">
-          <h1 class="leading-none mb-0">{{ post.post_title }}</h1>
-        </div>
+        <h1 class="leading-none mb-4">{{ post.post_title }}</h1>
         <div class="post" v-html="post.post_content"></div>
         <WebProjects v-if="pageSlug === 'web'" :projects="projects" /> 
       </div>
@@ -69,11 +67,6 @@ export default {
           route: slug
         });
       });
-    },
-    parseBackground() {
-      if(this.post.featured) {
-        return this.post.featured.images.full;
-      }
     }
   },
 

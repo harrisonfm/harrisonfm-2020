@@ -97,11 +97,11 @@ function setup() {
   }
 
   function getHome() {
-    $return = array(
-      'hero' => get_header_image()
-    );
-    
-    return new \WP_REST_Response($return);
+    $data = get_object_vars(get_theme_mod('header_image_data'));
+
+    return new \WP_REST_Response(array(
+      'hero' => getAttachment($data['attachment_id'])
+    ));
   }
 
   function formatPostsForApi(&$posts) {
@@ -136,8 +136,10 @@ function setup() {
 
     if(isset($post->acf['genres'])) {
       foreach($post->acf['genres'] as &$genre) {
+        $genre['image'] = getAttachment($genre['image']);
         formatGalleryImages($genre['gallery'], true);
       }
+
       $post->genres = $post->acf['genres'];
     }
 
@@ -225,8 +227,22 @@ function setup() {
     }
   }
 
-  function getMedia() {
-    //todo if I support getting photos out of gallery context
+  function getAttachment($id) {
+    $query = new \WP_Query(array(
+      'p' => $id,
+      'post_type' => 'attachment',
+      'post_status' => 'any'
+    ));
+
+    $attachment = array();
+
+    if($query->posts) {
+      formatGalleryImages($query->posts);
+      $attachment = $query->posts[0];
+    }
+
+    return $attachment;
+
   }
 
   function getSiteMeta() {
@@ -244,7 +260,7 @@ function setup() {
     $terms = getStoryTerms();
 
     foreach($terms as &$term) {
-      $term->image = get_field('banner_image', 'story_'.$term->term_id);
+      $term->image = getAttachment(get_field('banner_image', 'story_'.$term->term_id));
     }
 
     if($photosPage) {
@@ -253,7 +269,7 @@ function setup() {
     else{
       return new \WP_REST_Response(array(
         'stories' => $terms,
-        'hero' => get_field('stories_hero', 'options')
+        'hero' => getAttachment(get_field('stories_hero', 'options'))
       ));
     }
   }
@@ -285,7 +301,7 @@ function setup() {
       $terms = $termQuery->get_terms();
       
       foreach($terms as &$term) {
-        $term->image = get_field('banner_image', 'story_'.$term->term_id);
+        $term->image = getAttachment(get_field('banner_image', 'story_'.$term->term_id));
       }
       $query->term = $terms[0];
     }

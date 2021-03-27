@@ -2,11 +2,12 @@
   <div class="post-container">
     <h3 class="leading-none mb-4" v-if="title">{{ title }}</h3>
     <div class="grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2" v-if="postsLoaded">
-      <article v-for="post in posts" :key="post.id" :style="parseBackground(post)" class="overlay-article jiggle-on-hover">
+      <article v-for="post in posts" :id="'post-'+post.ID" :key="post.ID" class="overlay-article jiggle-on-hover">
         <router-link :to="post.link" class="" >
           <div class="title">{{ post.post_title }}</div>
           <div class="overlay "></div>
         </router-link>
+        <v-style>{{ parseBackground(post) }}</v-style>
       </article>
       <div class="pagination">
         <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
@@ -109,7 +110,21 @@ export default {
     }),
     parseBackground(post) {
       if(post.featured) {
-        return 'background-image: url('+post.featured.images.full+')';  
+        const images = post.featured.images;
+        return `
+        article#post-${post.ID} {
+          background-image: url('${images.medium_large}');
+        }
+        @media(min-width:512px) {
+          article#post-${post.ID} {
+            background-image: url('${images.large}');
+          }
+        }
+        @media(min-width:768px) and (max-width:1090px) {
+          article#post-${post.ID} {
+            background-image: url('${images.medium_large}');
+          }
+        }`;
       }
     },
 

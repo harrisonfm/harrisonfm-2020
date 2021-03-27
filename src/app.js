@@ -32,6 +32,12 @@ library.add(faTimes, faHeart, faPause, faPlay, faCompressAlt, faChevronCircleLef
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
 Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
+Vue.component('v-style', {
+  render: function (createElement) {
+    return createElement('style', this.$slots.default)
+  }
+});
+
 Vue.use(VueCookies);
 Vue.use(VueMeta);
 Vue.use(ErrorPage, {

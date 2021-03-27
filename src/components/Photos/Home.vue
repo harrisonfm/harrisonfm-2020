@@ -73,8 +73,8 @@ export default {
       });
     },
     parseBackground(image) {
-      if(image) {
-        return 'background-image: url('+image.url+')';  
+      if(image.images) {
+        return 'background-image: url('+image.images.full+')';  
       }
     },
   },

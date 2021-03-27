@@ -64,7 +64,7 @@ h4 {
 }
 
 .jiggle-on-hover {
-  @apply transform transition-transform duration-200 hover:-translate-y-px;
+  @apply transform transition-transform duration-200 lg:hover:-translate-y-px;
 }
 .overlay-article {
   @apply bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500 shadow;

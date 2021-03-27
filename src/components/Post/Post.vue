@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hero :img="parseFeatured()" />
+    <hero :img="post.featured" />
     <div class="post-container">
       <div v-if="post.post_content"> 
         <div class="mb-8">
@@ -64,12 +64,6 @@ export default {
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
     }),
-    parseFeatured() {
-      if(this.post.featured) {
-        return this.post.featured.images.full;
-      }
-      return '';
-    },
     handleGetPost(slug) {
       this.getPost({
         slug: slug
