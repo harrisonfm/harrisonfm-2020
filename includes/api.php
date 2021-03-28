@@ -138,9 +138,18 @@ function setup() {
       foreach($post->acf['genres'] as &$genre) {
         $genre['image'] = getAttachment($genre['image']);
         formatGalleryImages($genre['gallery'], true);
+        $genre['slug'] = strtolower(str_replace(' ', '-', $genre['name']));
       }
 
       $post->genres = $post->acf['genres'];
+    }
+
+    if(isset($post->acf['projects'])) {
+      foreach($post->acf['projects'] as &$project) {
+        $project['image'] = getAttachment($project['image']);
+      }
+
+      $post->projects = $post->acf['projects'];
     }
 
     $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));

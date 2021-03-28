@@ -3,11 +3,11 @@
     <hero :title="'HFM Stories'" :img="storyHero" />
     <div class="post-container" v-if="storiesLoaded">
       <article class="story-article" v-for="story in stories" :key="story.term_id" >
-        <router-link class="col-span-2" :to="'/stories/'+story.slug">
-          <img class="w-full" :src="story.image.images.full" />
+        <router-link class="md:w-1/3" :to="'/stories/'+story.slug">
+          <img sizes="(max-width: 767px) 100w, 33.33w" :srcset="`${story.image.images.medium_large} 384w, ${story.image.images.large} 512w, ${story.image.images['1536x1536']} 768w`" :src="story.image.images.large" />
         </router-link>
-        <div class="col-span-4 p-4">
-          <router-link :to="'/stories/'+story.slug"><h2 class="font-bold text-2xl">{{ story.name }}</h2></router-link>
+        <div class="description">
+          <router-link :to="'/stories/'+story.slug"><h2 class="font-bold text-2xl leading-none">{{ story.name }}</h2></router-link>
           <p class="text-gray-700 text-base" v-html="story.description"></p>
         </div>
       </article>
@@ -25,13 +25,13 @@ export default {
     this.getStories();
   },
   computed: {
-    ...mapGetters(['stories', 'storiesLoaded', 'storyHero']),
+    ...mapGetters(['stories', 'storiesLoaded', 'storyHero'])
   },
   methods: {
     ...mapActions(['getStories'])
   },
   metaInfo () {
-    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.url, window.location.href)
+    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.images.large, window.location.href)
   },
   components: {
     Hero

@@ -5,7 +5,7 @@
       <div class="post-container">
         <h1 class="leading-none mb-4">{{ post.post_title }}</h1>
         <div class="post" v-html="post.post_content"></div>
-        <WebProjects v-if="pageSlug === 'web'" :projects="projects" /> 
+        <WebProjects v-if="post.projects" :projects="post.projects" /> 
       </div>
     </div>
     <Loader v-else />
@@ -31,10 +31,7 @@ export default {
   computed: {
     ...mapGetters({
       post: 'currentPost'
-    }),
-    projects: function() {
-      return this.post.acf && this.post.acf.projects ? this.post.acf.projects : [];
-    }
+    })
   },
 
   props: ['pageSlug'],
@@ -75,7 +72,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.parseBackground(), window.location.href)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.featured ? this.featured.image.large : '', window.location.href)
   },
 };
 </script>

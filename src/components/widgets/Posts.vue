@@ -110,19 +110,18 @@ export default {
     }),
     parseBackground(post) {
       if(post.featured) {
-        const images = post.featured.images;
         return `
-        article#post-${post.ID} {
-          background-image: url('${images.medium_large}');
+        #post-${post.ID} {
+          background-image: url('${post.featured.images.medium_large}');
         }
         @media(min-width:512px) {
-          article#post-${post.ID} {
-            background-image: url('${images.large}');
+          #post-${post.ID} {
+            background-image: url('${post.featured.images.large}');
           }
         }
         @media(min-width:768px) and (max-width:1090px) {
-          article#post-${post.ID} {
-            background-image: url('${images.medium_large}');
+          #post-${post.ID} {
+            background-image: url('${post.featured.images.medium_large}');
           }
         }`;
       }

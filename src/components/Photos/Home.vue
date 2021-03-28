@@ -1,43 +1,22 @@
 <template>
   <div v-if="post">
     <div class="photos-page">
-      <h1 class="leading-none mb-4">{{ post.post_title }}</h1>
+      <h1 class="leading-none mb-2 lg:mb-4">{{ post.post_title }}</h1>
       <div class="post" v-html="post.post_content" />
-      <h1 class="">Highlighted Genres</h1>
-      <div class="photos-grid">
-        <article v-for="genre in post.genres" :style="parseBackground(genre.image)" class="overlay-article bg-cover bg-gray-500 jiggle-on-hover">
-          <router-link :to="{
-            name: 'PhotosGallery',
-            params: { gallerySlug: genre.title.toLowerCase().replace(' ','-') }
-          }">
-            <div class="title">{{ genre.title }}</div>
-            <div class="overlay" />
-          </router-link>
-        </article>
-      </div>
-      <h1 class="">Stories</h1>
-      <div class="photos-grid">
-        <article v-for="story in stories" :style="parseBackground(story.image)" class="overlay-article bg-cover bg-gray-500 jiggle-on-hover">
-          <router-link :to="{
-            name: 'PhotosGallery',
-            params: { gallerySlug: story.slug }
-          }">
-            <div class="title">{{ story.name }}</div>
-            <div class="overlay" />
-          </router-link>
-        </article>
-      </div>
+      <HomeSection :section="post.stories">Stories</HomeSection>
+      <HomeSection :section="post.genres">Highlighted Genres</HomeSection>
     </div>
   </div>
   <Loader v-else />
 </template>
 <style scoped>
-.photos-grid {
-  @apply w-full grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2
+.post + section {
+  @apply mb-2 lg:mb-4;
 }
 </style>
 <script>
 import Loader from '~/components/partials/Loader.vue'
+import HomeSection from './HomeSection.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import meta from '~/meta';
 
@@ -46,9 +25,6 @@ export default {
     ...mapGetters({
       post: 'currentPost'
     }),
-    stories: function() {
-      return this.post.stories ? this.post.stories : [];
-    },
   },
 
   beforeMount() {
@@ -72,15 +48,10 @@ export default {
         });
       });
     },
-    parseBackground(image) {
-      if(image.images) {
-        return 'background-image: url('+image.images.full+')';  
-      }
-    },
   },
 
   components: {
-    Loader,
+    Loader, HomeSection
   },
 
   metaInfo () {

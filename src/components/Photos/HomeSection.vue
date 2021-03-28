@@ -1,0 +1,45 @@
+<template>
+  <section>
+    <h1 class="leading-none mb-2 lg:mb-4"><slot /></h1>
+    <div class="photos-grid">
+      <article v-for="el in section" :id="'article-'+el.slug" class="overlay-article jiggle-on-hover">
+        <router-link :to="{
+          name: 'PhotosGallery',
+          params: { gallerySlug: el.slug }
+        }">
+          <div class="title">{{ el.name }}</div>
+          <div class="overlay" />
+        </router-link>
+        <v-style>{{ parseBackground(el.image, el.slug) }}</v-style>
+      </article>
+    </div>
+  </section>
+</template>
+<style scoped>
+.photos-grid {
+  @apply w-full grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2;
+}
+</style>
+<script>
+export default {
+  props: ['section'],
+  methods: {   
+    parseBackground(image, slug) {
+      return `
+      #article-${slug} {
+        background-image: url('${image.images.medium_large}');
+      }
+      @media(min-width:512px) {
+        #article-${slug} {
+          background-image: url('${image.images.large}');
+        }
+      }
+      @media(min-width:768px) and (max-width:1090px) {
+        #article-${slug} {
+          background-image: url('${image.images.medium_large}');
+        }
+      }`;
+    },
+  }
+}
+</script>

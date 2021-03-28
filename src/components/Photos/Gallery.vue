@@ -1,8 +1,8 @@
 <template>
   <div v-if="gallery">
     <div class="photos-page">
-      <h1 class="leading-none mb-4">{{ gallery.title }}</h1>
-      <div class="post mb-4">
+      <h1 class="leading-none mb-2 lg:mb-4">{{ gallery.name }}</h1>
+      <div class="post mb-2 lg:mb-4">
         <p>{{gallery.description}}</p>
       </div>
       <div class="post-gallery">
@@ -76,18 +76,13 @@ export default {
     },
     setGenreGallery: function() {
       for (const [idx, el] of this.post.genres.entries()) {
-        if(this.gallerySlug === el.title.toLowerCase().replace(' ','-')) {
+        if(this.gallerySlug === el.slug) {
           this.setGallery({
             images: el.gallery,
-            title: el.title,
+            name: el.name,
             description: el.description
           });
         }
-      }
-    },
-    parseBackground(image) {
-      if(image.images) {
-        return 'background-image: url('+image.images.full+')';  
       }
     }
   },

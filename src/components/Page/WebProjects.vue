@@ -1,11 +1,12 @@
 <template>
   <div class="project-container">
-    <div v-for="project in projects" :key="project.title" :style="parseBackground(project)" class="project" @click="$event.target.classList.toggle('on')">
+    <article v-for="(project, idx) in projects" :id="'proj-'+idx" :key="project.title" class="project" @click="$event.target.classList.toggle('on')">
       <div class="title" @click="$event.target.parentNode.classList.toggle('on')">{{ project.title }}</div>
       <div class="project-description">
-        <p class="p-4"><a target="_blank" :href="project.link">Link</a> &mdash; {{ project.description }}</p>
+        <p class="p-2 lg:p-4"><a target="_blank" :href="project.link">Link</a> &mdash; {{ project.description }}</p>
       </div>
-    </div>
+      <v-style>{{ parseBackground(project, idx) }}</v-style>
+    </article>
   </div>
 </template>
 
@@ -68,9 +69,28 @@
 export default {
   props: ['projects'],
   methods: {
-    parseBackground(project) {
-      console.log(project);
-      return 'background-image: url('+project.image.url+')';
+    parseBackground(project, idx) {
+      if(project) {
+        return `
+        #proj-${idx} {
+          background-image: url('${project.image.images.medium_large}');
+        }
+        @media(min-width:512px) {
+          #proj-${idx} {
+            background-image: url('${project.image.images.large}');
+          }
+        }
+        @media(min-width:768px) {
+          #proj-${idx} {
+            background-image: url('${project.image.images['1536x1536']}');
+          }
+        }
+        @media(min-width:1440px) {
+          #proj-${idx} {
+            background-image: url('${project.image.images['2048x2048']}');
+          }
+        }`;
+      }
     }
   }
 };
