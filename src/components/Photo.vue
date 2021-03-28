@@ -25,15 +25,17 @@
           </font-awesome-layers>
         </i>
       </div>
-      <div class="controls-mini" v-if="!galleryInfo" @click="setGalleryInfo" />
+      <div class="controls-mini" v-if="!galleryInfo" @click="setGalleryInfo">
+        <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
+      </div>
       <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}">
-        <img :src="photo.images.full" class="max-h-full m-auto" @load="handleImageLoad" />
+        <img sizes="100vw" :srcset="`${photo.images.medium_large} 384w, ${photo.images.large} 512w, ${photo.images['1536x1536']} 768w, ${photo.images['2048x2048']} 1024w, ${photo.images['full']} 1500w` " :src="photo.images['2048x2048']" class="max-h-full m-auto" @load="handleImageLoad" />
       </div>
       <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
         <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
         <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
       </div>
-      <nav v-if="galleryInfo">
+      <nav class="photo-infonav" v-if="galleryInfo">
         <img :src="prevPhoto.images.thumbnail" v-if="prevPhoto" @click="goToPrevPhoto" alt="previous photo" />
         <div class="text-center px-4 hidden sm:block" >
           <h2 class="leading-none text-2xl lg:text-4xl">{{ photo.post_title }}</h2>
@@ -59,12 +61,12 @@
   @apply mt-3;
 }
 .controls-mini {
-  @apply absolute right-0 top-0 bg-gray-300 opacity-50 w-4 h-24 cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg text-white;
+  @apply absolute right-0 top-0 bg-gray-300 opacity-50 w-6 h-8 px-1 flex items-center text-black cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg;
 }
 .photo-box {
   @apply w-screen overflow-auto mt-auto transition-opacity duration-1000 lg:my-auto opacity-0;
 }
-nav {
+.photo-infonav {
   @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow xxl:w-4/5;
   @media(max-height: 500px) {
     margin-bottom: 0;
@@ -72,13 +74,13 @@ nav {
     box-shadow: none;
   }
 }
-nav.infoOff {
+.photo-infonav.infoOff {
   @apply hidden;
 }
-nav > svg {
+.photo-infonav > svg {
   @apply text-4xl xs:ml-0 cursor-pointer;
 }
-nav img {
+.photo-infonav img {
   height: 75px;
 }
 </style>
@@ -162,7 +164,7 @@ export default {
     },
     getPhoto: function() {
       console.log('getphoto', this.ID, this.gallery);
-      if(this.gallery) {
+      if(this.gallery.images) {
         for (const [idx, el] of this.gallery.images.entries()) {
           if(this.ID === el.ID) {
             console.log('getphoto from gallery', el);
@@ -229,6 +231,13 @@ export default {
       let photoBox = document.getElementsByClassName('photo-box')[0];
       photoBox.style.opacity = 1;
       this.handleSlideShow();
+      this.preload(this.nextPhoto);
+      this.preload(this.prevPhoto);
+    },
+    preload(photo) {
+      let image = new Image();
+      image.sizes = '100vw';
+      image.srcset = `${photo.images.medium_large} 384w, ${photo.images.large} 512w, ${photo.images['1536x1536']} 768w, ${photo.images['2048x2048']} 1024w, ${photo.images['full']} 1500w`;
     },
     handleSlideShow: function() {
       if(this.slideshow) {
@@ -243,7 +252,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images ? this.photo.images.full : '', window.location.href)
+    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images ? this.photo.images.large : '', window.location.href)
   },
 
   components: { Loader }
