@@ -5,11 +5,15 @@ import store from '~/store';
 // initial state
 const state = {
   stories: [],
-  storyHero: {},
+  storyHero: {
+    images: {}
+  },
   currentStory: {
     term: {
       name: 'Loading',
-      image: {}
+      image: {
+        images: {}
+      }
     },
     posts: []
   },

@@ -29,7 +29,7 @@
         <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
       </div>
       <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}">
-        <img sizes="100vw" :srcset="`${photo.images.medium_large} 384w, ${photo.images.large} 512w, ${photo.images['1536x1536']} 768w, ${photo.images['2048x2048']} 1024w, ${photo.images['full']} 1500w` " :src="photo.images['2048x2048']" class="max-h-full m-auto" @load="handleImageLoad" />
+        <img sizes="100vw" :srcset="`${photo.images.medium_large} 768w, ${photo.images.large} 1024w, ${photo.images['1536x1536']} 1536w, ${photo.images['2048x2048']} 2048w, ${photo.images['full']} 4000w` " :src="photo.images['2048x2048']" class="max-h-full m-auto" @load="handleImageLoad" />
       </div>
       <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
         <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
@@ -237,7 +237,7 @@ export default {
     preload(photo) {
       let image = new Image();
       image.sizes = '100vw';
-      image.srcset = `${photo.images.medium_large} 384w, ${photo.images.large} 512w, ${photo.images['1536x1536']} 768w, ${photo.images['2048x2048']} 1024w, ${photo.images['full']} 1500w`;
+      image.srcset = `${photo.images.medium_large} 768w, ${photo.images.large} 1024w, ${photo.images['1536x1536']} 1536w, ${photo.images['2048x2048']} 2048w, ${photo.images['full']} 4000w`;
     },
     handleSlideShow: function() {
       if(this.slideshow) {

@@ -5,15 +5,12 @@
       <div class="mb-4">
         <p>{{currentStory.term.description}}</p>
       </div>
-      <article class="story-article" v-for="post in currentStory.posts" :key="post.id" >
-        <router-link class="md:w-1/3" :to="post.link">
-          <img sizes="(max-width: 767px) 100w, 33.33w" :srcset="`${post.featured.images.medium_large} 384w, ${post.featured.images.large} 512w, ${post.featured.images['1536x1536']} 768w`" :src="post.featured.images.large" />
-        </router-link>
-        <div class="description">
-          <router-link :to="post.link"><h2 class="font-bold text-2xl">{{ post.post_title }}</h2></router-link>
-          <p class="text-gray-700 text-base" v-html="post.post_excerpt"></p>
-        </div>
-      </article>
+      <StoryArticle v-for="post in currentStory.posts" :key="post.id" :article="{
+        image: post.featured,
+        title: post.post_title,
+        link: post.link,
+        desc: post.post_excerpt
+      }" />
     </div>
   </div>
 </template>
@@ -21,6 +18,7 @@
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import meta from '~/meta';
 import Hero from '~/components/partials/Hero.vue'
+import StoryArticle from './Article.vue'
 
 export default {
   props: ['storySlug'],
@@ -57,10 +55,10 @@ export default {
     },
   },
   metaInfo () {
-    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.images.large, window.location.href);
+    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image.images.large, window.location.href);
   },
   components: {
-    Hero
+    Hero, StoryArticle
   },
 };
 </script>

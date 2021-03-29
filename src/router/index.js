@@ -12,7 +12,7 @@ import PhotosHome from "~/components/Photos/Home.vue";
 import PhotosGallery from "~/components/Photos/Gallery.vue";
 import PostsPage from "~/components/PostsPage.vue";
 
-import Stories from "~/components/Stories.vue";
+import Stories from "~/components/Story/Home.vue";
 import Story from "~/components/Story/Story.vue";
 
 Vue.use(Router);

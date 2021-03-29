@@ -19,7 +19,7 @@ export default {
   props: ['img', 'title'],
   methods: {
     parseBackground(img) {
-      if(img) {
+      if(img.images) {
         return `
         .hero {
           background-image: url('${img.images.medium_large}');
