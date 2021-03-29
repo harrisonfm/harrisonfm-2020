@@ -5,16 +5,7 @@
       <div class="post mb-2 lg:mb-4">
         <p>{{gallery.description}}</p>
       </div>
-      <div class="post-gallery">
-        <router-link v-for="photo in gallery.images" :to="{
-          name: 'PhotosSingle',
-          params: { idSlug: photo.ID + '-' + photo.post_name }
-        }">
-          <img :src="photo.images.square_gallery" class="rounded shadow" />
-          <div class="overlay" />
-        </router-link>
-        </article>
-      </div>
+      <Gallery v-if="gallery" :gallery="gallery" route="PhotosSingle" />
     </div>
     <router-view />
   </div>
@@ -23,6 +14,7 @@
 
 <script>
 import Loader from '~/components/partials/Loader.vue'
+import Gallery from '~/components/Post/Gallery.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import meta from '~/meta';
 
@@ -88,7 +80,7 @@ export default {
   },
 
   components: {
-    Loader,
+    Loader, Gallery
   },
 
   metaInfo () {

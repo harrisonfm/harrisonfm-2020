@@ -1,16 +1,16 @@
 <template>
   <div class="post-gallery">
     <router-link v-for="photo in gallery.images" :to="{
-        name: 'PostPhoto',
+        name: route,
         params: { idSlug: photo.ID + '-' + photo.post_name }
       }">
-      <img :src="photo.images.square_gallery" class="rounded shadow" />
+      <img v-lazy="photo.images.square_gallery" class="rounded shadow" />
       <div class="overlay" />
     </router-link>
   </div>
 </template>
 <script>
 export default {
-  props: ['gallery']
+  props: ['gallery', 'route']
 };
 </script>

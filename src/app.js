@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueCookies from 'vue-cookies';
 import VueMeta from 'vue-meta'
+import VueLazyload from 'vue-lazyload'
 
 require('./bootstrap');
 import './assets/css/styles.css';
@@ -45,6 +46,7 @@ Vue.use(ErrorPage, {
     return require('./components/Page/' + component).default;
   }
 });
+Vue.use(VueLazyload);
 
 window.eventBus = new Vue();
 

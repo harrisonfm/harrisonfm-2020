@@ -8,7 +8,7 @@
           <p class="text-gray-700">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
         </div>
         <div class="post" v-html="post.post_content" />
-        <Gallery v-if="gallery" :gallery="gallery" />
+        <Gallery v-if="gallery" :gallery="gallery" route="PostPhoto" />
         <Tags v-if="post.tags.length" :tags="post.tags" />
         <StoryNavigation v-if="post.story" :story="post.story" />
         <router-view />
@@ -79,7 +79,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.parseFeatured(), this.post.link)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images.large, this.post.link)
   },
 
   components: { Loader, Gallery, Hero, StoryNavigation, Tags }
