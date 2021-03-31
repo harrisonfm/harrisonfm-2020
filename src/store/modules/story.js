@@ -6,14 +6,12 @@ import store from '~/store';
 const state = {
   stories: [],
   storyHero: {
-    images: {}
+    images: false
   },
   currentStory: {
     term: {
       name: 'Loading',
-      image: {
-        images: {}
-      }
+      image: false
     },
     posts: []
   },

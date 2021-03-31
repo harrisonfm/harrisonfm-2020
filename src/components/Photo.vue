@@ -29,19 +29,19 @@
         <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
       </div>
       <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}">
-        <img sizes="100vw" :srcset="`${photo.images.medium_large} 768w, ${photo.images.large} 1024w, ${photo.images['1536x1536']} 1536w, ${photo.images['2048x2048']} 2048w, ${photo.images['full']} 4000w` " :src="photo.images['2048x2048']" class="max-h-full m-auto" @load="handleImageLoad" />
+        <img sizes="100vw" :srcset="parseSrcset()" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" @load="handleImageLoad" />
       </div>
       <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
         <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
         <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
       </div>
       <nav class="photo-infonav" v-if="galleryInfo">
-        <img :src="prevPhoto.images.thumbnail" v-if="prevPhoto" @click="goToPrevPhoto" alt="previous photo" />
+        <img :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" @click="goToPrevPhoto" alt="previous photo" />
         <div class="text-center px-4 hidden sm:block" >
           <h2 class="leading-none text-2xl lg:text-4xl">{{ photo.post_title }}</h2>
           <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
         </div>
-        <img :src="nextPhoto.images.thumbnail" v-if="nextPhoto" @click="goToNextPhoto" alt="next photo" />
+        <img :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" @click="goToNextPhoto" alt="next photo" />
       </nav>
     </template>
     <Loader v-else/>
@@ -237,7 +237,7 @@ export default {
     preload(photo) {
       let image = new Image();
       image.sizes = '100vw';
-      image.srcset = `${photo.images.medium_large} 768w, ${photo.images.large} 1024w, ${photo.images['1536x1536']} 1536w, ${photo.images['2048x2048']} 2048w, ${photo.images['full']} 4000w`;
+      image.srcset = this.parseSrcset();
     },
     handleSlideShow: function() {
       if(this.slideshow) {
@@ -248,11 +248,15 @@ export default {
       else {
         clearTimeout(this.activeSlide);
       }
+    },
+    parseSrcset() {
+      const img = this.photo.images;
+      return img.medium_large.src+' '+img.medium_large.width+'w, '+img.large.src+' '+img.large.width+'w, '+img['1536x1536'].src+' '+img['1536x1536'].width+'w, '+img['2048x2048'].src+' '+img['2048x2048'].width+'w, '+img['full'].src+' '+img['full'].width+'w';
     }
   },
 
   metaInfo () {
-    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images ? this.photo.images.large : '', window.location.href)
+    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo ? this.photo.images.large.src : '', window.location.href)
   },
 
   components: { Loader }

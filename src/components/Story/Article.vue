@@ -1,7 +1,7 @@
 <template>
   <article class="story-article">
     <router-link class="md:w-1/3" :to="article.link">
-      <img sizes="(max-width: 767px) 100w, 33.33w" :srcset="`${article.image.images.medium_large} 768w, ${article.image.images.large} 1024w, ${article.image.images['1536x1536']} 1536w`" :src="article.image.images.large" />
+      <img sizes="(max-width: 767px) 100w, 33.33w" :srcset="article.image.images.medium_large.src+' '+article.image.images.medium_large.width+'w, '+article.image.images.large.src+' '+article.image.images.large.width+'w, '+article.image.images['1536x1536'].src+' '+article.image.images['1536x1536'].width+'w'" :src="article.image.images.large.src" />
     </router-link>
     <div class="description">
       <router-link :to="article.link"><h2 class="font-bold text-2xl leading-none">{{ article.title }}</h2></router-link>

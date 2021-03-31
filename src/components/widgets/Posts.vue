@@ -114,14 +114,14 @@ export default {
         #post-${post.ID} {
           background-image: url('${post.featured.images.medium_large}');
         }
-        @media(min-width:512px) {
+        @media(min-width:${post.featured.images.large.width / 2}px) {
           #post-${post.ID} {
-            background-image: url('${post.featured.images.large}');
+            background-image: url('${post.featured.images.large.src}');
           }
         }
-        @media(min-width:768px) and (max-width:1090px) {
+        @media(min-width:768px) and (max-width:${post.featured.images.large.width}px) {
           #post-${post.ID} {
-            background-image: url('${post.featured.images.medium_large}');
+            background-image: url('${post.featured.images.medium_large.src}');
           }
         }`;
       }

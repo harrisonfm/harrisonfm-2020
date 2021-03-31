@@ -42,7 +42,7 @@ export default {
 
   beforeRouteUpdate(to, from, next) {
     if(to.name === 'Page' && from.name === 'Page') {
-      this.setCurrentPost({post:null});
+      this.setCurrentPost({post:{}});
       this.handleGetPost(to.params.pageSlug);
     }
     next();
@@ -72,7 +72,8 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.featured ? this.featured.image.large : '', window.location.href)
+    console.log(this.post.featured, 'meta');
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured ? this.post.featured.images.large.src : '', window.location.href)
   },
 };
 </script>

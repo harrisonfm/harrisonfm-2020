@@ -46,7 +46,9 @@ Vue.use(ErrorPage, {
     return require('./components/Page/' + component).default;
   }
 });
-Vue.use(VueLazyload);
+Vue.use(VueLazyload, {
+  attempt: 1
+});
 
 window.eventBus = new Vue();
 

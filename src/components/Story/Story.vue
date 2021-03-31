@@ -55,7 +55,7 @@ export default {
     },
   },
   metaInfo () {
-    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image.images.large, window.location.href);
+    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image ? this.currentStory.term.image.images.large.src : '', window.location.href);
   },
   components: {
     Hero, StoryArticle

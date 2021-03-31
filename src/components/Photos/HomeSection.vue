@@ -27,16 +27,16 @@ export default {
     parseBackground(image, slug) {
       return `
       #article-${slug} {
-        background-image: url('${image.images.medium_large}');
+        background-image: url('${image.images.medium_large.src}');
       }
-      @media(min-width:512px) {
+      @media(min-width:${image.images.large.width / 2}px) {
         #article-${slug} {
-          background-image: url('${image.images.large}');
+          background-image: url('${image.images.large.src}');
         }
       }
-      @media(min-width:768px) and (max-width:1090px) {
+      @media(min-width:768px) and (max-width:${image.images.large.width}px) {
         #article-${slug} {
-          background-image: url('${image.images.medium_large}');
+          background-image: url('${image.images.medium_large.src}');
         }
       }`;
     },

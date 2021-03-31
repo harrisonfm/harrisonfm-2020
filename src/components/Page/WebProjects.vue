@@ -73,21 +73,21 @@ export default {
       if(project) {
         return `
         #proj-${idx} {
-          background-image: url('${project.image.images.medium_large}');
+          background-image: url('${project.image.images.medium_large.src}');
         }
-        @media(min-width:512px) {
+        @media(min-width:${project.image.images.large.width / 2}px) {
           #proj-${idx} {
-            background-image: url('${project.image.images.large}');
+            background-image: url('${project.image.images.large.src}');
           }
         }
-        @media(min-width:768px) {
+        @media(min-width:${project.image.images['1536x1536'].width / 2}px) {
           #proj-${idx} {
-            background-image: url('${project.image.images['1536x1536']}');
+            background-image: url('${project.image.images['1536x1536'].src}');
           }
         }
-        @media(min-width:1440px) {
+        @media(min-width:${project.image.images['2048x2048'].width / 2}0px) {
           #proj-${idx} {
-            background-image: url('${project.image.images['2048x2048']}');
+            background-image: url('${project.image.images['2048x2048'].src}');
           }
         }`;
       }

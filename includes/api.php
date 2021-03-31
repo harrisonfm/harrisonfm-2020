@@ -230,8 +230,12 @@ function setup() {
       $galleryItem->images = array();
 
       foreach($imageSizes as $size => $dimensions) {
-        $imageForSize = wp_get_attachment_image_src($galleryItem->ID, $size)[0];
-        $galleryItem->images["$size"] = $imageForSize;
+        $imageSrc = wp_get_attachment_image_src($galleryItem->ID, $size);
+
+        $galleryItem->images["$size"] = array(
+          'src' => $imageSrc[0],
+          'width' => $imageSrc[1]
+        );
       }
     }
   }
@@ -255,13 +259,11 @@ function setup() {
   }
 
   function getSiteMeta() {
-    $custom_logo_id = get_theme_mod('custom_logo');
-
     return new \WP_REST_Response(array(
       'title' => get_bloginfo('name'),
       'tagline' => get_bloginfo('description'),
       'url' => get_bloginfo('url'),
-      'img' => wp_get_attachment_image_src($custom_logo_id , 'full')
+      'img' => getAttachment(get_theme_mod('custom_logo'))
     ));
   }
 
