@@ -3,18 +3,21 @@ import * as types from "../mutation-types";
 import store from '~/store';
 
 // initial state
+const defaultStory = {
+  term: {
+    name: 'Loading',
+    image: {
+      images: false
+    }
+  },
+  posts: []
+};
 const state = {
   stories: [],
   storyHero: {
     images: false
   },
-  currentStory: {
-    term: {
-      name: 'Loading',
-      image: false
-    },
-    posts: []
-  },
+  currentStory: defaultStory,
   loaded: false,
   currentStoryLoaded: false
 };
@@ -106,10 +109,15 @@ const mutations = {
 
   [types.STORY_CURRENT](state, data) {
     console.log('current story set', data);
-    state.currentStory = {
-      posts: data.posts,
-      term: data.term
-    };
+    if(data) {
+      state.currentStory = {
+        posts: data.posts,
+        term: data.term
+      };
+    }
+    else {
+      state.currentStory = defaultStory;
+    }
   },
 
   [types.STORY_IMAGES](state, data) {

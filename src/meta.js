@@ -22,7 +22,7 @@ export default {
 				this.default.tagline = response.tagline;
 			}
 			if(response.img) {
-				this.default.img = response.img[0];
+				this.default.img = response.img;
 			}
 			if(response.url) {
 				this.default.url = response.url;
@@ -34,10 +34,10 @@ export default {
 		this.setDefaults();
 
 		desc = desc ? desc : this.default.desc;
-		img = img ? img : this.default.img;
+		img = img ? img.src : this.default.img;
 		url = url ? url : this.default.url;
 
-		console.log('formatMeta', title, desc);
+		console.log('formatMeta', title, desc, img, url);
 
 		return {
 			title: title ? title + ' - ' + this.default.title : this.default.title + ' - ' + this.default.tagline,

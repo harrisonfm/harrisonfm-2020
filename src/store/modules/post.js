@@ -2,17 +2,20 @@ import api from "~/api";
 import * as types from "../mutation-types";
 
 // initial state
+const defaultPost = {
+  title: 'Loading..',
+  acf: {},
+  featured: {
+    images: false
+  },
+  categories: [{}],
+  loading: true
+};
 const state = {
   posts: [],
   maxPages: 0,
   loaded: false,
-  currentPost: {
-    title: 'Loading..',
-    acf: {},
-    featured: false,
-    categories: [{}],
-    loading: true
-  },
+  currentPost: defaultPost,
   gallery: {}
 };
 
@@ -91,11 +94,11 @@ const mutations = {
 
   [types.POST_CURRENT](state, post) {
     console.log('current post set', post);
-    state.currentPost = post;
     if(post) {
+      state.currentPost = post;
       state.gallery.images = post.gallery;
     } else {
-      state.gallery = {};
+      state.currentPost = defaultPost;
     }
   },
 
@@ -103,6 +106,8 @@ const mutations = {
     console.log('genre gallery set', gallery);
     state.gallery = gallery;
   },
+
+
 };
 
 export default {

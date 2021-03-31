@@ -31,6 +31,15 @@ export default {
     this.handleGetPost('photos');
   },
 
+  beforeRouteUpdate(to, from, next) {
+    console.log('routeupdate', to, from);
+    if(to.name === 'PhotosGallery') {
+      this.setGallery({gallery: null});
+      this.handleGetPost('photos');
+    }
+    next();
+  },
+
   beforeRouteLeave: function(to,from,next) {
     console.log('leave photo gallery', to, from);
     this.setGallery({gallery: null});

@@ -47,7 +47,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     if(to.name === 'Post' && from.name === 'Post') {
       console.log('update post', to, from);
-      this.setCurrentPost({post:null});
+      this.setCurrentPost();
       this.handleGetPost(to.params.postSlug);
     }
     next();
@@ -55,7 +55,7 @@ export default {
 
   beforeRouteLeave: function(to,from,next) {
     console.log('leave post', to, from);
-    this.setCurrentPost({post:null});
+    this.setCurrentPost();
     next();
   },
 

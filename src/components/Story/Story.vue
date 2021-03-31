@@ -30,10 +30,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     if(to.name === 'Story' && from.name === 'Story') {
       console.log('update story', to, from);
-      this.setCurrentStory({
-        term: {image: {}},
-        posts: {}
-      });
+      this.setCurrentStory();
       this.getStory({
         slug: to.params.storySlug
       });
@@ -55,7 +52,7 @@ export default {
     },
   },
   metaInfo () {
-    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image ? this.currentStory.term.image.images.large.src : '', window.location.href);
+    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image.images.large, window.location.href);
   },
   components: {
     Hero, StoryArticle
