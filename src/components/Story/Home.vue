@@ -3,7 +3,7 @@
     <hero :title="'HFM Stories'" :img="storyHero" />
     <div class="post-container" v-if="storiesLoaded">
       <StoryArticle v-for="story in stories" :key="story.term_id" :article="{
-        image: story.image,
+        image: story.featured,
         title: story.name,
         link: '/stories/'+story.slug,
         desc: story.description
@@ -29,7 +29,7 @@ export default {
     ...mapActions(['getStories'])
   },
   metaInfo () {
-    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.images.large, window.location.href)
+    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.images, window.location.href)
   },
   components: {
     Hero, StoryArticle

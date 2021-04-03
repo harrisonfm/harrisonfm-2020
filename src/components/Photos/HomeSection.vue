@@ -7,10 +7,10 @@
           name: 'PhotosGallery',
           params: { gallerySlug: el.slug }
         }">
-          <div class="title">{{ el.name }}</div>
+          <div class="title">{{ el.title }}</div>
           <div class="overlay" />
         </router-link>
-        <v-style>{{ parseBackground(el.image, el.slug) }}</v-style>
+        <v-style>{{ parseBackground(el.featured, el.slug) }}</v-style>
       </article>
     </div>
   </section>

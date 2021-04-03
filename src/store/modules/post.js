@@ -11,12 +11,17 @@ const defaultPost = {
   categories: [{}],
   loading: true
 };
+const defaultGallery = {
+  featured: {
+    images: false
+  }
+};
 const state = {
   posts: [],
   maxPages: 0,
   loaded: false,
   currentPost: defaultPost,
-  gallery: {}
+  gallery: defaultGallery
 };
 
 // getters
@@ -104,7 +109,12 @@ const mutations = {
 
   [types.GALLERY](state, gallery) {
     console.log('genre gallery set', gallery);
-    state.gallery = gallery;
+    if(gallery) {
+      state.gallery = gallery;
+    }
+    else {
+      state.gallery = defaultGallery;
+    }
   },
 
 

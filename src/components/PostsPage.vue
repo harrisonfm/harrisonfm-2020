@@ -23,6 +23,7 @@ export default {
     if(this.type === 'home') {
       api.getHome(data => {
         this.hero = data.hero;
+        document.dispatchEvent(new Event('render-event'));
       });
     }
   },

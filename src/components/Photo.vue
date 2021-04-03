@@ -256,7 +256,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo ? this.photo.images.large.src : '', window.location.href)
+    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images, window.location.href)
   },
 
   components: { Loader }

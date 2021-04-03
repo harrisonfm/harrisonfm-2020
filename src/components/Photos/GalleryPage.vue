@@ -1,7 +1,7 @@
 <template>
   <div v-if="gallery">
     <div class="photos-page">
-      <h1 class="leading-none mb-2 lg:mb-4">{{ gallery.name }}</h1>
+      <h1 class="leading-none mb-2 lg:mb-4">{{ gallery.title }}</h1>
       <div class="post mb-2 lg:mb-4">
         <p>{{gallery.description}}</p>
       </div>
@@ -23,7 +23,7 @@ export default {
     ...mapGetters({
       post: 'currentPost',
       gallery: 'gallery'
-    })
+    }),
   },
   props: ['gallerySlug'],
 
@@ -34,7 +34,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     console.log('routeupdate', to, from);
     if(to.name === 'PhotosGallery') {
-      this.setGallery({gallery: null});
+      this.setGallery();
       this.handleGetPost('photos');
     }
     next();
@@ -42,7 +42,8 @@ export default {
 
   beforeRouteLeave: function(to,from,next) {
     console.log('leave photo gallery', to, from);
-    this.setGallery({gallery: null});
+    this.setCurrentPost();
+    this.setGallery();
     next();
   },
 
@@ -80,7 +81,8 @@ export default {
         if(this.gallerySlug === el.slug) {
           this.setGallery({
             images: el.gallery,
-            name: el.name,
+            featured: el.featured,
+            title: el.title,
             description: el.description
           });
         }
@@ -93,7 +95,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, '', window.location.href)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.gallery.featured.images)
   },
 };
 </script>

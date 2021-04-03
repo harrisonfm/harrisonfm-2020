@@ -2,12 +2,13 @@ import api from "~/api";
 import * as types from "../mutation-types";
 import store from '~/store';
 
-// slideshow off always / turn on with button click on photo component
-// does the state of the gallery need to be here too?
+const defaultPhoto = {
+  images: false
+};
 
 // initial state
 const state = {
-  photo: false,
+  photo: defaultPhoto,
   liked: false,
   likes: 0,
 	galleryIndex: 0,
@@ -49,9 +50,15 @@ const actions = {
 const mutations = {
   [types.PHOTO](state, photo) {
     console.log('commit photo', photo);
-    state.photo = photo;
-    state.photo.likes = parseInt(photo.likes);
-    state.likes = state.photo.likes;
+    if(photo) {
+      state.photo = photo;
+      state.photo.likes = parseInt(photo.likes);
+      state.likes = state.photo.likes;
+    }
+    else {
+      state.photo = defaultPhoto;
+      state.likes = 0;
+    }
   },
 	[types.PHOTO_SLIDESHOW](state) {
     state.slideshow = !state.slideshow;

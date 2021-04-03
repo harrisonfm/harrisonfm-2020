@@ -26,7 +26,7 @@
     @apply block hover:text-blue-800 focus:text-blue-800 transition-colors duration-200 p-2 sm:p-0;
   }
   .menu-link-icon {
-    @apply ml-2 text-3xl inline pr-4 sm:hidden;
+    @apply ml-2 text-3xl inline pr-2 sm:hidden;
   }
   .menu-parent {
     @apply flex flex-col justify-end sm:justify-center sm:flex-row;

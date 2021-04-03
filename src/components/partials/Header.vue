@@ -3,7 +3,7 @@
     <Logo />
     <MainMenu :menu="headerMenu" @toggle-search="toggleSearch" :showSearch="showSearch" />
     <transition name="slide-down">
-      <SearchForm v-if="showSearch" @toggle-search="toggleSearch" :showSearch="showSearch" />
+      <SearchForm v-if="showSearch" @toggle-search="toggleSearch" :icon="'sign-in-alt'" :showSearch="showSearch" />
     </transition>
   </header>
 </template>

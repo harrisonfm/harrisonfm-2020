@@ -136,9 +136,9 @@ function setup() {
 
     if(isset($post->acf['genres'])) {
       foreach($post->acf['genres'] as &$genre) {
-        $genre['image'] = getAttachment($genre['image']);
+        $genre['featured'] = getAttachment($genre['featured']);
         formatGalleryImages($genre['gallery'], true);
-        $genre['slug'] = strtolower(str_replace(' ', '-', $genre['name']));
+        $genre['slug'] = strtolower(str_replace(' ', '-', $genre['title']));
       }
 
       $post->genres = $post->acf['genres'];
@@ -270,10 +270,6 @@ function setup() {
   function getStories($request, $photosPage = false) {
     $terms = getStoryTerms();
 
-    foreach($terms as &$term) {
-      $term->image = getAttachment(get_field('banner_image', 'story_'.$term->term_id));
-    }
-
     if($photosPage) {
       return $terms;
     }
@@ -312,7 +308,7 @@ function setup() {
       $terms = $termQuery->get_terms();
       
       foreach($terms as &$term) {
-        $term->image = getAttachment(get_field('banner_image', 'story_'.$term->term_id));
+        $term->featured = getAttachment(get_field('featured', 'story_'.$term->term_id));
       }
       $query->term = $terms[0];
     }
@@ -368,7 +364,13 @@ function setup() {
       'order' => 'ASC'
     );
     $query = new \WP_Term_Query($args);
-    return $query->get_terms();
+    $terms = $query->get_terms();
+
+    foreach($terms as &$term) {
+      $term->featured = getAttachment(get_field('featured', 'story_'.$term->term_id));
+      $term->title = $term->name;
+    }
+    return $terms;
   }
 
   function register_rest_routes() {

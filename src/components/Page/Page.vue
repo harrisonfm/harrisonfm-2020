@@ -73,7 +73,7 @@ export default {
 
   metaInfo () {
     console.log(this.post.featured, 'meta');
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images.large, window.location.href)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images, window.location.href)
   },
 };
 </script>

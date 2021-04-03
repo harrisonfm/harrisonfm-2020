@@ -69,6 +69,7 @@ export default {
         slug: slug
       }).then(response => {
         console.log('post component resolves');
+        window.prerenderReady = true;
       }, error => {
         console.log('post component errors', this.post, error);
         this.$_error('ErrorPage', {
@@ -79,7 +80,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images.large, this.post.link)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images, 'author')
   },
 
   components: { Loader, Gallery, Hero, StoryNavigation, Tags }

@@ -9,7 +9,7 @@ import Page from "~/components/Page/Page.vue";
 import Photo from "~/components/Photo.vue";
 import Photos from "~/components/Photos.vue";
 import PhotosHome from "~/components/Photos/Home.vue";
-import PhotosGallery from "~/components/Photos/Gallery.vue";
+import PhotosGallery from "~/components/Photos/GalleryPage.vue";
 import PostsPage from "~/components/PostsPage.vue";
 
 import Stories from "~/components/Story/Home.vue";

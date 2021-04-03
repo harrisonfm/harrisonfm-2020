@@ -1,12 +1,8 @@
+.npmrc
 .DS_Store
 Thumbs.db
 dist/
-build/
 node_modules/
 package-lock.json
 yarn.lock
 *.log
-
-# Editor directories and files
-.vscode
-.idea

@@ -5,7 +5,7 @@
   			<MenuItem v-for="item in menu.items" :key="`menu_item_${item.ID}`" :item="item" :showMobileMenu="showMobileMenu" :isMobile="isMobile" class="header-menu-item" />
         <li class="flex items-center bg-white sm:h-16">
           <font-awesome-icon :icon="['fas', 'search']" class="hidden sm:flex" :class="{'text-blue-500' : showSearch}" @click="$emit('toggle-search')" />
-          <SearchForm class="sm:hidden" />
+          <SearchForm class="sm:hidden" :icon="isMobile ? 'search' : 'sign-in-alt'" />
         </li>
   		</ul>
     </transition>

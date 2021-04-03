@@ -5,8 +5,8 @@ import store from '~/store';
 // initial state
 const defaultStory = {
   term: {
-    name: 'Loading',
-    image: {
+    title: 'Loading',
+    featured: {
       images: false
     }
   },
@@ -124,8 +124,9 @@ const mutations = {
     console.log('story images set as gallery', data);
     store.state.post.gallery = {
       images: data.media,
-      title: data.term.name,
-      description: data.term.description
+      title: data.term.title,
+      description: data.term.description,
+      featured: data.term.featured
     };
   }
 };

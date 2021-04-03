@@ -1,6 +1,6 @@
 <template>
   <div class="page page--stories">
-    <hero :title="currentStory.term.name" :img="currentStory.term.image" />
+    <hero :title="currentStory.term.name" :img="currentStory.term.featured" />
     <div class="post-container" v-if="currentStoryLoaded">
       <div class="mb-4">
         <p>{{currentStory.term.description}}</p>
@@ -44,15 +44,10 @@ export default {
     ...mapActions(['getStory']),
     ...mapMutations({
       'setCurrentStory': 'STORY_CURRENT',
-    }),
-    parseBackground(post) {
-      if(post.featured) {
-        return post.featured.images.full;
-      }
-    },
+    })
   },
   metaInfo () {
-    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.image.images.large, window.location.href);
+    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.featured.images, window.location.href);
   },
   components: {
     Hero, StoryArticle

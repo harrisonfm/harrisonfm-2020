@@ -28,6 +28,11 @@ h3 {
 h4 {
   @apply text-xl;
 }
+
+input::placeholder {
+  color: black;
+}
+
 .post-container {
  @apply p-2 lg:p-4 bg-white xxl:shadow;
 }
@@ -44,12 +49,6 @@ h4 {
 }
 .post a:hover, .post a:active {
   @apply text-blue-700;
-}
-.post-gallery {
-  @apply xs:grid xs:gap-2 lg:gap-4 xs:auto-rows-fr xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
-}
-.post-gallery > a {
-  @apply flex relative mb-4 xs:m-0
 }
 .photos-page {
   @apply mx-auto max-w-8xl p-2 lg:px-4;

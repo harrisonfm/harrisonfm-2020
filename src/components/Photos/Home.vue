@@ -31,6 +31,11 @@ export default {
     this.handleGetPost('photos');
   },
 
+  beforeRouteLeave: function(to,from,next) {
+    this.setCurrentPost();
+    next();
+  },
+
   methods: {
     ...mapActions(['getPage']),
     ...mapMutations({
@@ -55,7 +60,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, '', window.location.href)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, false)
   },
 };
 </script>
