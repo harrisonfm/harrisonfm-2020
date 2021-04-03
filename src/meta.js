@@ -99,6 +99,7 @@ export default {
           content: img
         },
         {
+          vmid: 'fragment',
           name: "fragment",
           content: "!"
         }

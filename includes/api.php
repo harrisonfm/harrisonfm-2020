@@ -152,6 +152,8 @@ function setup() {
       $post->projects = $post->acf['projects'];
     }
 
+    $post->post_excerpt = get_the_excerpt($post);
+
     $post->link = str_replace(network_site_url(), '', get_permalink($post->ID));
 
     $post->categories = array();
