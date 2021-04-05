@@ -108,6 +108,17 @@ export default {
     ...mapMutations({
       setLoaded: 'POSTS_LOADED'
     }),
+    handleGetPosts() {
+      this.getPosts(this.params).then(response => {
+        console.log('post archives resolves');
+        window.prerenderReady = true;
+      }, error => {
+        console.log('post component errors', this.$route.path);
+        this.$_error('ErrorPage', {
+          route: this.$route.path
+        });
+      });
+    },
     parseBackground(post) {
       if(post.featured) {
         return `
@@ -129,12 +140,12 @@ export default {
 
     updatePosts(to, from) {
       this.setLoaded(false);
-      this.getPosts(this.params);
+      this.handleGetPosts();
     }
   },
 
   beforeMount() {
-    this.getPosts(this.params);
+    this.handleGetPosts();
   },
 
   watch: {

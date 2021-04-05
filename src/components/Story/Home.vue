@@ -29,7 +29,7 @@ export default {
     ...mapActions(['getStories'])
   },
   metaInfo () {
-    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.images, window.location.href)
+    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.images)
   },
   components: {
     Hero, StoryArticle

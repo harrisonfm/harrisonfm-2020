@@ -36,19 +36,26 @@ const getters = {
 // actions
 const actions = {
   getPosts({ commit }, params) {
-    api.getPosts(params, data => {
-      console.log(data);
-
-      commit(types.STORE_FETCHED_POSTS, data);
-      commit(types.POSTS_LOADED, true);
-      commit(types.INCREMENT_LOADING_PROGRESS);
+    return new Promise((resolve, reject) => {
+      api.getPosts(params, response => {
+        console.log(response);
+        if(response.posts.length) {
+          commit(types.STORE_FETCHED_POSTS, response);
+          commit(types.POSTS_LOADED, true);
+          commit(types.INCREMENT_LOADING_PROGRESS);
+          resolve(response);
+        }
+        else {
+          reject(response);
+        }
+      });
     });
   },
 
   getPage({ commit, getters }, payload) {
+    console.log('store getpage', payload.slug);
     return new Promise((resolve, reject) => {
       api.getPage(payload.slug, response => {
-        console.log('store getpage', response);
         if(response) {
           commit(types.POST_CURRENT, response);
           resolve(response);

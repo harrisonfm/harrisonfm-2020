@@ -58,6 +58,7 @@ export default {
         slug: slug
       }).then(response => {
         console.log('page component resolves', response);
+        window.prerenderReady = true;
       }, error => {
         console.log('page component errors', this.page, error);
         this.$_error('ErrorPage', {
@@ -72,8 +73,7 @@ export default {
   },
 
   metaInfo () {
-    console.log(this.post.featured, 'meta');
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images, window.location.href)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images, "author")
   },
 };
 </script>

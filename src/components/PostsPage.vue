@@ -9,7 +9,6 @@ import Posts from '~/components/widgets/Posts.vue'
 import Hero from '~/components/partials/Hero.vue'
 import meta from '~/meta'
 import api from "~/api";
-import { mapGetters } from 'vuex'
 export default {
   components: {
     Posts, Hero

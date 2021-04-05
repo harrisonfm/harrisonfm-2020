@@ -69,7 +69,9 @@ function setup() {
     );
 
     $query = new \WP_Query($args);
-    formatPostForApi($query->posts[0]);
+    if($query->posts) {
+      formatPostForApi($query->posts[0]);
+    }
     
     return new \WP_REST_Response($query->posts);
   }

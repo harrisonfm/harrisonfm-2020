@@ -71,9 +71,9 @@ export default {
         console.log('post component resolves');
         window.prerenderReady = true;
       }, error => {
-        console.log('post component errors', this.post, error);
+        console.log('post component errors', this.$route.path);
         this.$_error('ErrorPage', {
-          route: this.postSlug
+          route: this.$route.path
         });
       });
     },

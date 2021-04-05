@@ -23,17 +23,13 @@ import StoryArticle from './Article.vue'
 export default {
   props: ['storySlug'],
   beforeMount: function() {
-    this.getStory({
-      slug: this.storySlug
-    });
+    this.handleGetStory(this.storySlug);
   },
   beforeRouteUpdate(to, from, next) {
     if(to.name === 'Story' && from.name === 'Story') {
       console.log('update story', to, from);
       this.setCurrentStory();
-      this.getStory({
-        slug: to.params.storySlug
-      });
+      this.handleGetStory(to.params.storySlug);
     }
     next();
   },
@@ -44,10 +40,23 @@ export default {
     ...mapActions(['getStory']),
     ...mapMutations({
       'setCurrentStory': 'STORY_CURRENT',
-    })
+    }),
+    handleGetStory(slug) {
+      this.getStory({
+        slug: slug
+      }).then(response => {
+        console.log('story archives resolves');
+        window.prerenderReady = true;
+      }, error => {
+        console.log('story component errors', this.$route.path);
+        this.$_error('ErrorPage', {
+          route: this.$route.path
+        });
+      });
+    }
   },
   metaInfo () {
-    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.featured.images, window.location.href);
+    return meta.formatMeta(this.currentStory.term.name, this.currentStory.term.description, this.currentStory.term.featured.images);
   },
   components: {
     Hero, StoryArticle

@@ -25,10 +25,10 @@
           </font-awesome-layers>
         </i>
       </div>
-      <div class="controls-mini" v-if="!galleryInfo" @click="setGalleryInfo">
+      <div class="controls-mini" v-else @click="setGalleryInfo">
         <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
       </div>
-      <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}">
+      <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="photo.images">
         <img sizes="100vw" :srcset="parseSrcset()" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" @load="handleImageLoad" />
       </div>
       <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
@@ -126,7 +126,7 @@ export default {
   props: ['idSlug', 'postSlug', 'gallerySlug'],
 
   beforeMount() {
-    console.log(this.postSlug, this.gallerySlug);
+    console.log(this.postSlug);
     this.ID = this.parseIDSlug(this.idSlug);
     this.getPhoto();
   },
@@ -139,8 +139,11 @@ export default {
   },
 
   mounted() {
-    this.$el.focus();
-    this.$el.style.opacity = 1;
+    console.log(this.$el);
+    if(this.$el.focus) {
+      this.$el.focus();
+      this.$el.style.opacity = 1;
+    }
   },
 
   watch: {
@@ -164,16 +167,27 @@ export default {
     },
     getPhoto: function() {
       console.log('getphoto', this.ID, this.gallery);
-      if(this.gallery.images) {
+      if(this.gallery.images && this.ID) {
         for (const [idx, el] of this.gallery.images.entries()) {
           if(this.ID === el.ID) {
             console.log('getphoto from gallery', el);
             this.setPhoto(el);
             this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)});
             this.setGalleryIndex({ idx });
+            window.prerenderReady = true;
             break;
           }
         }
+        if(!this.photo.images) {
+          this.$_error('ErrorPage', {
+            route: this.idSlug
+          });
+        }
+      }
+      else {
+        this.$_error('ErrorPage', {
+          route: this.idSlug
+        });
       }
       // else {
       //   this.getSinglePhoto({
@@ -250,13 +264,15 @@ export default {
       }
     },
     parseSrcset() {
-      const img = this.photo.images;
-      return img.medium_large.src+' '+img.medium_large.width+'w, '+img.large.src+' '+img.large.width+'w, '+img['1536x1536'].src+' '+img['1536x1536'].width+'w, '+img['2048x2048'].src+' '+img['2048x2048'].width+'w, '+img['full'].src+' '+img['full'].width+'w';
+      if(this.photo.images) {
+        const img = this.photo.images;
+        return img.medium_large.src+' '+img.medium_large.width+'w, '+img.large.src+' '+img.large.width+'w, '+img['1536x1536'].src+' '+img['1536x1536'].width+'w, '+img['2048x2048'].src+' '+img['2048x2048'].width+'w, '+img['full'].src+' '+img['full'].width+'w';
+      }
     }
   },
 
   metaInfo () {
-    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images, window.location.href)
+    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images, 'author')
   },
 
   components: { Loader }

@@ -80,6 +80,7 @@ const actions = {
       }, response => {
         console.log('store getstory images', response);
         if(response.media) {
+          response.slug = payload.slug;
           commit(types.STORY_IMAGES, response);
           resolve(response);
         }
@@ -124,6 +125,7 @@ const mutations = {
     console.log('story images set as gallery', data);
     store.state.post.gallery = {
       images: data.media,
+      gallerySlug: data.slug,
       title: data.term.title,
       description: data.term.description,
       featured: data.term.featured
