@@ -29,7 +29,7 @@
         <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
       </div>
       <transition name="fade">
-        <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="photo.loaded">
+        <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="loaded">
           <img sizes="100vw" :srcset="parseSrcset(photo)" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" />
         </div>
       </transition>
@@ -38,12 +38,18 @@
         <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
       </div>
       <nav class="photo-infonav" v-if="galleryInfo">
-        <img :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" @click="goToPrevPhoto" alt="previous photo" />
-        <div class="text-center px-4 hidden sm:block" >
-          <h2 class="leading-none text-2xl lg:text-4xl">{{ photo.post_title }}</h2>
-          <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
-        </div>
-        <img :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" @click="goToNextPhoto" alt="next photo" />
+        <transition name="fade-delay">
+          <img :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto && loaded" @click="goToPrevPhoto" alt="previous photo" />
+        </transition>
+        <transition name="fade">
+          <div class="infonav-text" v-if="loaded">
+            <h2 class="infonav-title">{{ photo.post_title }}</h2>
+            <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
+          </div>
+        </transition>
+        <transition name="fade-delay">
+          <img :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto && loaded" @click="goToNextPhoto" alt="next photo" />
+        </transition>
       </nav>
     </template>
     <Loader v-else/>
@@ -85,10 +91,21 @@
 .photo-infonav img {
   height: 75px;
 }
+.infonav-text {
+  @apply text-center px-4 hidden m-auto sm:block
+}
+.infonav-title {
+  @apply leading-none text-2xl lg:text-4xl
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-delay-enter-active, .fade-delay-leave-active {
+  transition: opacity .5s;
+  transition-delay: 1s;
+}
+.fade-enter, .fade-leave-to, 
+.fade-delay-enter, .fade-delay-leave-to {
   opacity: 0;
 }
 </style>
@@ -111,7 +128,7 @@ export default {
       galleryInfo: 'galleryInfo',
       galleryIndex: 'galleryIndex',
       likes: 'likes',
-      liked: 'liked',
+      liked: 'liked'
     }),
     routes: function() {
       if(this.postSlug) {
@@ -128,6 +145,12 @@ export default {
           photo: 'PhotosSingle'
         }
       }
+    }
+  },
+
+  data() {
+    return {
+      loaded: false
     }
   },
 
@@ -207,10 +230,9 @@ export default {
     },
     refreshPhoto: function() {
       this.setPhoto();
+      this.loaded = false;
       this.ID = this.parseIDSlug(this.idSlug);
-      setTimeout(() => {
-        this.getPhoto();
-      }, 100);
+      this.getPhoto();
     },
     like: function() {
       if(this.liked) {
@@ -255,8 +277,8 @@ export default {
     },
     handleImageLoad: function(photo, identifier) {
       console.log(photo.post_title+' loaded');
-      this.setLoaded(identifier);
       if(identifier === 'main') {
+        this.loaded = true;
         this.handleSlideShow();
         this.preload(this.nextPhoto, 'next');
         this.preload(this.prevPhoto, 'prev');
