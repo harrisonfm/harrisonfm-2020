@@ -28,9 +28,11 @@
       <div class="controls-mini" v-else @click="setGalleryInfo">
         <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
       </div>
-      <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="photo.images">
-        <img sizes="100vw" :srcset="parseSrcset()" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" @load="handleImageLoad" />
-      </div>
+      <transition name="fade">
+        <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="photo.loaded">
+          <img sizes="100vw" :srcset="parseSrcset(photo)" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" />
+        </div>
+      </transition>
       <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
         <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
         <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
@@ -64,7 +66,7 @@
   @apply absolute right-0 top-0 bg-gray-300 opacity-50 w-6 h-8 px-1 flex items-center text-black cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg;
 }
 .photo-box {
-  @apply w-screen overflow-auto mt-auto transition-opacity duration-1000 lg:my-auto opacity-0;
+  @apply w-screen overflow-auto mt-auto lg:my-auto;
 }
 .photo-infonav {
   @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow xxl:w-4/5;
@@ -82,6 +84,12 @@
 }
 .photo-infonav img {
   height: 75px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
 <script>
@@ -139,7 +147,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.$el);
     if(this.$el.focus) {
       this.$el.focus();
       this.$el.style.opacity = 1;
@@ -160,7 +167,8 @@ export default {
       'setSlideshow': 'PHOTO_SLIDESHOW',
       'setGalleryInfo': 'GALLERY_INFO',
       'setGalleryIndex' : 'GALLERY_INDEX',
-      'setLiked': 'LIKED'
+      'setLiked': 'LIKED',
+      'setLoaded': 'PHOTO_LOADED'
     }),
     parseIDSlug: function(idSlug) {
       return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
@@ -183,6 +191,7 @@ export default {
             route: this.idSlug
           });
         }
+        this.preload(this.photo);
       }
       else {
         this.$_error('ErrorPage', {
@@ -197,8 +206,11 @@ export default {
       // }
     },
     refreshPhoto: function() {
-      this.ID = this.parseIDSlug(this.idSlug); 
-      this.getPhoto();
+      this.setPhoto();
+      this.ID = this.parseIDSlug(this.idSlug);
+      setTimeout(() => {
+        this.getPhoto();
+      }, 100);
     },
     like: function() {
       if(this.liked) {
@@ -241,31 +253,36 @@ export default {
         params: { idSlug: photo.ID + '-' + photo.post_name }
       });
     },
-    handleImageLoad: function() {
-      let photoBox = document.getElementsByClassName('photo-box')[0];
-      photoBox.style.opacity = 1;
-      this.handleSlideShow();
-      this.preload(this.nextPhoto);
-      this.preload(this.prevPhoto);
+    handleImageLoad: function(photo, identifier) {
+      console.log(photo.post_title+' loaded');
+      this.setLoaded(identifier);
+      if(identifier === 'main') {
+        this.handleSlideShow();
+        this.preload(this.nextPhoto, 'next');
+        this.preload(this.prevPhoto, 'prev');
+      }
     },
-    preload(photo) {
+    preload(photo = this.photo, identifier = 'main') {
       let image = new Image();
+      image.onload = function() {
+        this.handleImageLoad(photo, identifier);
+      }.bind(this);
       image.sizes = '100vw';
-      image.srcset = this.parseSrcset();
+      image.srcset = this.parseSrcset(photo);
     },
     handleSlideShow: function() {
       if(this.slideshow) {
-        this.activeSlide = setTimeout(function(that) {
-          that.routeToPhoto(that.nextPhoto);
-        }, 5000, this);
+        this.activeSlide = setTimeout(() => {
+          this.routeToPhoto(this.nextPhoto);
+        }, 5000);
       }
       else {
         clearTimeout(this.activeSlide);
       }
     },
-    parseSrcset() {
-      if(this.photo.images) {
-        const img = this.photo.images;
+    parseSrcset(photo) {
+      if(photo.images) {
+        const img = photo.images;
         return img.medium_large.src+' '+img.medium_large.width+'w, '+img.large.src+' '+img.large.width+'w, '+img['1536x1536'].src+' '+img['1536x1536'].width+'w, '+img['2048x2048'].src+' '+img['2048x2048'].width+'w, '+img['full'].src+' '+img['full'].width+'w';
       }
     }

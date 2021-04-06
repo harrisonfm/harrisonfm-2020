@@ -22,7 +22,8 @@ export const PHOTO_SLIDESHOW = 'PHOTO_SLIDESHOW'
 export const NEXT_PHOTO = 'NEXT_PHOTO'
 export const PREV_PHOTO = 'PREV_PHOTO'
 export const PHOTO_LIKE = 'PHOTO_LIKE'
-export const LIKED = 'LIKED' 
+export const LIKED = 'LIKED'
+export const PHOTO_LOADED = 'PHOTO_LOADED'
 
 export const HEADER_MENU = 'HEADER_MENU'
 

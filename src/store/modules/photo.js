@@ -3,7 +3,8 @@ import * as types from "../mutation-types";
 import store from '~/store';
 
 const defaultPhoto = {
-  images: false
+  images: false,
+  loaded: false
 };
 
 // initial state
@@ -14,8 +15,8 @@ const state = {
 	galleryIndex: 0,
   galleryInfo: true,
   slideshow: false,
-  prevPhoto: false,
-  nextPhoto: false
+  prevPhoto: defaultPhoto,
+  nextPhoto: defaultPhoto
 };
 
 // getters
@@ -83,6 +84,21 @@ const mutations = {
   },
   [types.LIKED](state, payload) {
     state.liked = payload.liked;
+  },
+  [types.PHOTO_LOADED](state, identifier) {
+    if(identifier === 'next') {
+      state.nextPhoto.loaded = true;
+      state.nextPhoto = { ...state.nextPhoto };
+    }
+    else if(identifier === 'prev') {
+      state.prevPhoto.loaded = true;
+      state.prevPhoto = { ...state.prevPhoto };
+    }
+    else {
+      state.photo.loaded = true;
+      state.photo = { ...state.photo };
+    }
+    console.log('update load state', state.photo.loaded); 
   },
 };
 

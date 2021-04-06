@@ -232,6 +232,7 @@ function setup() {
       $likes = get_field('likes', $galleryItem->ID);
       $galleryItem->likes = $likes ? $likes : 0;
       $galleryItem->images = array();
+      $galleryItem->post_name = strtolower(str_replace(' ', '-', $galleryItem->post_title));
 
       foreach($imageSizes as $size => $dimensions) {
         $imageSrc = wp_get_attachment_image_src($galleryItem->ID, $size);
