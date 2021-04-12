@@ -1,75 +1,86 @@
 <template>
-  <div class="photo-modal" tabindex="0"
-    @keyup.right="goToNextPhoto"
-    @keyup.left="goToPrevPhoto"
-    @keyup.up="back"
-    @keyup.down="back"
-    @keyup.esc="back"
-    @keyup.space="toggleSlideshow"
-    @keyup.enter="setGalleryInfo">
-    <template v-if="photo">
-      <div class="controls" v-if="galleryInfo">
-        <i @click="back">
-          <font-awesome-icon :icon="['fas', 'compress-alt']" />
-        </i>
-        <i @click="setGalleryInfo">
-          <font-awesome-icon :icon="['fas', 'info-circle']" :class="{'text-blue-500': galleryInfo}" />
-        </i>
-        <i @click="toggleSlideshow">
-          <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" class="cursor-pointer" />
-        </i>
-        <i @click="like">
-          <font-awesome-layers full-width class="cursor-pointer not-italic" :class="{'text-red-600': liked}" >
-            <font-awesome-icon :icon="['fas', 'heart']" />
-            <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
-          </font-awesome-layers>
-        </i>
-      </div>
-      <div class="controls-mini" v-else @click="setGalleryInfo">
-        <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
-      </div>
-      <transition name="fade">
-        <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="loaded">
-          <img sizes="100vw" :srcset="parseSrcset(photo)" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" />
-        </div>
-      </transition>
-      <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
-        <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
-        <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
-      </div>
-      <nav class="photo-infonav" v-if="galleryInfo">
-        <transition name="fade-delay">
-          <img :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto && loaded" @click="goToPrevPhoto" alt="previous photo" />
-        </transition>
-        <transition name="fade">
-          <div class="infonav-text" v-if="loaded">
-            <h2 class="infonav-title">{{ photo.post_title }}</h2>
-            <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
+  <transition name="fade">
+    <div class="photo-modal" tabindex="0"
+      @keyup.right="goToNextPhoto"
+      @keyup.left="goToPrevPhoto"
+      @keyup.up="back"
+      @keyup.down="back"
+      @keyup.esc="back"
+      @keyup.space="toggleSlideshow"
+      @keyup.enter="setGalleryInfo">
+      <template v-if="photo">
+        <transition name="slide-right">
+          <div class="controls controls-full" v-if="galleryInfo">
+            <i @click="back">
+              <font-awesome-icon :icon="['fas', 'compress-alt']" />
+            </i>
+            <i @click="setGalleryInfo">
+              <font-awesome-icon :icon="['fas', 'info-circle']" :class="{'text-blue-500': galleryInfo}" />
+            </i>
+            <i @click="toggleSlideshow">
+              <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" class="cursor-pointer" />
+            </i>
+            <i @click="like">
+              <font-awesome-layers full-width class="cursor-pointer not-italic" :class="{'text-red-600': liked}" >
+                <font-awesome-icon :icon="['fas', 'heart']" />
+                <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
+              </font-awesome-layers>
+            </i>
           </div>
         </transition>
-        <transition name="fade-delay">
-          <img :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto && loaded" @click="goToNextPhoto" alt="next photo" />
+        <transition name="slide-right">
+          <div class="controls controls-mini" v-if="!galleryInfo" @click="setGalleryInfo">
+            <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
+          </div>
         </transition>
-      </nav>
-    </template>
-    <Loader v-else/>
-  </div>
+        <transition name="fade">
+          <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="loaded">
+            <img sizes="100vw" :srcset="parseSrcset(photo)" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" />
+          </div>
+        </transition>
+        <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
+          <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
+          <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
+        </div>
+        <transition name="slide-up">
+          <nav class="photo-infonav" v-if="galleryInfo">
+            <transition name="fade-delay">
+              <img :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto && loaded" @click="goToPrevPhoto" alt="previous photo" />
+            </transition>
+            <transition name="fade">
+              <div class="infonav-text" v-if="loaded">
+                <h2 class="infonav-title">{{ loaded ? photo.post_title : 'Loading..' }}</h2>
+                <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
+              </div>
+            </transition>
+            <transition name="fade-delay">
+              <img :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto && loaded" @click="goToNextPhoto" alt="next photo" />
+            </transition>
+          </nav>
+        </transition>
+      </template>
+      <Loader v-else/>
+    </div>
+  </transition>
 </template>
 <style scoped>
 .photo-modal {
-  @apply fixed inset-0 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 bg-white z-30 opacity-0 font-open;
+  @apply fixed inset-0 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 bg-white z-30 font-open;
 }
 .controls {
-  @apply absolute flex flex-col items-center py-3 px-2 right-0 top-0 text-xl rounded-bl-lg bg-white bg-opacity-25 transition-none z-10 md:text-3xl;
+  @apply absolute flex items-center right-0 top-0 z-10;
 }
-.controls > * {
+.controls-full {
+  @apply flex-col py-3 px-2 text-xl rounded-bl-lg bg-white bg-opacity-25 md:text-3xl;
+}
+.controls-full > * {
   @apply cursor-pointer py-1 px-2 leading-none;
 }
-.controls i:not(:first-of-type) {
+.controls-full i:not(:first-of-type) {
   @apply mt-3;
 }
 .controls-mini {
-  @apply absolute right-0 top-0 bg-gray-300 opacity-50 w-6 h-8 px-1 flex items-center text-black cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg;
+  @apply bg-gray-300 opacity-50 w-6 h-8 px-1 cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg;
 }
 .photo-box {
   @apply w-screen overflow-auto mt-auto lg:my-auto;
@@ -98,11 +109,11 @@
   @apply leading-none text-2xl lg:text-4xl
 }
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
+  transition: opacity .75s;
 }
 .fade-delay-enter-active, .fade-delay-leave-active {
   transition: opacity .5s;
-  transition-delay: 1s;
+  transition-delay: .5s;
 }
 .fade-enter, .fade-leave-to, 
 .fade-delay-enter, .fade-delay-leave-to {
@@ -150,14 +161,15 @@ export default {
 
   data() {
     return {
-      loaded: false
+      loaded: false,
+      mounted: true,
+      transition: 'fade'
     }
   },
 
   props: ['idSlug', 'postSlug', 'gallerySlug'],
 
   beforeMount() {
-    console.log(this.postSlug);
     this.ID = this.parseIDSlug(this.idSlug);
     this.getPhoto();
   },
@@ -172,7 +184,6 @@ export default {
   mounted() {
     if(this.$el.focus) {
       this.$el.focus();
-      this.$el.style.opacity = 1;
     }
   },
 
@@ -190,8 +201,7 @@ export default {
       'setSlideshow': 'PHOTO_SLIDESHOW',
       'setGalleryInfo': 'GALLERY_INFO',
       'setGalleryIndex' : 'GALLERY_INDEX',
-      'setLiked': 'LIKED',
-      'setLoaded': 'PHOTO_LOADED'
+      'setLiked': 'LIKED'
     }),
     parseIDSlug: function(idSlug) {
       return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));

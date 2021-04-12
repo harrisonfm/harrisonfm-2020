@@ -102,6 +102,38 @@ input::placeholder {
   }
 }
 
+.slide-up-enter-active {
+  animation: slide-up-in .25s;
+}
+.slide-up-leave-active {
+  animation: slide-up-in .25s reverse;
+}
+@keyframes slide-up-in {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.slide-right-enter-active {
+  animation: slide-right-in .25s;
+}
+.slide-right-leave-active {
+  animation: slide-right-in .25s reverse;
+}
+@keyframes slide-right-in {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 0;
+  }
+}
+
 @font-face {
   font-family: "Open Sans";
   src: url("../fonts/OpenSans-Light.woff");
