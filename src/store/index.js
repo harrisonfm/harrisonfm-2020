@@ -3,8 +3,6 @@ import Vuex from 'vuex'
 import createPersist from 'vuex-localstorage'
 import * as actions from './actions'
 import * as getters from './getters'
-import hub from './modules/hub'
-import user from './modules/user'
 import post from './modules/post'
 import photo from './modules/photo'
 import menus from './modules/menus'
@@ -30,8 +28,6 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
-    hub,
-    user,
     post,
     photo,
     menus,

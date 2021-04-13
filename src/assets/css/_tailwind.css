@@ -34,7 +34,7 @@ input::placeholder {
 }
 
 .post-container {
- @apply p-2 lg:p-4 bg-white xxl:shadow min-h-screen;
+ @apply p-2 lg:p-4 bg-white xxl:shadow min-h-halfScreen;
 }
 .hero + .post-container {
   @apply xxl:rounded xxl:-my-16;

@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div v-if="post">
-      <hero :title="post.title" :img="post.featured" />
+      <hero :img="post.featured" />
       <div class="post-container">
         <h1 class="leading-none mb-4">{{ post.post_title }}</h1>
         <div class="post" v-html="post.post_content"></div>

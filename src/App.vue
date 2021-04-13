@@ -13,21 +13,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
 import Header from './components/partials/Header.vue';
 import Footer from './components/partials/Footer.vue';
 
 export default {
-  data() {
-    return {
-      showLoader: true,
-    };
-  },
   computed: {
-    ...mapGetters({
-      isLoading: 'isLoading'
-    }),
-
     fullScreen: function() {
       return (this.$route.name === 'PhotosHome' || this.$route.name === 'PhotosGallery') ? true : false;
     },
@@ -36,18 +26,6 @@ export default {
   components: {
     appHeader: Header,
     appFooter: Footer,
-  },
-
-  watch: {
-    // watch the value of isLoading and once it's false hide the loader
-    isLoading(val) {
-      if (val == false) {
-        let self = this;
-        setTimeout(function() {
-          self.showLoader = false;
-        }, 1000);
-      }
-    },
   },
 };
 </script>

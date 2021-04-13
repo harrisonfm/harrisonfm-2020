@@ -37,7 +37,7 @@ const actions = {
     api.getStories(data => {
       console.log(data);
 
-      commit(types.STORE_FETCHED_STORIES, data);
+      commit(types.STORIES, data);
       commit(types.STORIES_LOADED, true);
     });
   },
@@ -95,7 +95,7 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.STORE_FETCHED_STORIES](state, data) {
+  [types.STORIES](state, data) {
     state.stories = data.stories;
     state.storyHero = data.hero;
   },

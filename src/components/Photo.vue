@@ -196,7 +196,10 @@ export default {
       return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
     },
     getPhoto: function() {
-      console.log('getphoto', this.ID, this.gallery);
+      console.log('getphoto '+this.ID, this.gallery.images, this.gallery.loaded);
+      if(!this.gallery.loaded) {
+        return false;
+      }
       if(this.gallery.images && this.ID) {
         for (const [idx, el] of this.gallery.images.entries()) {
           if(this.ID === el.ID) {
@@ -215,13 +218,10 @@ export default {
         }
         this.preload(this.photo);
       }
-      else if(this.gallery.loaded) {
+      else {
         this.$_error('ErrorPage', {
           route: this.idSlug
         });
-      }
-      else {
-        console.log('gallery not loaded first pass');
       }
       // else {
       //   this.getSinglePhoto({

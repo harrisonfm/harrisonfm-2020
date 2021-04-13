@@ -2,21 +2,19 @@
   <div>
     <hero :img="post.featured" />
     <div class="post-container">
-      <div v-if="post.post_content"> 
-        <div class="mb-8">
-          <h1 class="leading-none">{{ post.post_title }}</h1>
-          <p class="text-gray-700">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
-        </div>
-        <div class="post" v-html="post.post_content" />
-        <Gallery v-if="gallery" :gallery="gallery" route="PostPhoto" />
-        <Tags v-if="post.tags.length" :tags="post.tags" />
-        <StoryNavigation v-if="post.story" :story="post.story" />
-        <router-view />
+      <div class="mb-8">
+        <h1 class="leading-none">{{ post.post_title ? post.post_title : 'Loading..' }}</h1>
+        <transition name="fade">
+          <p class="text-gray-700" v-if="post.post_content">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
+        </transition>
       </div>
-      <div v-else>
-        <h1 class="leading-none mb-4">{{ 'Loading..' }}</h1>
-        <div class="post h-40" />
-      </div>
+      <transition name="fade">
+        <div class="post" v-if="post.post_content" v-html="post.post_content" />
+      </transition>
+      <Gallery v-if="gallery" :gallery="gallery" route="PostPhoto" />
+      <Tags v-if="post.tags" :tags="post.tags" />
+      <StoryNavigation v-if="post.story" :story="post.story" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -68,7 +66,7 @@ export default {
       this.getPost({
         slug: slug
       }).then(response => {
-        console.log('post component resolves');
+        console.log('post component resolves', this.gallery);
         window.prerenderReady = true;
       }, error => {
         console.log('post component errors', this.$route.path);

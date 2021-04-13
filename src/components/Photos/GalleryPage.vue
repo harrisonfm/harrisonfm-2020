@@ -58,8 +58,8 @@ export default {
         slug: slug
       }).then(response => {
         this.setGenreGallery();
-        console.log('page component resolves', response);
-        if(!this.gallery.images) {
+        console.log('page component resolves', response, this.gallery);
+        if(!this.gallery.loaded) {
           console.log('getstoryimages');
           this.getStoryImages({
             slug: this.gallerySlug

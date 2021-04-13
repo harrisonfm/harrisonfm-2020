@@ -22,6 +22,9 @@
 </style>
 <script>
 export default {
-  props: ['gallery', 'route']
+  props: ['gallery', 'route'],
+  created() {
+    console.log(this.gallery, this.gallery.featured, this.gallery.images);
+  }
 };
 </script>

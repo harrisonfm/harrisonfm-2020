@@ -16,6 +16,7 @@ const defaultGallery = {
   featured: {
     images: false
   },
+  images: [],
   loaded: false
 };
 const state = {
@@ -42,9 +43,8 @@ const actions = {
       api.getPosts(params, response => {
         console.log(response);
         if(response.posts.length) {
-          commit(types.STORE_FETCHED_POSTS, response);
+          commit(types.POSTS, response);
           commit(types.POSTS_LOADED, true);
-          commit(types.INCREMENT_LOADING_PROGRESS);
           resolve(response);
         }
         else {
@@ -97,7 +97,7 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.STORE_FETCHED_POSTS](state, data) {
+  [types.POSTS](state, data) {
     if(data) {
       state.posts = data.posts;
       state.maxPages = data.max_num_pages;
@@ -115,9 +115,16 @@ const mutations = {
     console.log('current post set', post);
     if(post) {
       state.currentPost = post;
-      state.gallery.images = post.gallery;
+      if(post.gallery) {
+        console.log('post gallery set', post.gallery);
+        state.gallery = {
+          images: post.gallery,
+          loaded: true
+        }
+      }
     } else {
       state.currentPost = defaultPost;
+      state.gallery = defaultGallery;
     }
   },
 
