@@ -1,6 +1,6 @@
 <?php status_header(200); ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> class="no-js no-svg overflow-x-hidden">
+<html <?php language_attributes(); ?> class="no-js no-svg">
 
   <head>
     <script> window.prerenderReady = false; </script>
@@ -13,4 +13,4 @@
     <?php wp_head(); ?>
   </head>
 
-  <body <?php body_class('bg-gray-200 overflow-x-hidden'); ?>>
+  <body <?php body_class('bg-gray-200'); ?>>
