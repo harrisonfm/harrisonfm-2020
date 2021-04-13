@@ -128,7 +128,8 @@ const mutations = {
       gallerySlug: data.slug,
       title: data.term.title,
       description: data.term.description,
-      featured: data.term.featured
+      featured: data.term.featured,
+      loaded: true
     };
   }
 };

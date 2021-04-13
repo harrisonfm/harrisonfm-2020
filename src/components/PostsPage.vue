@@ -1,6 +1,6 @@
 <template>
   <div :class="`page page--${type}`">
-    <hero :title="'HarrisonFM was here'" v-if="type === 'home'" :img="hero" />
+    <hero :title="true" v-if="type === 'home'" :img="hero" />
     <posts :type="type" :slug="slug" :page="page ? parseInt(page) : page" />
   </div>
 </template>
@@ -22,6 +22,7 @@ export default {
     if(this.type === 'home') {
       api.getHome(data => {
         this.hero = data.hero;
+        this.title = data.title;
       });
     }
   },

@@ -1,12 +1,28 @@
 <template>
   <div class="hero">
     <v-style>{{ parseBackground(img) }}</v-style>
-    <h2 class="text-center m-auto text-white uppercase" v-if="title">{{ title }}</h2>
+    <transition name="fade">
+      <h2 class="title" v-if="title && img">
+        Harrison <img :src="Bolt" class="icon icon-1" /> FM <img class="icon" :src="Bolt" />
+      </h2>
+    </transition>
   </div>
 </template>
 <style>
 .hero {
   @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen flex;
+}
+.title {
+  @apply text-center m-auto text-white uppercase flex text-6xl items-center;
+}
+.icon {
+  @apply filter invert mx-1 h-16;
+}
+.icon-1 {
+  @apply transform rotate-180 ml-4
+}
+.icon-2 {
+
 }
 @screen xxl {
   .hero {
@@ -15,8 +31,14 @@
 }
 </style>
 <script>
+import Bolt from '~/assets/bolt.svg'
 export default {
   props: ['img', 'title'],
+  data() {
+    return {
+      Bolt: Bolt
+    };
+  },
   methods: {
     parseBackground(img) {
       if(img.images) {

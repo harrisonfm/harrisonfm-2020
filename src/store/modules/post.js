@@ -9,12 +9,14 @@ const defaultPost = {
     images: false
   },
   categories: [{}],
+  genres: [],
   loading: true
 };
 const defaultGallery = {
   featured: {
     images: false
-  }
+  },
+  loaded: false
 };
 const state = {
   posts: [],
@@ -96,8 +98,13 @@ const actions = {
 // mutations
 const mutations = {
   [types.STORE_FETCHED_POSTS](state, data) {
-    state.posts = data.posts;
-    state.maxPages = data.max_num_pages;
+    if(data) {
+      state.posts = data.posts;
+      state.maxPages = data.max_num_pages;
+    }
+    else {
+      state.posts = [];
+    }
   },
 
   [types.POSTS_LOADED](state, val) {
@@ -118,6 +125,7 @@ const mutations = {
     console.log('genre gallery set', gallery);
     if(gallery) {
       state.gallery = gallery;
+      state.gallery.loaded = true;
     }
     else {
       state.gallery = defaultGallery;

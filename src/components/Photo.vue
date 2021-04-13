@@ -83,7 +83,7 @@
   @apply bg-gray-300 opacity-50 w-6 h-8 px-1 cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg;
 }
 .photo-box {
-  @apply w-screen overflow-auto mt-auto lg:my-auto;
+  @apply overflow-auto mt-auto lg:my-auto;
 }
 .photo-infonav {
   @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow xxl:w-4/5;
@@ -107,17 +107,6 @@
 }
 .infonav-title {
   @apply leading-none text-2xl lg:text-4xl
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .75s;
-}
-.fade-delay-enter-active, .fade-delay-leave-active {
-  transition: opacity .5s;
-  transition-delay: .5s;
-}
-.fade-enter, .fade-leave-to, 
-.fade-delay-enter, .fade-delay-leave-to {
-  opacity: 0;
 }
 </style>
 <script>
@@ -226,10 +215,13 @@ export default {
         }
         this.preload(this.photo);
       }
-      else {
+      else if(this.gallery.loaded) {
         this.$_error('ErrorPage', {
           route: this.idSlug
         });
+      }
+      else {
+        console.log('gallery not loaded first pass');
       }
       // else {
       //   this.getSinglePhoto({
