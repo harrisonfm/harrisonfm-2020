@@ -1,10 +1,16 @@
 <template>
   <div v-if="post">
     <div class="photos-page">
-      <h1 class="leading-none mb-2 lg:mb-4">{{ post.post_title }}</h1>
-      <div class="post" v-html="post.post_content" />
-      <HomeSection :section="post.stories">Stories</HomeSection>
-      <HomeSection :section="post.genres">Highlighted Genres</HomeSection>
+      <h1 class="leading-none mb-2 lg:mb-4">{{ post.post_title ? post.post_title : "Loading..." }}</h1>
+      <transition name="fade">
+        <div class="post" v-if="post.post_content" v-html="post.post_content" />
+      </transition>
+      <transition name="fade">
+        <HomeSection v-if="post.stories" :section="post.stories">Stories</HomeSection>
+      </transition>
+      <transition name="fade">
+        <HomeSection v-if="post.genres" :section="post.genres">Highlighted Genres</HomeSection>
+      </transition>
     </div>
   </div>
   <Loader v-else />

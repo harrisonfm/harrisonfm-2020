@@ -3,7 +3,7 @@
     <hero :img="post.featured" />
     <div class="post-container">
       <div class="mb-8">
-        <h1 class="leading-none">{{ post.post_title ? post.post_title : 'Loading..' }}</h1>
+        <h1 class="leading-none">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
         <transition name="fade">
           <p class="text-gray-700" v-if="post.post_content">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
         </transition>

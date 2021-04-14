@@ -26,7 +26,7 @@
   }
   .project .title {
     line-height: 40px;
-    @apply bg-white font-bold inline-flex items-center px-4 self-start relative border-black border-b-2 border-r-2 sm:border-r-0 sm:border-b-4 sm:text-3xl;
+    @apply bg-white font-bold inline-flex items-center px-4 self-start relative border-black border-b-2 border-r-2 sm:border-r-0 sm:border-b-4 sm:text-3xl text-black ml-0 mt-0;
   }
   .project-description {
     @apply bg-white opacity-0 transition-opacity duration-500 z-neg absolute bottom-0 cursor-auto text-sm xs:text-base;

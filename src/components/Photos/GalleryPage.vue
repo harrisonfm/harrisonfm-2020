@@ -1,19 +1,17 @@
 <template>
-  <div v-if="gallery">
-    <div class="photos-page">
-      <h1 class="leading-none mb-2 lg:mb-4">{{ gallery.title }}</h1>
-      <div class="post mb-2 lg:mb-4">
+  <div class="photos-page">
+    <h1 class="leading-none mb-2 lg:mb-4">{{ gallery.title ? gallery.title : "Loading..." }}</h1>
+    <transition name="fade">
+      <div class="post mb-2 lg:mb-4" v-if="gallery.description">
         <p>{{gallery.description}}</p>
       </div>
-      <Gallery v-if="gallery" :gallery="gallery" route="PhotosSingle" />
-    </div>
+    </transition>
+    <Gallery v-if="gallery" :gallery="gallery" route="PhotosSingle" />
     <router-view />
   </div>
-  <Loader v-else />
 </template>
 
 <script>
-import Loader from '~/components/partials/Loader.vue'
 import Gallery from '~/components/Post/Gallery.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import meta from '~/meta';
@@ -91,7 +89,7 @@ export default {
   },
 
   components: {
-    Loader, Gallery
+    Gallery
   },
 
   metaInfo () {

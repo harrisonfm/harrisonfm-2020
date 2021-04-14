@@ -3,9 +3,11 @@
     <div v-if="post">
       <hero :img="post.featured" />
       <div class="post-container">
-        <h1 class="leading-none mb-4">{{ post.post_title }}</h1>
-        <div class="post" v-html="post.post_content"></div>
-        <WebProjects v-if="post.projects" :projects="post.projects" /> 
+        <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
+        <transition name="fade">
+          <div class="post" v-html="post.post_content" v-if="post.post_content"></div>
+        </transition>
+        <WebProjects v-if="post.projects" :projects="post.projects" />
       </div>
     </div>
     <Loader v-else />
@@ -41,10 +43,13 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    if(to.name === 'Page' && from.name === 'Page') {
-      this.setCurrentPost();
-      this.handleGetPost(to.params.pageSlug);
-    }
+    this.setCurrentPost();
+    this.handleGetPost(to.params.pageSlug);
+    next();
+  },
+
+  beforeRouteLeave(to, from, next) {
+    this.setCurrentPost();
     next();
   },
 

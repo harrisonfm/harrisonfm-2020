@@ -9,7 +9,7 @@ const defaultPost = {
     images: false
   },
   categories: [{}],
-  genres: [],
+  genres: false,
   loading: true
 };
 const defaultGallery = {
