@@ -23,9 +23,6 @@
 .icon-1 {
   @apply transform rotate-180 ml-4
 }
-.icon-2 {
-
-}
 @screen xxl {
   .hero {
     margin-left: calc((100vw - theme('screens.xxl')) / -2);

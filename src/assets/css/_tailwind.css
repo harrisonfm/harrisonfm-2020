@@ -44,10 +44,10 @@ input::placeholder {
   @apply mb-5;
 }
 
-.post a {
+.post a, .text-link {
   @apply underline transition-colors duration-150;
 }
-.post a:hover, .post a:active {
+.post a:hover, .post a:active, .text-link:hover, .text-link:active {
   @apply text-blue-700;
 }
 .photos-page {
@@ -69,7 +69,7 @@ input::placeholder {
   @apply bg-cover bg-center h-article md:h-articleMD flex items-center justify-center relative bg-gray-500 shadow;
 }
 .overlay-article .title {
-  @apply text-white font-bold text-2xl z-10 p-2 text-center normal-case;
+  @apply text-white font-bold text-2xl z-10 p-2 text-center normal-case relative;
 }
 .overlay-article .placeholder {
   @apply animate-pulse h-article md:h-articleMD bg-gray-500

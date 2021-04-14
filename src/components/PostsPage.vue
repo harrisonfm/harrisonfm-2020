@@ -19,16 +19,23 @@ export default {
     }
   },
   beforeMount() {
-    if(this.type === 'home') {
-      api.getHome(data => {
-        this.hero = data.hero;
-        this.title = data.title;
-      });
-    }
+    this.handleGetHome();
   },
   props: ['page', 'type', 'slug'],
   metaInfo () {
     return meta.formatMeta();
+  },
+  methods: {
+    handleGetHome() {
+      if(this.type === 'home') {
+        api.getHome(data => {
+          this.hero = data.hero;
+        });
+      }
+    }
+  },
+  watch: {
+    '$route': 'handleGetHome'
   }
 }
 </script>

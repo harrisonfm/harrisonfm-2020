@@ -104,7 +104,7 @@ export default {
       'getPosts'
     ]),
     ...mapMutations({
-      setPosts: 'STORE_FETCHED_POSTS'
+      setPosts: 'POSTS'
     }),
     handleGetPosts() {
       this.getPosts(this.params).then(response => {
@@ -143,6 +143,7 @@ export default {
   },
 
   beforeMount() {
+    this.setPosts();
     this.handleGetPosts();
   },
 
