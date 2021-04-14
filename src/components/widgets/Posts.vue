@@ -1,19 +1,19 @@
 <template>
   <div class="post-container">
     <h3 class="leading-none mb-4" v-if="title">{{ title }}</h3>
-      <transition-group name="fade" class="posts-grid" tag="div">
-        <article v-for="post in posts" :id="'post-'+post.ID" :key="post.ID" class="overlay-article jiggle-on-hover">
-          <router-link :to="post.link" class="" >
-            <div class="title">{{ post.post_title }}</div>
-            <div class="overlay "></div>
-          </router-link>
-          <v-style>{{ parseBackground(post) }}</v-style>
-        </article>
-        <div class="pagination" v-if="posts.length" :key="page">
-          <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
-          <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto">Next</router-link>
-        </div>
-      </transition-group>
+    <transition-group name="fade" class="posts-grid" tag="div">
+      <article v-for="post in posts" :id="'post-'+post.ID" :key="post.ID" class="overlay-article jiggle-on-hover">
+        <router-link :to="post.link" class="" >
+          <div class="title">{{ post.post_title }}</div>
+          <div class="overlay "></div>
+        </router-link>
+        <v-style>{{ parseBackground(post) }}</v-style>
+      </article>
+      <div class="pagination" v-if="posts.length" :key="page">
+        <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
+        <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto">Next</router-link>
+      </div>
+    </transition-group>
   </div>
 </template>
 <style scoped>

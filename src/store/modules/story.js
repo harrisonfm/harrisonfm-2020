@@ -5,7 +5,7 @@ import store from '~/store';
 // initial state
 const defaultStory = {
   term: {
-    title: 'Loading',
+    title: false,
     featured: {
       images: false
     }

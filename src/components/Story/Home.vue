@@ -1,13 +1,16 @@
 <template>
   <div class="page page--stories">
-    <hero :title="'HFM Stories'" :img="storyHero" />
-    <div class="post-container" v-if="storiesLoaded">
-      <StoryArticle v-for="story in stories" :key="story.term_id" :article="{
-        image: story.featured,
-        title: story.name,
-        link: '/stories/'+story.slug,
-        desc: story.description
-      }" />
+    <hero :img="storyHero" />
+    <div class="post-container">
+      <h3 class="leading-none mb-4">{{ stories.length ? 'HarrisonFM Stories' : 'Loading...' }}</h3>
+      <transition-group name="fade" tag="div">
+        <StoryArticle v-for="story in stories" :key="story.term_id" :article="{
+          image: story.featured,
+          title: story.name,
+          link: '/stories/'+story.slug,
+          desc: story.description
+        }" />
+      </transition-group>
     </div>
   </div>
 </template>

@@ -2,15 +2,17 @@
   <div class="hero">
     <v-style>{{ parseBackground(img) }}</v-style>
     <transition name="fade">
-      <h2 class="title" v-if="title && img">
+      <h2 class="title" v-if="title === true && img">
         Harrison <img :src="Bolt" class="icon icon-1" /> FM <img class="icon" :src="Bolt" />
       </h2>
+      <h2 class="title" v-else-if="title && img">{{ title }}</h2>
     </transition>
+    <div class="overlay" v-if="title" />
   </div>
 </template>
 <style>
 .hero {
-  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen flex;
+  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen flex relative z-neg;
 }
 .title {
   @apply text-center m-auto text-white uppercase flex text-6xl items-center;
