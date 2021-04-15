@@ -1,6 +1,6 @@
 <template>
   <div class="post-container">
-    <h3 class="leading-none mb-4" v-if="title">{{ title }}</h3>
+    <h3 class="leading-none mb-2 lg:mb-4" v-if="title">{{ title }}</h3>
     <transition-group name="fade" class="posts-grid" tag="div">
       <article v-for="post in posts" :id="'post-'+post.ID" :key="post.ID" class="overlay-article jiggle-on-hover">
         <router-link :to="post.link" class="" >

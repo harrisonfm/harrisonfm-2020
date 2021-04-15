@@ -1,21 +1,21 @@
 <template>
-	<nav v-if="menu">
+	<nav class="nav-menu" v-if="menu">
     <transition name="slide-down">
   		<ul class="header-menu-top" v-if="(showMobileMenu && isMobile) || !isMobile">
   			<MenuItem v-for="item in menu.items" :key="`menu_item_${item.ID}`" :item="item" :showMobileMenu="showMobileMenu" :isMobile="isMobile" class="header-menu-item" />
         <li class="header-menu-search">
-          <font-awesome-icon :icon="['fas', 'search']" class="hidden sm:flex icon" :class="{'text-blue-500' : showSearch}" @click="$emit('toggle-search')" />
+          <font-awesome-icon :icon="['fas', 'search']" class="hidden sm:flex fa-icon" :class="{'text-blue-500' : showSearch}" @click="$emit('toggle-search')" />
           <SearchForm class="sm:hidden" :icon="isMobile ? 'search' : 'sign-in-alt'" />
         </li>
   		</ul>
     </transition>
     <i class="py-5 pl-5 sm:hidden" @click="toggleMobileMenu" >
-      <font-awesome-icon class="icon" :icon="['fas', showMobileMenu ? 'times' : 'bars']" />
+      <font-awesome-icon class="fa-icon" :icon="['fas', showMobileMenu ? 'times' : 'bars']" />
     </i>
 	</nav>
 </template>
 <style scoped>
-  nav {
+  .nav-menu {
     @apply flex justify-end items-center w-full uppercase font-bold;
   }
   .header-menu-top {
@@ -27,7 +27,7 @@
   .header-menu-search {
     @apply flex items-center sm:h-16;
   }
-  .icon {
+  .fa-icon {
     @apply text-2xl cursor-pointer transition-colors duration-150 hover:text-blue-500;
   }
 </style>
@@ -52,8 +52,7 @@
       toggleMobileMenu: function() {
         this.showMobileMenu = !this.showMobileMenu;
       },
-      handleMobile: function() {
-        console.log(window.innerWidth);
+      handleMobile: function() {;
         if(window.innerWidth < 640) {
           this.isMobile = true;
         }
