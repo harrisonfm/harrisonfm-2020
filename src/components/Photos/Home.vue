@@ -1,19 +1,12 @@
 <template>
-  <div v-if="post">
-    <div class="photos-page">
-      <h1 class="leading-none mb-2 lg:mb-4">{{ post.post_title ? post.post_title : "Loading..." }}</h1>
-      <transition name="fade">
-        <div class="post" v-if="post.post_content" v-html="post.post_content" />
-      </transition>
-      <transition name="fade">
-        <HomeSection v-if="post.stories" :section="post.stories">Stories</HomeSection>
-      </transition>
-      <transition name="fade">
-        <HomeSection v-if="post.genres" :section="post.genres">Highlighted Genres</HomeSection>
-      </transition>
-    </div>
+  <div class="photos-page">
+    <h1 class="leading-none mb-2 lg:mb-4">{{ post.post_title ? post.post_title : "Loading..." }}</h1>
+    <transition-group name="fade" tag="div">
+      <div key="1" class="post" v-if="post.post_content" v-html="post.post_content" />
+      <HomeSection key="2" v-if="post.stories" :section="post.stories">Stories</HomeSection>
+      <HomeSection key="3" v-if="post.genres" :section="post.genres">Highlighted Genres</HomeSection>
+    </transition-group>
   </div>
-  <Loader v-else />
 </template>
 <style scoped>
 .post + section {
@@ -21,7 +14,6 @@
 }
 </style>
 <script>
-import Loader from '~/components/partials/Loader.vue'
 import HomeSection from './HomeSection.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import meta from '~/meta';
@@ -52,6 +44,7 @@ export default {
         slug: slug
       }).then(response => {
         console.log('page component resolves', response);
+        window.prerenderReady = true;
       }, error => {
         console.log('page component errors', this.page, error);
         this.$_error('ErrorPage', {
@@ -62,11 +55,11 @@ export default {
   },
 
   components: {
-    Loader, HomeSection
+    HomeSection
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, false)
+    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images)
   },
 };
 </script>

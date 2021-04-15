@@ -1,16 +1,13 @@
 <template>
-  <div class="">
-    <div v-if="post">
-      <hero :img="post.featured" />
-      <div class="post-container">
-        <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
-        <transition name="fade">
-          <div class="post" v-html="post.post_content" v-if="post.post_content"></div>
-        </transition>
-        <WebProjects v-if="post.projects" :projects="post.projects" />
-      </div>
+  <div v-if="post">
+    <hero :img="post.featured" />
+    <div class="post-container">
+      <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
+      <transition name="fade">
+        <div class="post" v-html="post.post_content" v-if="post.post_content"></div>
+      </transition>
+      <WebProjects v-if="post.projects" :projects="post.projects" />
     </div>
-    <Loader v-else />
   </div>
 </template>
 
@@ -23,7 +20,6 @@
 </style>
 
 <script>
-import Loader from '../partials/Loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Hero from '../partials/Hero.vue'
 import WebProjects from './WebProjects.vue'
@@ -74,7 +70,7 @@ export default {
   },
 
   components: {
-    Loader, Hero, WebProjects
+    Hero, WebProjects
   },
 
   metaInfo () {

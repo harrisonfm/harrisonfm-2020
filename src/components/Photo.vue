@@ -39,27 +39,28 @@
           </div>
         </transition>
         <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
-          <h2 class="leading-none text-2xl">{{ photo.post_title }}</h2>
-          <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
+          <h2 class="leading-none text-2xl mb-0">{{ loaded ? photo.post_title : 'Loading..' }}</h2>
+          <transition name="fade">
+            <p class="mb-0 mt-2" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
+          </transition>
         </div>
         <transition name="slide-up">
           <nav class="photo-infonav" v-if="galleryInfo">
             <transition name="fade-delay">
-              <img :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto && loaded" @click="goToPrevPhoto" alt="previous photo" />
+              <img class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto && loaded" @click="goToPrevPhoto" alt="previous photo" />
             </transition>
-            <transition name="fade">
-              <div class="infonav-text" v-if="loaded">
-                <h2 class="infonav-title">{{ loaded ? photo.post_title : 'Loading..' }}</h2>
-                <p class="mb-0" v-if="photo.post_excerpt">{{ photo.post_excerpt }}</p>
-              </div>
-            </transition>
+            <div class="infonav-text">
+              <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
+              <transition name="fade">
+                <p class="mb-0 mt-2 lg:mt-4" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
+              </transition>
+            </div>
             <transition name="fade-delay">
-              <img :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto && loaded" @click="goToNextPhoto" alt="next photo" />
+              <img class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto && loaded" @click="goToNextPhoto" alt="next photo" />
             </transition>
           </nav>
         </transition>
       </template>
-      <Loader v-else/>
     </div>
   </transition>
 </template>
@@ -99,8 +100,9 @@
 .photo-infonav > svg {
   @apply text-4xl xs:ml-0 cursor-pointer;
 }
-.photo-infonav img {
+.photo-infonav .thumb {
   height: 75px;
+  width: 75px;
 }
 .infonav-text {
   @apply text-center px-4 hidden m-auto sm:block
@@ -110,7 +112,6 @@
 }
 </style>
 <script>
-import Loader from "~/components/partials/Loader.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import store from '~/store';
 import meta from '~/meta';
@@ -145,6 +146,27 @@ export default {
           photo: 'PhotosSingle'
         }
       }
+    },
+    metaDescription: function() {
+      let meta = '';
+      let caption = this.photo.post_excerpt;
+      let postTitle = '';
+
+      if(this.currentPost.post_title === 'Photos' && this.gallery.title) {
+        postTitle = this.gallery.title; 
+      }
+      else if(this.currentPost) {
+        postTitle = this.currentPost.post_title;
+      }
+
+      if(!caption && postTitle) {
+        meta = 'From '+postTitle;
+      }
+      else if(caption && postTitle) {
+        meta = postTitle+': '+caption;
+      }
+
+      return meta;
     }
   },
 
@@ -223,6 +245,7 @@ export default {
           route: this.idSlug
         });
       }
+      console.log(this.currentPost);
       // else {
       //   this.getSinglePhoto({
       //     ID: this.ID, 
@@ -278,7 +301,6 @@ export default {
       });
     },
     handleImageLoad: function(photo, identifier) {
-      console.log(photo.post_title+' loaded');
       if(identifier === 'main') {
         this.loaded = true;
         this.handleSlideShow();
@@ -313,9 +335,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.photo.post_title, this.photo.post_excerpt, this.photo.images, 'author')
-  },
-
-  components: { Loader }
+    return meta.formatMeta(this.photo.post_title, this.metaDescription, this.photo.images, 'author')
+  }
 };
 </script>

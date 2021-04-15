@@ -17,6 +17,7 @@ const state = {
   storyHero: {
     images: false
   },
+  storyDescription: '',
   currentStory: defaultStory,
   loaded: false,
   currentStoryLoaded: false
@@ -34,11 +35,14 @@ const getters = {
 // actions
 const actions = {
   getStories({ commit }) {
-    api.getStories(data => {
-      console.log(data);
+    return new Promise((resolve, reject) => {
+      api.getStories(data => {
+        console.log(data);
 
-      commit(types.STORIES, data);
-      commit(types.STORIES_LOADED, true);
+        commit(types.STORIES, data);
+        commit(types.STORIES_LOADED, true);
+        resolve(data);
+      })
     });
   },
 
@@ -98,6 +102,7 @@ const mutations = {
   [types.STORIES](state, data) {
     state.stories = data.stories;
     state.storyHero = data.hero;
+    state.storyDescription = data.description;
   },
 
   [types.STORIES_LOADED](state, val) {

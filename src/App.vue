@@ -1,13 +1,9 @@
 <template>
-  <div id="app" class="">
+  <div id="app">
     <app-header />
-
-    <transition name="page-transition" mode="out-in" appear>
-      <div class="site-content relative" :class="{'mx-auto max-w-8xl' : !fullScreen, 'fullscreen' : fullScreen}">
-        <app-view />
-      </div>
-    </transition>
-
+    <div class="site-content relative" :class="{'mx-auto max-w-8xl' : !fullScreen, 'fullscreen' : fullScreen}">
+      <app-view />
+    </div>
     <app-footer />
   </div>
 </template>

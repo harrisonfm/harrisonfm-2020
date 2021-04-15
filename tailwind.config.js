@@ -165,6 +165,10 @@ module.exports = {
       'right-top': 'right top',
       top: 'top'
     },
+    backgroundOpacity: {
+      '25': '.25',
+      '95': '.95'
+    },
     backgroundSize: {
       auto: 'auto',
       cover: 'cover',
@@ -174,6 +178,9 @@ module.exports = {
       ...theme('colors'),
       DEFAULT: theme('colors.gray.300', 'currentColor')
     }),
+    borderOpacity: {
+      '95': '0.95'
+    },
     borderRadius: {
       none: '0',
       sm: '0.125rem',
@@ -347,6 +354,7 @@ module.exports = {
       '0': '0',
       full: '100%',
       screen: '100vh',
+      mostScreen: '90vh',
       halfScreen: '50vh'
     },
     minWidth: {

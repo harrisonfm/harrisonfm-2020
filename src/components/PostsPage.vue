@@ -23,14 +23,26 @@ export default {
   },
   props: ['page', 'type', 'slug'],
   metaInfo () {
-    return meta.formatMeta();
+    if(this.type === 'home') {
+      return meta.formatMeta();
+    }
+    else{
+      let slug = this.slug ? this.slug.replace('-',' ').replace(/\b\w/g, l => l.toUpperCase()) : '';
+      let desc = this.slug ? 'HarrisonFM content for '+slug : '';
+      let title = this.type ? this.type.replace(/\b\w/g, l => l.toUpperCase())+': '+slug : '';
+      return meta.formatMeta(title, desc);
+    }
   },
   methods: {
     handleGetHome() {
       if(this.type === 'home') {
         api.getHome(data => {
           this.hero = data.hero;
+          window.prerenderReady = true;
         });
+      }
+      else {
+        window.prerenderReady = true;
       }
     }
   },

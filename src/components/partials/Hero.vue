@@ -3,7 +3,7 @@
     <v-style>{{ parseBackground(img) }}</v-style>
     <transition name="fade">
       <h2 class="title" v-if="title === true && img">
-        Harrison <img :src="Bolt" class="icon icon-1" /> FM <img class="icon" :src="Bolt" />
+        Harrison <img :src="Bolt" class="icon icon-1" /><span class="font-bold"> FM </span><img class="icon" :src="Bolt" />
       </h2>
       <h2 class="title" v-else-if="title && img">{{ title }}</h2>
     </transition>

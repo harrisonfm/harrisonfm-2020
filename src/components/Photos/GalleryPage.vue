@@ -30,8 +30,7 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    console.log('routeupdate', to, from);
-    if(to.name === 'PhotosGallery') {
+    if(to.name === 'PhotosGallery' && from.name === 'PhotosGallery') {
       this.setGallery();
       this.handleGetPost('photos');
     }
@@ -39,7 +38,6 @@ export default {
   },
 
   beforeRouteLeave: function(to,from,next) {
-    console.log('leave photo gallery', to, from);
     this.setCurrentPost();
     this.setGallery();
     next();
@@ -62,6 +60,7 @@ export default {
           this.getStoryImages({
             slug: this.gallerySlug
           }).then(response => {
+            window.prerenderReady = true;
             console.log('story images resolves', response);
           }, error => {
             console.log('story images errors', this.page, error);
@@ -83,6 +82,7 @@ export default {
             title: el.title,
             description: el.description
           });
+          window.prerenderReady = true;
         }
       }
     }
@@ -93,7 +93,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.gallery.featured.images)
+    return meta.formatMeta(this.gallery.title ? this.gallery.title + ' Photos' : '', this.gallery.description, this.gallery.featured.images)
   },
 };
 </script>

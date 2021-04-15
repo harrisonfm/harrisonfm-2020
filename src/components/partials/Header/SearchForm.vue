@@ -1,9 +1,9 @@
 <template>
-  <div class="search-form flex items-center bg-white" v-on-clickaway="exit"
+  <div class="search-form " v-on-clickaway="exit"
     @keyup.enter="search"
     @keyup.esc="exit">
     <input ref="input" type="text" class="p-4 h-full w-full" placeholder="Search..." v-model="searchInput" />
-    <i @click="search" class="cursor-pointer text-2xl pr-2 ml-2 sm:mx-2 lg:mx-4 sm:p-0 transition-colors duration-150 hover:text-blue-500">
+    <i @click="search" class="search-icon">
       <font-awesome-icon :icon="['fas', icon]" />
     </i>
   </div>
@@ -12,7 +12,10 @@
 <style scoped>
 @screen sm {
   .search-form {
-    @apply absolute w-1/2 md:w-1/3 xl:w-1/4 h-16 top-full right-0 border-l-2 border-b-2 border-gray-600 z-neg
+    @apply absolute w-1/2 md:w-1/3 xl:w-1/4 h-16 top-full right-0 border-l-2 border-b-2 border-gray-600 z-neg flex items-center bg-white;
+  }
+  .search-icon {
+    @apply cursor-pointer text-2xl pr-2 ml-2 sm:mx-2 lg:mx-4 sm:p-0 transition-colors duration-150 hover:text-blue-500;
   }
 }
 </style>

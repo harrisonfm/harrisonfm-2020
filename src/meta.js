@@ -6,7 +6,7 @@ export default {
 		title: 'HarrisonFM',
 		tagline: 'Adventure, Photography, and Coding',
 		desc: 'Harrison June is an American adventure photographer, writer and coder based in Arizona.',
-		img: 'img.png',
+		img: '',
 	},
 	setDefaults: function() {
 		if(this.apiCalled) {

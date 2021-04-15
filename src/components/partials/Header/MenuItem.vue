@@ -7,7 +7,7 @@
       </i>
     </div>
     <transition name="slide-down">
-      <ul v-if="showSubMenu" :class="isMobile ? 'header-submenu-mobile' : 'header-submenu'">
+      <ul v-if="showSubMenu" class="header-submenu" :class="isMobile ? 'header-submenu-mobile' : 'header-submenu-desktop'">
         <li v-for="childItem in item.child_items" :key="`menu_item_${childItem.ID}`" class="submenu-item">
           <router-link :to="getURLPath(childItem.url)" class="submenu-link">{{ childItem.title }}</router-link>
         </li>
@@ -32,10 +32,13 @@
     @apply flex flex-col justify-end sm:justify-center sm:flex-row;
   }
   .header-submenu {
-    @apply absolute top-full -right-1/2 border-2 border-t-0 bg-gray-500 text-white w-max z-neg sm:shadow;
+    @apply border-2 bg-gray-500 text-white;
+  }
+  .header-submenu-desktop {
+    @apply absolute top-full -right-1/2 border-t-0 w-max z-neg sm:shadow;
   }
   .header-submenu-mobile {
-    @apply border-2 bg-gray-500 text-white w-full flex flex-col items-end;
+    @apply w-full flex flex-col items-end;
   }
   .submenu-item {
     @apply hover:bg-blue-500 focus:bg-blue-500 transition-colors duration-200 w-full text-right sm:text-left;

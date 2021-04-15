@@ -23,7 +23,9 @@ import StoryArticle from './Article.vue'
 
 export default {
   beforeMount: function() {
-    this.getStories();
+    this.getStories().then(response => {
+      window.prerenderReady = true;
+    });
   },
   computed: {
     ...mapGetters(['stories', 'storiesLoaded', 'storyHero'])
@@ -32,7 +34,7 @@ export default {
     ...mapActions(['getStories'])
   },
   metaInfo () {
-    return meta.formatMeta('HarriFM Stories', 'stories are an important part of an HFM approved diet', this.storyHero.images)
+    return meta.formatMeta('HarriFM Stories', this.storyDescription, this.storyHero.images)
   },
   components: {
     Hero, StoryArticle

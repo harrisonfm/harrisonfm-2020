@@ -281,7 +281,8 @@ function setup() {
     else{
       return new \WP_REST_Response(array(
         'stories' => $terms,
-        'hero' => getAttachment(get_field('stories_hero', 'options'))
+        'hero' => getAttachment(get_field('stories_hero', 'options')),
+        'description' => getAttachment(get_field('stories_description', 'options'))
       ));
     }
   }

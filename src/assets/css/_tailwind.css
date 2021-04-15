@@ -34,7 +34,7 @@ input::placeholder {
 }
 
 .post-container {
- @apply p-2 lg:p-4 bg-white xxl:shadow min-h-halfScreen;
+ @apply p-2 lg:p-4 bg-white xxl:shadow min-h-mostScreen;
 }
 .hero + .post-container {
   @apply xxl:rounded xxl:-my-16;
@@ -51,7 +51,7 @@ input::placeholder {
   @apply text-blue-700;
 }
 .photos-page {
-  @apply mx-auto max-w-8xl p-2 lg:px-4;
+  @apply mx-auto max-w-8xl p-2 lg:p-4;
 }
 
 .liked {

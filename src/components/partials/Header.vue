@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="main-nav">
     <Logo />
     <MainMenu :menu="headerMenu" @toggle-search="toggleSearch" :showSearch="showSearch" />
     <transition name="slide-down">
@@ -8,11 +8,10 @@
   </header>
 </template>
 <style scoped>
-header {
-  @apply font-open relative flex justify-between items-center border-b-2 border-gray-600 bg-white px-2 lg:px-4 sticky -top-1 z-20;
+.main-nav {
+  @apply font-open relative flex justify-between items-center border-b-2 border-gray-600 bg-opacity-95 bg-white px-2 lg:px-4 sticky -top-1 z-20;
 }
 </style>
-
 <script>
   import MainMenu from './Header/Menu.vue'
   import Logo from './Header/Logo.vue'

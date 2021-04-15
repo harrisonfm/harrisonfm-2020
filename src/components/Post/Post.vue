@@ -19,7 +19,6 @@
   </div>
 </template>
 <script>
-import Loader from "../partials/Loader.vue"
 import Gallery from "./Gallery.vue"
 import { mapActions, mapGetters, mapMutations } from "vuex"
 import SETTINGS from "~/settings"
@@ -81,6 +80,6 @@ export default {
     return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images, 'author')
   },
 
-  components: { Loader, Gallery, Hero, StoryNavigation, Tags }
+  components: { Gallery, Hero, StoryNavigation, Tags }
 };
 </script>
