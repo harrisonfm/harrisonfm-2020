@@ -290,7 +290,7 @@ function setup() {
   function getStory($request) {
     $args = array(
       'post_type' => 'post',
-      'order' => 'DESC',
+      'order' => 'ASC',
       'posts_per_page' => -1,
 
       'tax_query' => array(
@@ -323,6 +323,8 @@ function setup() {
   }
 
   function getStoryMedia($request) {
+    global $n;
+
     $terms = getStoryTerms();
     $currentTerm = false;
     foreach ($terms as $term) {
@@ -338,29 +340,56 @@ function setup() {
     }
 
     $args = array(
-      'post_type' => 'attachment',
-      'post_status' => 'any',
-      'order' => 'ASC',
-      'orderby'   => 'meta_value_num',
-      'meta_key'  => 'wpmf_order',
-      'posts_per_page' => -1,
-      'tax_query' => array(
-        array(
-          'taxonomy' => 'wpmf-category',
-          'field' => 'slug',
-          'terms'    => $request['slug'],
-          'include_children' => true
-        ),
-      ),
+      'taxonomy' => 'wpmf-category',
+      'slug' => $request['slug'],
     );
-    $query = new \WP_Query($args);
+    $parent_term_query = new \WP_Term_Query($args);
 
-    formatGalleryImages($query->posts);
+    $args = array(
+      'taxonomy' => 'wpmf-category',
+      'parent' => $parent_term_query->terms[0]->term_id
+    );
+    $child_terms_query = new \WP_Term_Query($args);
+    $wpmf_terms = $child_terms_query->terms;
+
+    foreach($wpmf_terms as $term) {
+      $term->wpmf_order = get_term_meta($term->term_id, 'wpmf_order', true);
+    }
+    usort($wpmf_terms, $n('sort_objects_by_total'));
+
+    $posts = array();
+    foreach($wpmf_terms as $term) {
+      $args = array(
+        'post_type' => 'attachment',
+        'post_status' => 'any',
+        'order' => 'ASC',
+        'orderby'   => 'meta_value_num',
+        'meta_key'  => 'wpmf_order',
+        'posts_per_page' => -1,
+        'tax_query' => array(
+          array(
+            'taxonomy' => 'wpmf-category',
+            'terms' => $term->term_id
+          ),
+        ),
+      );
+      $query = new \WP_Query($args);
+      foreach($query->posts as $post) {
+        $posts[] = $post;
+      }
+    }
+
+    formatGalleryImages($posts);
 
     return new \WP_REST_Response(array(
-      'media' => $query->posts,
+      'media' => $posts,
       'term' => $currentTerm
     ));
+  }
+
+  function sort_objects_by_total($a, $b) {
+    if($a->wpmf_order == $b->wpmf_order){ return 0 ; }
+    return ($a->wpmf_order < $b->wpmf_order) ? -1 : 1;
   }
 
   function getStoryTerms() {
