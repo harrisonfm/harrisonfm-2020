@@ -121,7 +121,7 @@ export default {
       if(post.featured) {
         return `
         #post-${post.ID} {
-          background-image: url('${post.featured.images.medium_large}');
+          background-image: url('${post.featured.images.medium_large.src}');
         }
         @media(min-width:${post.featured.images.large.width / 2}px) {
           #post-${post.ID} {

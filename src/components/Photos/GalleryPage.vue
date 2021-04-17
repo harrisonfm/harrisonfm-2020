@@ -74,6 +74,9 @@ export default {
       });
     },
     setGenreGallery: function() {
+      if(!this.post.genres) {
+        return false;
+      }
       for (const [idx, el] of this.post.genres.entries()) {
         if(this.gallerySlug === el.slug) {
           this.setGallery({

@@ -3,7 +3,7 @@
     <v-style>{{ parseBackground(img) }}</v-style>
     <transition name="fade">
       <h2 class="title" v-if="title === true && img">
-        Harrison <img :src="Bolt" class="icon icon-1" /><span class="font-bold"> FM </span><img class="icon" :src="Bolt" />
+        <span class="hidden sm:inline">Harrison </span><img :src="Bolt" class="icon icon-1" /><span class="font-bold"><span class="sm:hidden">H</span>FM</span><img class="icon" :src="Bolt" />
       </h2>
       <h2 class="title" v-else-if="title && img">{{ title }}</h2>
     </transition>
@@ -12,10 +12,10 @@
 </template>
 <style>
 .hero {
-  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen flex relative z-neg;
+  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen flex relative z-neg p-2 lg:p-4;
 }
 .title {
-  @apply text-center m-auto text-white uppercase flex text-6xl items-center;
+  @apply text-center m-auto text-white uppercase flex text-3xl sm:text-6xl items-center;
 }
 .icon {
   @apply filter invert mx-1 h-16;

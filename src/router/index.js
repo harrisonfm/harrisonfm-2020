@@ -156,10 +156,10 @@ router.afterEach((to, from) => {
   console.log(to);
 
   if(to.name === "PostPhoto" || to.name === "PhotosSingle") {
-    html.classList.add('overflow-y-hidden');
+    html.classList.add('overflow-y-hidden', 'fixed');
   }
   else if(from.name === "PostPhoto" || from.name === "PhotosSingle") {
-    html.classList.remove('overflow-y-hidden'); 
+    html.classList.remove('overflow-y-hidden', 'fixed'); 
   }
 
   const slug = _.isEmpty(to.params.postSlug)

@@ -4,8 +4,10 @@
     "watch": "NODE_ENV=development webpack --watch --config ./webpack/webpack.config.js",
     "production": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --display-entrypoints",
     "rmdist": "rimraf dist",
-    "rsync": "rsync -arvz -e 'ssh -p 21212' --exclude=.git/ --exclude=webpack/ --exclude=node_modules/ --exclude=src/ --delete . $npm_config_deploy_path",
-    "deploy": "npm run production && npm run rsync"
+    "rsync-dev": "rsync -arvz -e 'ssh -p 21212' --exclude=.git/ --exclude=webpack/ --exclude=node_modules/ --exclude=src/ --delete . $npm_config_deploy_path_dev",
+    "rsync-prod": "rsync -arvz -e 'ssh -p 21212' --exclude=.git/ --exclude=webpack/ --exclude=node_modules/ --exclude=src/ --delete . $npm_config_deploy_path_prod",
+    "deploy-dev": "npm run production && npm run rsync-dev",
+    "deploy-prod": "npm run production && npm run rsync-prod"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
