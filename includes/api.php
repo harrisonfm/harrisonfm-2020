@@ -243,12 +243,12 @@ function setup() {
         for($i = 0; $i < count($postsInStory); $i++) {
           if($postsInStory[$i]->ID === $post->ID) {
             if($i !== 0) {
-              $post->story->prev = $postsInStory[$i - 1];
-              formatPostForApi($post->story->prev, true);
+              $post->story->next = $postsInStory[$i - 1];
+              formatPostForApi($post->story->next, true);
             }
             if($i !== count($postsInStory) - 1) {
-              $post->story->next = $postsInStory[$i + 1];
-              formatPostForApi($post->story->next, true);
+              $post->story->prev = $postsInStory[$i + 1];
+              formatPostForApi($post->story->prev, true);
             }
             break;
           }

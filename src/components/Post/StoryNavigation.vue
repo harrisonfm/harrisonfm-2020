@@ -4,20 +4,22 @@
     <div v-if="story.prev || story.next" class="post-story-container">
       <div v-if="story.prev" class="post-story-item">
         <h3 class="story-dir">Previously</h3>
-        <article :style="parseBackground(story.prev.featured.images)" class="overlay-article bg-cover bg-gray-500">
+        <article :id="'post-'+story.prev.ID" class="overlay-article bg-cover bg-gray-500">
           <router-link :to="story.prev.link">
             <div class="title">{{ story.prev.post_title }}</div>
             <div class="overlay "></div>
           </router-link>
+          <v-style>{{ parseBackground(story.prev) }}</v-style>
         </article>
       </div>
       <div v-if="story.next" class="post-story-item">
         <h3 class="story-dir" :class="{'md:text-right': story.prev}">Next</h3>
-        <article :style="parseBackground(story.next.featured.images)" class="overlay-article bg-cover bg-gray-500">
+        <article :id="'post-'+story.next.ID" class="overlay-article bg-cover bg-gray-500">
           <router-link :to="story.next.link">
             <div class="title">{{ story.next.post_title }}</div>
             <div class="overlay "></div>
           </router-link>
+          <v-style>{{ parseBackground(story.next) }}</v-style>
         </article>
       </div>
     </div>
@@ -52,9 +54,22 @@ export default {
     }
   },
   methods: {
-    parseBackground(image) {
-      if(image) {
-        return 'background-image: url('+image.full+')';  
+    parseBackground(post) {
+      if(post.featured) {
+        return `
+        #post-${post.ID} {
+          background-image: url('${post.featured.images.medium_large.src}');
+        }
+        @media(min-width:${post.featured.images.large.width / 2}px) {
+          #post-${post.ID} {
+            background-image: url('${post.featured.images.large.src}');
+          }
+        }
+        @media(min-width:768px) and (max-width:${post.featured.images.large.width}px) {
+          #post-${post.ID} {
+            background-image: url('${post.featured.images.medium_large.src}');
+          }
+        }`;
       }
     }
   }

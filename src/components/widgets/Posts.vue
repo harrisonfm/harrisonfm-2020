@@ -135,7 +135,6 @@ export default {
         }`;
       }
     },
-
     updatePosts(to, from) {
       this.setPosts(false);
       this.handleGetPosts();
