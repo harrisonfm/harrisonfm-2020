@@ -8,6 +8,42 @@ function setup() {
   };
 
   add_action('rest_api_init', $n('register_rest_routes'));
+  add_filter('wp_rest_cache/allowed_endpoints', $n('wprc_add_hfm_endpoints'), 10, 1);
+
+  function wprc_add_hfm_endpoints( $allowed_endpoints ) {
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('posts', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'posts';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('post', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'post';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('page', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'page';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('media', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'media';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('sitemeta', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'sitemeta';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('home', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'home';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('stories', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'stories';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('story', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'story';
+    }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('storymedia', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'storymedia';
+    }
+    if (!isset($allowed_endpoints['menus/v1']) || !in_array('menus', $allowed_endpoints['menus/v1'])) {
+      $allowed_endpoints['menus/v1'][] = 'menus';
+    }
+    error_log(print_r($allowed_endpoints, true));
+    return $allowed_endpoints;
+  }
 
   add_filter('acf/rest_api/post/get_fields', function ($data) {
     if (!isset($data) || !isset($data["acf"])) {

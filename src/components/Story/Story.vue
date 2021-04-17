@@ -3,7 +3,7 @@
     <hero :title="currentStory.term.name" :img="currentStory.term.featured" />
     <div class="post-container">
       <div class="mb-2 lg:mb-4" key="desc">
-        <p>{{currentStoryLoaded ? currentStory.term.description : 'Loading...'}}</p>
+        <p>{{currentStory.term.description ? currentStory.term.description : 'Loading...'}}</p>
       </div>
       <transition-group name="fade" tag="div">
         <StoryArticle v-for="post in currentStory.posts" :key="post.ID" :article="{
@@ -29,10 +29,13 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     if(to.name === 'Story' && from.name === 'Story') {
-      console.log('update story', to, from);
       this.setCurrentStory();
       this.handleGetStory(to.params.storySlug);
     }
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    this.setCurrentStory();
     next();
   },
   computed: {
