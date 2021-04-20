@@ -12,6 +12,8 @@ import App from './App.vue';
 import store from './store';
 import * as types from './store/mutation-types';
 
+import Loader from './components/partials/Loader.vue';
+
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -38,6 +40,8 @@ Vue.component('v-style', {
     return createElement('style', this.$slots.default)
   }
 });
+
+Vue.component('Loader', Loader);
 
 Vue.use(VueCookies);
 Vue.use(VueMeta);

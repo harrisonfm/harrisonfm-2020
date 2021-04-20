@@ -10,6 +10,7 @@ const defaultStory = {
       images: false
     }
   },
+  loaded: false,
   posts: []
 };
 const state = {
@@ -20,14 +21,11 @@ const state = {
   storyDescription: '',
   currentStory: defaultStory,
   loaded: false,
-  currentStoryLoaded: false
 };
 
 // getters
 const getters = {
   stories: state => state.stories,
-  storiesLoaded: state => state.loaded,
-  currentStoryLoaded: state => state.currentStoryLoaded,
   currentStory: state => state.currentStory,
   storyHero: state => state.storyHero
 };
@@ -59,13 +57,11 @@ const actions = {
         slug: payload.slug,
         queryForTerm: currentStoryInMemory ? true : false
       }, response => {
-        console.log('store getstory');
         if(response.posts) {
           if(currentStoryInMemory) {
             response.term = currentStoryInMemory;
           }
           commit(types.STORY_CURRENT, response);
-          commit(types.STORY_CURRENT_LOADED, true);
           resolve(response);
         }
         else {
@@ -105,20 +101,13 @@ const mutations = {
     state.storyDescription = data.description;
   },
 
-  [types.STORIES_LOADED](state, val) {
-    state.loaded = val;
-  },
-
-  [types.STORY_CURRENT_LOADED](state, val) {
-    state.currentStoryLoaded = val;
-  },
-
   [types.STORY_CURRENT](state, data) {
     console.log('current story set', data);
     if(data) {
       state.currentStory = {
         posts: data.posts,
-        term: data.term
+        term: data.term,
+        loaded: true
       };
     }
     else {

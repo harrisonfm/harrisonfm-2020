@@ -43,9 +43,11 @@ const actions = {
       api.getPosts(params, response => {
         console.log(response);
         if(response.posts.length) {
-          commit(types.POSTS, response);
-          commit(types.POSTS_LOADED, true);
-          resolve(response);
+          setTimeout(() => {
+            commit(types.POSTS, response);
+            commit(types.POSTS_LOADED, true);
+            resolve(response);
+          }, 1000);
         }
         else {
           reject(response);

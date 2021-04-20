@@ -1,12 +1,13 @@
 <template>
   <div class="photos-page">
-    <h1 class="leading-none mb-2 lg:mb-4">{{ gallery.title ? gallery.title : "Loading..." }}</h1>
-    <transition name="fade">
-      <div class="post mb-2 lg:mb-4" v-if="gallery.description">
+    <transition-group tag="div" name="fade" v-if="gallery.loaded">
+      <h1 key="0" class="leading-none mb-2 lg:mb-4">{{ gallery.title }}</h1>
+      <div key="1" class="post mb-2 lg:mb-4" v-if="gallery.description">
         <p>{{gallery.description}}</p>
       </div>
-    </transition>
-    <Gallery v-if="gallery" :gallery="gallery" route="PhotosSingle" />
+      <Gallery key="2" :gallery="gallery" route="PhotosSingle" />
+    </transition-group>
+    <Loader v-else />
     <router-view />
   </div>
 </template>
