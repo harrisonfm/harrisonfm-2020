@@ -1,7 +1,8 @@
 <template>
   <div class="post-container">
     <h3 class="leading-none mb-2 lg:mb-4" v-if="title">{{ title }}</h3>
-    <transition-group name="fade" class="posts-grid" tag="div" v-if="posts.length">
+    <Loader v-if="!posts.length" />
+    <transition-group name="fade" class="posts-grid" tag="div">
       <article v-for="post in posts" :id="'post-'+post.ID" :key="post.ID" class="overlay-article jiggle-on-hover">
         <router-link :to="post.link" class="" >
           <div class="title">{{ post.post_title }}</div>
@@ -14,7 +15,6 @@
         <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto">Next</router-link>
       </div>
     </transition-group>
-    <Loader v-else/>
   </div>
 </template>
 <style scoped>

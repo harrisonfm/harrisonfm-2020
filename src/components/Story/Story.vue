@@ -2,8 +2,9 @@
   <div class="page page--stories">
     <hero :title="currentStory.term.name" :img="currentStory.term.featured" />
     <div class="post-container">
-      <transition-group name="fade" tag="div" v-if="currentStory.loaded">
-        <div class="mb-2 lg:mb-4" key="desc">
+      <Loader v-if="!currentStory.loaded" />
+      <transition-group name="fade" tag="div">
+        <div class="mb-2 lg:mb-4" key="desc" v-if="currentStory.term.description">
           <p>{{currentStory.term.description}}</p>
         </div>
         <StoryArticle v-for="post in currentStory.posts" :key="post.ID" :article="{
@@ -13,7 +14,6 @@
           desc: post.post_excerpt
         }" />
       </transition-group>
-      <Loader v-else />
     </div>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <template>
-  <div class="photos-page" v-if="post.post_content">
+  <div class="photos-page" >
+    <Loader v-if="!post.post_content" />
     <transition-group name="fade" tag="div">
       <h1 key="0" class="leading-none mb-2 lg:mb-4">{{ post.post_title }}</h1>
       <div key="1" class="post" v-if="post.post_content" v-html="post.post_content" />
@@ -7,7 +8,6 @@
       <HomeSection key="3" class="home-section" v-if="post.genres" :section="post.genres">Highlighted Genres</HomeSection>
     </transition-group>
   </div>
-  <Loader v-else />
 </template>
 <style scoped>
 .post + .home-section {

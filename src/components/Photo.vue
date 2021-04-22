@@ -47,7 +47,8 @@
         <transition name="slide-up">
           <nav class="photo-infonav" v-if="galleryInfo">
             <transition name="fade-delay">
-              <img class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto && loaded" @click="goToPrevPhoto" alt="previous photo" />
+              <Loader v-if="loaded && prevPhoto && !prevLoaded" classes="photo-thumb prev" />
+              <img class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto && prevLoaded" @click="goToPrevPhoto" alt="previous photo" />
             </transition>
             <div class="infonav-text">
               <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
@@ -56,7 +57,8 @@
               </transition>
             </div>
             <transition name="fade-delay">
-              <img class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto && loaded" @click="goToNextPhoto" alt="next photo" />
+              <Loader v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
+              <img class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto && nextLoaded" @click="goToNextPhoto" alt="next photo" />
             </transition>
           </nav>
         </transition>
@@ -87,6 +89,7 @@
   @apply overflow-auto mt-auto lg:my-auto;
 }
 .photo-infonav {
+  min-height: 107px;
   @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow xxl:w-4/5;
   @media(max-height: 500px) {
     margin-bottom: 0;
@@ -105,10 +108,11 @@
   width: 75px;
 }
 .infonav-text {
-  @apply text-center px-4 hidden m-auto sm:block
+  @apply text-center px-4 hidden m-auto sm:flex sm:flex-col sm:justify-center;
+  min-height: 75px;
 }
 .infonav-title {
-  @apply leading-none text-2xl lg:text-4xl
+  @apply leading-none text-2xl lg:text-4xl;
 }
 </style>
 <script>
@@ -173,6 +177,8 @@ export default {
   data() {
     return {
       loaded: false,
+      prevLoaded: false,
+      nextLoaded: false,
       mounted: true,
       transition: 'fade'
     }
@@ -304,8 +310,18 @@ export default {
       if(identifier === 'main') {
         this.loaded = true;
         this.handleSlideShow();
-        this.preload(this.nextPhoto, 'next');
-        this.preload(this.prevPhoto, 'prev');
+        if(this.prevPhoto.images) {
+          this.preload(this.prevPhoto, 'prev');
+        }
+        if(this.nextPhoto.images) {
+          this.preload(this.nextPhoto, 'next');
+        }
+      }
+      else if(identifier === 'prev') {
+        this.prevLoaded = true;
+      }
+      else if(identifier === 'next') {
+        this.nextLoaded = true;
       }
     },
     preload(photo = this.photo, identifier = 'main') {

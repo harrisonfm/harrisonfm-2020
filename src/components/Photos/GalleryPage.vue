@@ -1,13 +1,13 @@
 <template>
   <div class="photos-page">
-    <transition-group tag="div" name="fade" v-if="gallery.loaded">
+    <Loader v-if="!gallery.loaded" />
+    <transition-group tag="div" name="fade">
       <h1 key="0" class="leading-none mb-2 lg:mb-4">{{ gallery.title }}</h1>
       <div key="1" class="post mb-2 lg:mb-4" v-if="gallery.description">
         <p>{{gallery.description}}</p>
       </div>
       <Gallery key="2" :gallery="gallery" route="PhotosSingle" />
     </transition-group>
-    <Loader v-else />
     <router-view />
   </div>
 </template>
@@ -65,6 +65,9 @@ export default {
             console.log('story images resolves', response);
           }, error => {
             console.log('story images errors', this.page, error);
+            this.$_error('ErrorPage', {
+              route: this.gallerySlug
+            });
           });
         }
       }, error => {
