@@ -41,7 +41,6 @@ function setup() {
     if (!isset($allowed_endpoints['menus/v1']) || !in_array('menus', $allowed_endpoints['menus/v1'])) {
       $allowed_endpoints['menus/v1'][] = 'menus';
     }
-    error_log(print_r($allowed_endpoints, true));
     return $allowed_endpoints;
   }
 
@@ -106,10 +105,14 @@ function setup() {
 
     $query = new \WP_Query($args);
     if($query->posts) {
-      formatPostForApi($query->posts[0]);
+      $post = $query->posts[0];
+      formatPostForApi($post);
+    }
+    else {
+      $post = false;
     }
     
-    return new \WP_REST_Response($query->posts);
+    return new \WP_REST_Response($post);
   }
 
   function getPage($request) {
@@ -317,8 +320,8 @@ function setup() {
     else{
       return new \WP_REST_Response(array(
         'stories' => $terms,
-        'hero' => getAttachment(get_field('stories_hero', 'options')),
-        'description' => getAttachment(get_field('stories_description', 'options'))
+        'hero' => getAttachment(get_field('stories_hero', 'option')),
+        'description' => getAttachment(get_field('stories_description', 'option'))
       ));
     }
   }
@@ -431,7 +434,7 @@ function setup() {
   function getStoryTerms() {
     $args = array(
       'taxonomy' => 'story',
-      'orderby' => 'name',
+      'orderby' => 'term_order',
       'order' => 'ASC'
     );
     $query = new \WP_Term_Query($args);

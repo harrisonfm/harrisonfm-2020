@@ -128,10 +128,11 @@ const router = new Router({
   // Prevents window from scrolling back to top
   // when navigating between components/views
   scrollBehavior(to, from, savedPosition) {
-    if(to.name === "PostPhoto" || to.name === "PhotosSingle" || 
+    if(to.name === "PostPhoto" || 
+      to.name === "PhotosSingle" || 
       (to.name === "Post" && from.name === "PostPhoto") || 
       (to.name === "PhotosGallery" && from.name === "PhotosSingle")) {
-      return false;
+      return null;
     }
     if (savedPosition) {
       return savedPosition;
@@ -144,7 +145,6 @@ const router = new Router({
 router.afterEach((to, from) => {
   // Add a body class specific to the route we're viewing
   let body = document.querySelector("body");
-  let html = document.querySelector("html");
   let bodyClasses = body.className.split(" ");
 
   if (bodyClasses.length > 0) {
@@ -154,13 +154,6 @@ router.afterEach((to, from) => {
   }
 
   console.log(to);
-
-  if(to.name === "PostPhoto" || to.name === "PhotosSingle") {
-    html.classList.add('overflow-y-hidden', 'fixed');
-  }
-  else if(from.name === "PostPhoto" || from.name === "PhotosSingle") {
-    html.classList.remove('overflow-y-hidden', 'fixed'); 
-  }
 
   const slug = _.isEmpty(to.params.postSlug)
     ? to.params.pageSlug

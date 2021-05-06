@@ -4,8 +4,8 @@
     "watch": "NODE_ENV=development webpack --watch --config ./webpack/webpack.config.js",
     "production": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --display-entrypoints",
     "rmdist": "rimraf dist",
-    "rsync-dev": "rsync -arvz -e 'ssh -p 21212' --exclude=.git/ --exclude=webpack/ --exclude=node_modules/ --exclude=src/ --delete . $npm_config_deploy_path_dev",
-    "rsync-prod": "rsync -arvz -e 'ssh -p 21212' --exclude=.git/ --exclude=webpack/ --exclude=node_modules/ --exclude=src/ --delete . $npm_config_deploy_path_prod",
+    "rsync-dev": "rsync -arvz -e 'ssh -p 21212' --exclude='.git/' --exclude='webpack/' --exclude='node_modules/' --exclude='src/' --delete . $npm_config_deploy_path_dev",
+    "rsync-prod": "rsync -arvz -e 'ssh -p 21212' --exclude='.git/' --exclude='webpack/' --exclude='node_modules/' --exclude='src/' --delete . $npm_config_deploy_path_prod",
     "deploy-dev": "npm run production && npm run rsync-dev",
     "deploy-prod": "npm run production && npm run rsync-prod"
   },
@@ -64,6 +64,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/vue-fontawesome": "^2.0.0",
     "axios": "^0.21.1",
+    "body-scroll-lock": "^3.1.5",
     "mini-css-extract-plugin": "^1.3.1",
     "postcss": "^8.1.10",
     "postcss-preset-env": "^6.7.0",

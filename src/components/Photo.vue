@@ -120,6 +120,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import store from '~/store';
 import meta from '~/meta';
 import router from '~/router';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 export default {
   computed: {
@@ -195,6 +196,7 @@ export default {
     if(this.slideshow) {
       this.toggleSlideshow();
     }
+    clearAllBodyScrollLocks();
     next();
   },
 
@@ -202,6 +204,7 @@ export default {
     if(this.$el.focus) {
       this.$el.focus();
     }
+    disableBodyScroll(document.getElementsByClassName('photo-modal')[0]);
   },
 
   watch: {

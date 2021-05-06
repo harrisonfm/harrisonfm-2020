@@ -35,10 +35,17 @@ export default {
     })
   },
 
-  props: ['postSlug'],
+  props: ['postSlug', 'redirectPost'],
 
   beforeMount() {
-    this.handleGetPost(this.postSlug);
+    if(this.redirectPost) {
+      console.log('redirect post');
+      this.setCurrentPost(this.redirectPost);
+      window.prerenderReady = true;
+    }
+    else {
+      this.handleGetPost(this.postSlug);
+    }
   },
 
   beforeRouteUpdate(to, from, next) {
@@ -65,7 +72,7 @@ export default {
       this.getPost({
         slug: slug
       }).then(response => {
-        console.log('post component resolves', this.gallery);
+        console.log('post component resolves', this.post);
         window.prerenderReady = true;
       }, error => {
         console.log('post component errors', this.$route.path);

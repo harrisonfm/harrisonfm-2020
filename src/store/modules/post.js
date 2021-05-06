@@ -83,10 +83,9 @@ const actions = {
       }
       api.getPost(payload.slug, response => {
         console.log('store getpost', response);
-        if(response.length) {
-          let post = response[0];
-          commit(types.POST_CURRENT, post);
-          resolve(response[0]);
+        if(response) {
+          commit(types.POST_CURRENT, response);
+          resolve(response);
         }
         else {
           console.log(response, 'error 404 post store');

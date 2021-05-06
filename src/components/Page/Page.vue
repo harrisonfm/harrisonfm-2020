@@ -1,5 +1,5 @@
 <template>
-  <div v-if="post">
+  <div>
     <hero :img="post.featured" />
     <div class="post-container">
       <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
@@ -24,6 +24,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Hero from '../partials/Hero.vue'
 import WebProjects from './WebProjects.vue'
 import meta from '~/meta';
+import router from '~/router';
 
 export default {
   computed: {
@@ -45,12 +46,14 @@ export default {
   },
 
   beforeRouteLeave(to, from, next) {
-    this.setCurrentPost();
+    if(!to.params.redirectPost) {
+      this.setCurrentPost();
+    }
     next();
   },
 
   methods: {
-    ...mapActions(['getPage']),
+    ...mapActions(['getPage', 'getPost']),
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
     }),
@@ -62,8 +65,23 @@ export default {
         window.prerenderReady = true;
       }, error => {
         console.log('page component errors', this.page, error);
-        this.$_error('ErrorPage', {
-          route: slug
+        this.getPost({ // Instead of an immediate 404, we do a getPost in case it's an old link that didn't have years.
+          slug: slug
+        }).then(response => {
+          console.log('page redirect to post resolves', this.post);
+          router.replace({
+            name: 'Post',
+            params: {
+              year: this.post.post_date.substring(this.post.post_date.indexOf(', 2')+3),
+              postSlug: slug,
+              redirectPost: this.post
+            }
+          });
+        }, error => {
+          console.log('post component errors', this.$route.path);
+          this.$_error('ErrorPage', {
+            route: slug
+          });
         });
       });
     }
