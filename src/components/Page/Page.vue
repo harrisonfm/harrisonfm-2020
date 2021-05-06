@@ -72,7 +72,7 @@ export default {
           router.replace({
             name: 'Post',
             params: {
-              year: this.post.post_date.substring(this.post.post_date.indexOf(', 2')+3),
+              year: this.post.post_date.substring(this.post.post_date.indexOf(', 2')+2),
               postSlug: slug,
               redirectPost: this.post
             }
