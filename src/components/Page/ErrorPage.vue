@@ -9,8 +9,22 @@
 	</div>
 </template>
 <script>
+  import { mapMutations } from "vuex"
+
 	export default {
 		props: ['payload'],
+    methods: {
+      ...mapMutations({
+        'setErrorPage': 'PAGE_ERROR'
+      })
+    },
+    beforeMount() {
+      this.setErrorPage(true);
+    },
+    beforeDestroy() {
+      this.setErrorPage(false);
+      console.log('left error page');
+    },
     metaInfo () {
       return {
         title: 'Not Found - HarrisonFM',

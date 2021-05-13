@@ -73,7 +73,9 @@ export default {
         slug: slug
       }).then(response => {
         console.log('post component resolves', this.post);
-        window.prerenderReady = true;
+        if(this.$route.name === 'Post') {
+          window.prerenderReady = true;
+        }
       }, error => {
         console.log('post component errors', this.$route.path);
         this.$_error('ErrorPage', {

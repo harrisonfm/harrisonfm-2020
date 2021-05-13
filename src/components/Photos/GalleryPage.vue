@@ -55,13 +55,15 @@ export default {
         slug: slug
       }).then(response => {
         this.setGenreGallery();
-        console.log('page component resolves', response, this.gallery);
+        console.log('page component resolves', response);
         if(!this.gallery.loaded) {
           console.log('getstoryimages');
           this.getStoryImages({
             slug: this.gallerySlug
           }).then(response => {
-            window.prerenderReady = true;
+            if(this.$route.name === 'PhotosGallery') {
+              window.prerenderReady = true;
+            }
             console.log('story images resolves', response);
           }, error => {
             console.log('story images errors', this.page, error);
@@ -89,7 +91,9 @@ export default {
             title: el.title,
             description: el.description
           });
-          window.prerenderReady = true;
+          if(this.$route.name === 'PhotosGallery') {
+            window.prerenderReady = true;
+          }
         }
       }
     }

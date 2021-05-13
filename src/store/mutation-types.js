@@ -13,10 +13,12 @@ export const PREV_PHOTO = 'PREV_PHOTO'
 export const PHOTO_LIKE = 'PHOTO_LIKE'
 export const LIKED = 'LIKED'
 
-export const HEADER_MENU = 'HEADER_MENU'
+export const MENUS = 'MENUS'
 
 export const STORIES = 'STORIES'
 export const STORIES_LOADED = 'STORIES_LOADED'
 
 export const STORY_CURRENT = 'STORY_CURRENT'
 export const STORY_IMAGES = 'STORY_IMAGES'
+
+export const PAGE_ERROR = 'PAGE_ERROR'

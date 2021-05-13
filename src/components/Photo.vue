@@ -319,6 +319,7 @@ export default {
         if(this.nextPhoto.images) {
           this.preload(this.nextPhoto, 'next');
         }
+        window.prerenderReady = true;
       }
       else if(identifier === 'prev') {
         this.prevLoaded = true;

@@ -1,8 +1,6 @@
 export default {
-  // How many different dispatched actions determine loading progress
-  // This is likely determined by how many dispatched actions you have below
-  // in the created() method
-  LOADING_SEGMENTS: 2,
-  API_BASE_PATH: "/wp-json/wp/v2/",
-  API_CUSTOM: "/wp-json/hfm/v1/"
+  CORE: "/wp-json/wp/v2/",
+  HFM_THEME: "/wp-json/hfm/v1/",
+  MAILCHIMP: "/wp-json/gmt-mailchimp/v1/",
+  MENUS: "/wp-json/menus/v1/"
 };

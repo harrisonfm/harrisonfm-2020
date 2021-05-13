@@ -1,31 +1,28 @@
+import Vue from 'vue';
 import api from "~/api";
 import * as types from "../mutation-types";
 
 // initial state
-const state = {
-  headerMenu: false
-};
+const state = {};
 
 // getters
 const getters = {
-  headerMenu: state => state.headerMenu
+  menus: state => state
 };
 
 // actions
 const actions = {
-  getHeader({ commit }, params) {
-    api.getMenu('header-menu', menu => {
-      console.log('menu', menu);
-
-      commit(types.HEADER_MENU, menu);
+  getMenu({ commit }, menu) {
+    api.getMenu(menu, menu => {
+      commit(types.MENUS, menu);
     });
   }
 };
 
 // mutations
 const mutations = {
-  [types.HEADER_MENU](state, menu) {
-    state.headerMenu = menu;
+  [types.MENUS](state, menu) {
+    Vue.set(state, menu.slug, menu);
   },
 };
 

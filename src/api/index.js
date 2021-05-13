@@ -4,7 +4,7 @@ import SETTINGS from "../settings";
 export default {
   getHome(cb) {
     axios
-      .get(`${SETTINGS.API_CUSTOM}home`)
+      .get(`${SETTINGS.HFM_THEME}home`)
       .then(response => {
         cb(response.data);
       })
@@ -15,7 +15,7 @@ export default {
 
   getPage(slug, cb) {
     axios
-      .get(`${SETTINGS.API_CUSTOM}page?slug=${slug}`)
+      .get(`${SETTINGS.HFM_THEME}page?slug=${slug}`)
       .then(response => {
         cb(response.data);
       })
@@ -27,7 +27,7 @@ export default {
   getPosts(params, cb) {
     console.log('api getposts',params);
     axios
-      .get(`${SETTINGS.API_CUSTOM}posts`, {
+      .get(`${SETTINGS.HFM_THEME}posts`, {
         params: params
       })
       .then(response => {
@@ -41,7 +41,7 @@ export default {
   getPost(slug, cb) {
     console.log('api getpost single');
     axios
-      .get(`${SETTINGS.API_CUSTOM}post?slug=${slug}`)
+      .get(`${SETTINGS.HFM_THEME}post?slug=${slug}`)
       .then(response => {
         cb(response.data);
       })
@@ -50,24 +50,24 @@ export default {
       });
   },
 
-  getPhoto(id, cb) {
-    axios
-      .get(`${SETTINGS.API_BASE_PATH}media/${id}`)
-      .then(response => {
-        let photo = response.data;
-        photo.title = response.data.title.rendered;
-        photo.url = response.data.media_details.sizes.full.source_url;
-        photo.caption = response.data.caption.rendered;
-        cb(photo);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  },
+  // getPhoto(id, cb) {
+  //   axios
+  //     .get(`${SETTINGS.CORE}media/${id}`)
+  //     .then(response => {
+  //       let photo = response.data;
+  //       photo.title = response.data.title.rendered;
+  //       photo.url = response.data.media_details.sizes.full.source_url;
+  //       photo.caption = response.data.caption.rendered;
+  //       cb(photo);
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // },
 
   getSitemeta(cb) {
     axios
-      .get(`${SETTINGS.API_CUSTOM}sitemeta`)
+      .get(`${SETTINGS.HFM_THEME}sitemeta`)
       .then(response => {
         cb(response.data);
       })
@@ -79,7 +79,7 @@ export default {
   like(photo, likes, cb) {
     console.log('like photo api', photo, likes);
     axios
-      .put(`${SETTINGS.API_CUSTOM}media/${photo}/like`, {likes: likes})
+      .put(`${SETTINGS.HFM_THEME}media/${photo}/like`, {likes: likes})
       .then(response => {
         cb(response.data);
       })
@@ -90,17 +90,17 @@ export default {
 
   getMenu(menu, cb) {
     axios
-      .get('/wp-json/menus/v1/menus/'+menu)
+      .get(`${SETTINGS.MENUS}menus/${menu}`)
       .then(response => {
         cb(response.data);
       })
-      .catch(error => console.log('menu not working'));
+      .catch(error => console.log(error, 'menu not working'));
   },
 
   getStories(cb) {
     console.log('api getstories');
     axios
-      .get(`${SETTINGS.API_CUSTOM}stories`)
+      .get(`${SETTINGS.HFM_THEME}stories`)
       .then(response => {
         cb(response.data);
       })
@@ -112,7 +112,7 @@ export default {
   getStory(params, cb) {
     console.log('api getstory single', params);
     axios
-      .get(`${SETTINGS.API_CUSTOM}story`, {
+      .get(`${SETTINGS.HFM_THEME}story`, {
         params: params
       })
       .then(response => {
@@ -126,8 +126,22 @@ export default {
   getStoryMedia(params, cb) {
     console.log('api getstorymedia', params);
     axios
-      .get(`${SETTINGS.API_CUSTOM}storymedia`, {
+      .get(`${SETTINGS.HFM_THEME}storymedia`, {
         params: params
+      })
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
+  },
+
+  subscribe(email, cb) {
+    console.log('email subscribe', email);
+    axios
+      .post(`${SETTINGS.MAILCHIMP}subscribe`, {
+        email: email.toLowerCase()
       })
       .then(response => {
         cb(response.data);

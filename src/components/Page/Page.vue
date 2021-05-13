@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hero :img="post.featured" />
+    <hero v-if="post.featured" :img="post.featured" />
     <div class="post-container">
       <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
       <transition name="fade">

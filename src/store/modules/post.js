@@ -24,7 +24,8 @@ const state = {
   maxPages: 0,
   loaded: false,
   currentPost: defaultPost,
-  gallery: defaultGallery
+  gallery: defaultGallery,
+  pageError: false
 };
 
 // getters
@@ -33,7 +34,8 @@ const getters = {
   maxPages: state => state.maxPages,
   postsLoaded: state => state.loaded,
   currentPost: state => state.currentPost,
-  gallery: state => state.gallery
+  gallery: state => state.gallery,
+  pageError: state => state.pageError
 };
 
 // actions
@@ -56,7 +58,7 @@ const actions = {
     });
   },
 
-  getPage({ commit, getters }, payload) {
+  getPage({ commit }, payload) {
     console.log('store getpage', payload.slug);
     return new Promise((resolve, reject) => {
       api.getPage(payload.slug, response => {
@@ -140,7 +142,10 @@ const mutations = {
     }
   },
 
-
+  [types.PAGE_ERROR](state, val) {
+    console.log('set page error');
+    state.pageError = val;
+  }
 };
 
 export default {
