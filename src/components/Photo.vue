@@ -238,7 +238,6 @@ export default {
             this.setPhoto(el);
             this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)});
             this.setGalleryIndex({ idx });
-            window.prerenderReady = true;
             break;
           }
         }

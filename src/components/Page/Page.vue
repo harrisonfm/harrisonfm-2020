@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hero v-if="post.featured" :img="post.featured" />
+    <hero v-if="!fullScreen" :img="post.featured" />
     <div class="post-container">
       <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
       <transition name="fade">
@@ -30,7 +30,10 @@ export default {
   computed: {
     ...mapGetters({
       post: 'currentPost'
-    })
+    }),
+    fullScreen: function() {
+      return this.$route.path.indexOf('/privacy-policy') !== -1 ? true : false;
+    },
   },
 
   props: ['pageSlug'],

@@ -2,7 +2,7 @@
   <footer class="site-footer" :class="{'overlaid-content': overlaysFooter}">
     <div class="footer-content">
       <FooterMenu :menu="menus['writing']" />
-      <FooterMenu :menu="menus['footer']" />
+      <FooterMenu :menu="menus['sitemap']" />
       <NewsletterForm />
       <p class="footer-end">&copy; Harrison June {{ year }} | <a @click="scrollToTop" class="text-link cursor-pointer">Top</a> | <a href="mailto:june@harrisonfm.com" class="text-link">Contact Me</a></p>
     </div>
@@ -44,7 +44,7 @@ export default {
   },
   beforeMount() {
     this.getMenu('writing');
-    this.getMenu('footer');
+    this.getMenu('sitemap');
   },
   methods: {
     ...mapActions(['getMenu']),
