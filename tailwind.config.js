@@ -350,7 +350,8 @@ module.exports = {
       '5xl': '64rem',
       '6xl': '72rem',
       '8xl': '90rem',
-      full: '100%'
+      full: '100%',
+      none: 'none'
     },
     minHeight: {
       '0': '0',

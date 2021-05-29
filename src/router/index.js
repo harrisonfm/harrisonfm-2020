@@ -83,13 +83,18 @@ const router = new Router({
         {
           path: "/",
           name: 'PhotosHome',
-          component: PhotosHome
+          component: PhotosHome,
+          props: route => ({
+            fullScreen: true
+          })
         },
         {
           path: ":gallerySlug",
           name: 'PhotosGallery',
           component: PhotosGallery,
-          props: true,
+          props: route => ({
+            fullScreen: true
+          }),
           children: [
             {
               path: ":idSlug",
