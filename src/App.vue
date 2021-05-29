@@ -19,18 +19,18 @@
 import Header from './components/partials/Header.vue';
 import Footer from './components/partials/Footer.vue';
 import { mapGetters } from "vuex";
+import utils from './utils';
+
 export default {
-  props: ['fullScreen'],
-  beforeMount() {
-    console.log(this.fullScreen);
-  },
   computed: {
     ...mapGetters(['pageError']),
+    fullScreen: function() {
+      return utils.fullScreen(this.$route.name)
+    },
     overlaysFooter: function() {
-      return !this.fullscreen && !this.pageError;
-    }
+      return !this.fullScreen && !this.pageError && !utils.nonHeroPage(this.$route.params.pageSlug);
+    },
   },
-
   components: {
     appHeader: Header,
     appFooter: Footer,

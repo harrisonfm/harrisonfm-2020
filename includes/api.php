@@ -220,6 +220,12 @@ function setup() {
         formatGalleryImages($featuredMedia->posts);
         $post->featured = $featuredMedia->posts[0];
       }
+      else {
+        $post->featured = false;
+      }
+    }
+    else {
+      $post->featured = false;
     }
 
     if(!$ignoreStories) { //recursive to get next/prev navigation on story posts

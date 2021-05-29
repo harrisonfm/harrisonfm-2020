@@ -4,7 +4,7 @@
     <p class="subscribe-desc">{{ message }}</p>
     <div class="subscribe-row" v-if="showInput">
       <input required type="email" name="email" placeholder="e-mail" class="subscribe-email" v-model="email" />
-      <button id="footer-subscribe" class="subscribe-button button" type="submit">{{ buttonText }}</button>
+      <button class="subscribe-button button" type="submit">{{ buttonText }}</button>
     </div>
   </form>
 </template>

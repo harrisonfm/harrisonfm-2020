@@ -3,16 +3,13 @@
     <p class="subscribe-desc">{{ message }}</p>
     <div class="subscribe-row" v-if="showInput">
       <input required type="email" name="email" placeholder="email" class="subscribe-email" v-model="email" />
-      <button id="footer-subscribe" class="subscribe-button button" type="submit">{{ buttonText }}</button>
+      <button class="subscribe-button button" type="submit">{{ buttonText }}</button>
     </div>
   </form>
 </template>
 <style scoped>
 .subscribe-desc {
   @apply mb-2;
-}
-.subscribe-row {
-  @apply ml-2 lg:ml-4;
 }
 .subscribe-email {
   @apply border-solid border-black border-b-2 p-2 mb-2 xs:mb-0;

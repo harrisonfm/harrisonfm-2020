@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hero v-if="hero" :img="post.featured" />
+    <hero v-if="!nonHeroPage" :img="post.featured" />
     <div class="post-container">
       <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
       <transition name="fade">
@@ -22,15 +22,16 @@ import WebProjects from './WebProjects.vue'
 import NewsletterForm from './NewsletterForm.vue'
 import meta from '~/meta'
 import router from '~/router'
+import utils from '~/utils'
 
 export default {
   computed: {
     ...mapGetters({
       post: 'currentPost'
     }),
-    hero: function() {
-      return this.$route.path.indexOf('/privacy-policy') !== -1 || this.$route.path.indexOf('/newsletter') !== -1 ? false : true;
-    },
+    nonHeroPage: function() {
+      return utils.nonHeroPage(this.$route.params.pageSlug)
+    }
   },
 
   props: ['pageSlug'],

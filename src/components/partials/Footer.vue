@@ -15,9 +15,6 @@
 .site-footer.overlaid-content {
   @apply xxl:pt-20;
 }
-.fullscreen + .site-footer {
-  @apply pt-4;
-}
 .footer-content {
   @apply max-w-8xl mx-auto flex flex-wrap lg:justify-center;
 }
