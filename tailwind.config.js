@@ -357,7 +357,7 @@ module.exports = {
       '0': '0',
       full: '100%',
       screen: '100vh',
-      mostScreen: '90vh',
+      mostScreen: '75vh',
       halfScreen: '50vh'
     },
     minWidth: {
