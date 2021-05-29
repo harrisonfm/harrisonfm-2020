@@ -16,7 +16,7 @@ export default {
   computed: {
     ...mapGetters(['pageError']),
     fullScreen: function() {
-      return (this.$route.name === 'PhotosHome' || this.$route.name === 'PhotosGallery' || this.$route.path.indexOf('/privacy-policy')) !== -1 ? true : false;
+      return (this.$route.name === 'PhotosHome' || this.$route.name === 'PhotosGallery') !== -1 ? true : false;
     },
     overlaysFooter: function() {
       return !this.fullscreen && !this.pageError;

@@ -89,7 +89,6 @@
   @apply overflow-auto mt-auto lg:my-auto;
 }
 .photo-infonav {
-  min-height: 107px;
   @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow xxl:w-4/5;
   @media(max-height: 500px) {
     margin-bottom: 0;

@@ -1,38 +1,35 @@
 <template>
   <div>
-    <hero v-if="!fullScreen" :img="post.featured" />
+    <hero v-if="hero" :img="post.featured" />
     <div class="post-container">
       <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
       <transition name="fade">
         <div class="post" v-html="post.post_content" v-if="post.post_content"></div>
       </transition>
       <WebProjects v-if="post.projects" :projects="post.projects" />
+      <NewsletterForm v-if="post.post_title === 'Newsletter'" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.page-content {
-  & >>> p {
-    margin-bottom: 1rem;
-  }
-}
 </style>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Hero from '../partials/Hero.vue'
 import WebProjects from './WebProjects.vue'
-import meta from '~/meta';
-import router from '~/router';
+import NewsletterForm from './NewsletterForm.vue'
+import meta from '~/meta'
+import router from '~/router'
 
 export default {
   computed: {
     ...mapGetters({
       post: 'currentPost'
     }),
-    fullScreen: function() {
-      return this.$route.path.indexOf('/privacy-policy') !== -1 ? true : false;
+    hero: function() {
+      return this.$route.path.indexOf('/privacy-policy') !== -1 || this.$route.path.indexOf('/newsletter') !== -1 ? false : true;
     },
   },
 
@@ -91,7 +88,7 @@ export default {
   },
 
   components: {
-    Hero, WebProjects
+    Hero, WebProjects, NewsletterForm
   },
 
   metaInfo () {
