@@ -6,8 +6,10 @@
       <transition name="fade">
         <div class="post" v-html="post.post_content" v-if="post.post_content"></div>
       </transition>
-      <WebProjects v-if="post.projects" :projects="post.projects" />
-      <NewsletterForm v-if="post.post_title === 'Newsletter'" />
+      <webProjects v-if="post.projects" :projects="post.projects" />
+      <newsletterForm v-if="post.post_title === 'Newsletter'" />
+      <gallery v-if="gallery" :gallery="gallery" title="All Harrigrams" route="Harrigram" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -20,6 +22,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Hero from '../partials/Hero.vue'
 import WebProjects from './WebProjects.vue'
 import NewsletterForm from './NewsletterForm.vue'
+import Gallery from "~/components/Post/Gallery.vue"
 import meta from '~/meta'
 import router from '~/router'
 import utils from '~/utils'
@@ -27,7 +30,8 @@ import utils from '~/utils'
 export default {
   computed: {
     ...mapGetters({
-      post: 'currentPost'
+      post: 'currentPost',
+      gallery: 'gallery'
     }),
     nonHeroPage: function() {
       return utils.nonHeroPage(this.$route.params.pageSlug)
@@ -54,7 +58,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['getPage', 'getPost']),
+    ...mapActions(['getPage', 'getPost', 'getHarrigrams']),
     ...mapMutations({
       'setCurrentPost': 'POST_CURRENT',
     }),
@@ -85,11 +89,16 @@ export default {
           });
         });
       });
+      if(slug === 'harrigrams') {
+        this.getHarrigrams({
+          fetchAll: true
+        });
+      }
     }
   },
 
   components: {
-    Hero, WebProjects, NewsletterForm
+    Hero, WebProjects, NewsletterForm, Gallery
   },
 
   metaInfo () {

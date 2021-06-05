@@ -149,5 +149,19 @@ export default {
       .catch(e => {
         cb(e);
       });
+  },
+
+  getHarrigrams(params, cb) {
+    console.log('api harrigrams', params);
+    axios
+      .get(`${SETTINGS.HFM_THEME}harrigrams`, {
+        params: params
+      })
+      .then(response => {
+        cb(response.data);
+      })
+      .catch(e => {
+        cb(e);
+      });
   }
 };

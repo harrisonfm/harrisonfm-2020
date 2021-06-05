@@ -10,10 +10,11 @@
         </router-link>
         <v-style>{{ parseBackground(post) }}</v-style>
       </article>
-      <div class="pagination" v-if="posts.length" :key="page">
-        <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto">Previous</router-link>
-        <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto">Next</router-link>
+      <div class="full-grid pagination" v-if="posts.length" :key="page">
+        <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto pag-btn">Previous</router-link>
+        <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto pag-btn">Next</router-link>
       </div>
+      <gallery class="full-grid" :class="'harrigrams-posts'" v-if="gallery" :gallery="gallery" title="Recent Harrigrams" route="Harrigram" key="harrigrams" />
     </transition-group>
   </div>
 </template>
@@ -21,15 +22,19 @@
 .posts-grid {
   @apply grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2;
 }
-.pagination {
-  @apply w-full flex md:col-span-2
+.full-grid {
+  @apply w-full md:col-span-2
 }
-.pagination a {
+.pagination {
+  @apply flex;
+}
+.pag-btn {
   @apply font-semibold bg-gray-500 text-white px-4 py-2 transition-colors duration-150 ring ring-inset ring-gray-300 hover:bg-blue-500 hover:ring-blue-300
 }
 </style>
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import Gallery from '~/components/Post/Gallery.vue'
 
 export default {
   props: {
@@ -43,8 +48,10 @@ export default {
     }
   },
 
+  components: { Gallery },
+
   computed: {
-    ...mapGetters(['posts', 'maxPages']),
+    ...mapGetters(['posts', 'maxPages', 'gallery']),
     params: function() {
       let params = {
         per_page: this.limit,
@@ -101,9 +108,7 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'getPosts'
-    ]),
+    ...mapActions(['getPosts', 'getHarrigrams']),
     ...mapMutations({
       setPosts: 'POSTS'
     }),
@@ -111,6 +116,9 @@ export default {
       this.getPosts(this.params).then(response => {
         console.log('post archives resolves');
         window.prerenderReady = true;
+        this.getHarrigrams().then(response => {
+          console.log(this.gallery);
+        });
       }, error => {
         console.log('post component errors', this.$route.path);
         this.$_error('ErrorPage', {

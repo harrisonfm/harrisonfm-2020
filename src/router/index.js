@@ -119,7 +119,15 @@ const router = new Router({
       path: "/:pageSlug",
       name: "Page",
       component: Page,
-      props: true
+      props: true,
+      children: [
+        {
+          path: ":idSlug",
+          name: 'Harrigram',
+          component: Photo,
+          props: true
+        }
+      ]
     }
   ],
   mode: "history",
@@ -130,8 +138,10 @@ const router = new Router({
   scrollBehavior(to, from, savedPosition) {
     if(to.name === "PostPhoto" || 
       to.name === "PhotosSingle" || 
+      to.name === "Harrigram" || 
       (to.name === "Post" && from.name === "PostPhoto") || 
-      (to.name === "PhotosGallery" && from.name === "PhotosSingle")) {
+      (to.name === "PhotosGallery" && from.name === "PhotosSingle") ||
+      (to.name === "Page" && from.name === "Harrigram")) {
       return null;
     }
     if (savedPosition) {

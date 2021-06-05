@@ -45,6 +45,11 @@
 <script>
 import newsletterFormMixin from '~/mixins/NewsletterForm.vue'
 export default {
-  mixins: [newsletterFormMixin]
+  mixins: [newsletterFormMixin],
+  data() {
+    return {
+      message: 'Check out my newsletter to stay up to date on my essays, photography and life updates. Typically a monthly issue.'
+    }
+  }
 }
 </script>

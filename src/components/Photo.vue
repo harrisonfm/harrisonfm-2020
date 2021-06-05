@@ -46,20 +46,20 @@
         </div>
         <transition name="slide-up">
           <nav class="photo-infonav" v-if="galleryInfo">
-            <transition name="fade-delay">
-              <Loader v-if="loaded && prevPhoto && !prevLoaded" classes="photo-thumb prev" />
-              <img width="75" height="75" class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" />
-            </transition>
+            <transition-group name="fade-delay">
+              <Loader key="spinner" v-if="loaded && prevPhoto && !prevLoaded" classes="photo-thumb prev" />
+              <img key="thumb" width="75" height="75" class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" />
+            </transition-group>
             <div class="infonav-text">
               <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
               <transition name="fade">
                 <p class="mb-0 mt-2 lg:mt-4" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
               </transition>
             </div>
-            <transition name="fade-delay">
-              <Loader v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
-              <img width="75" height="75" class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" />
-            </transition>
+            <transition-group name="fade-delay">
+              <Loader key="spinner" v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
+              <img key="thumb" width="75" height="75" class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" />
+            </transition-group>
           </nav>
         </transition>
       </template>
@@ -146,6 +146,13 @@ export default {
           photo: 'PhotosSingle'
         }
       }
+      else {
+        return {
+          parent: 'Page',
+          parentSlug: 'harrigrams',
+          photo: 'Harrigram'
+        }
+      }
     },
     metaDescription: function() {
       let meta = '';
@@ -183,6 +190,7 @@ export default {
   props: ['idSlug', 'postSlug', 'gallerySlug'],
 
   beforeMount() {
+    console.log('photo before mounted');
     this.ID = this.parseIDSlug(this.idSlug);
     this.getPhoto();
   },
@@ -196,6 +204,7 @@ export default {
   },
 
   mounted() {
+    console.log('photo mounted');
     if(this.$el.focus) {
       this.$el.focus();
     }
@@ -248,7 +257,6 @@ export default {
           route: this.idSlug
         });
       }
-      console.log(this.currentPost);
       // else {
       //   this.getSinglePhoto({
       //     ID: this.ID, 
@@ -298,6 +306,7 @@ export default {
       this.routeToPhoto(this.prevPhoto);
     },
     routeToPhoto: function(photo) {
+      console.log(this.routes);
       router.replace({
         name: this.routes.photo,
         params: { idSlug: photo.ID + '-' + photo.post_name }

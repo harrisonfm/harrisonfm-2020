@@ -95,6 +95,21 @@ const actions = {
         }
       });
     });
+  },
+
+  getHarrigrams({ commit, getters }, payload) {
+    return new Promise((resolve, reject) => {
+      api.getHarrigrams(payload, response => {
+        console.log('store get grams');
+        if(response) {
+          commit(types.GALLERY, response);
+          resolve(response);
+        }
+        else {
+          reject(response);
+        }
+      });
+    });
   }
 };
 
@@ -132,7 +147,7 @@ const mutations = {
   },
 
   [types.GALLERY](state, gallery) {
-    console.log('genre gallery set', gallery);
+    console.log('gallery set', gallery);
     if(gallery) {
       state.gallery = gallery;
       state.gallery.loaded = true;

@@ -41,6 +41,9 @@ function setup() {
     if (!isset($allowed_endpoints['menus/v1']) || !in_array('menus', $allowed_endpoints['menus/v1'])) {
       $allowed_endpoints['menus/v1'][] = 'menus';
     }
+    if (!isset($allowed_endpoints['hfm/v1']) || !in_array('harrigrams', $allowed_endpoints['hfm/v1'])) {
+      $allowed_endpoints['hfm/v1'][] = 'harrigrams';
+    }
     return $allowed_endpoints;
   }
 
@@ -453,6 +456,30 @@ function setup() {
     return $terms;
   }
 
+  function getHarrigrams($request) {
+    $args = array(
+      'post_type' => 'attachment',
+      'post_status' => 'any',
+      'posts_per_page' => $request['fetchAll'] ? -1 : 8,
+      'meta_query' => array(
+        array(
+          'key'     => 'harrigram',
+          'value'   => 1
+        ),
+      ),
+    );
+
+    $query = new \WP_Query($args);
+    $harrigrams = $query->posts;
+    formatGalleryImages($harrigrams);
+
+    $response = array(
+      'images' => $harrigrams
+    );
+
+    return new \WP_REST_Response($response);
+  }
+
   function register_rest_routes() {
     global $n;
     register_rest_route('hfm/v1', '/media/(?P<id>\d+)/like', array(
@@ -512,6 +539,12 @@ function setup() {
     register_rest_route('hfm/v1', '/storymedia', array(
       'methods' => 'GET',
       'callback' => $n('getStoryMedia'),
+      'permission_callback' => '__return_true'
+    ));
+
+    register_rest_route('hfm/v1', '/harrigrams', array(
+      'methods' => 'GET',
+      'callback' => $n('getHarrigrams'),
       'permission_callback' => '__return_true'
     ));
   }

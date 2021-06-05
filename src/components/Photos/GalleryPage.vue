@@ -104,7 +104,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.gallery.title ? this.gallery.title + ' Photos' : '', this.gallery.description, this.gallery.featured.images)
+    return meta.formatMeta(this.gallery.title ? this.gallery.title : '', this.gallery.description, this.gallery.featured.images)
   },
 };
 </script>
