@@ -1,6 +1,6 @@
 <template>
   <div class="post-gallery">
-    <h4 class="gallery-header"><router-link to="Harrigrams" v-if="title" class="gallery-header-link">{{ title }}</router-link></h4>
+    <h4 class="gallery-header"><router-link to="harrigrams" v-if="title" class="gallery-header-link">{{ title }}</router-link></h4>
     <router-link class="gallery-link" v-for="photo in gallery.images" :to="{
         name: route,
         params: { 

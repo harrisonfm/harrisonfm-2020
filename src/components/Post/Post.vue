@@ -11,7 +11,7 @@
       <transition name="fade">
         <div class="post" v-if="post.post_content" v-html="post.post_content" />
       </transition>
-      <gallery v-if="gallery" :gallery="gallery" route="PostPhoto" />
+      <gallery v-if="gallery.images.length" :gallery="gallery" route="PostPhoto" />
       <tags v-if="post.tags" :tags="post.tags" />
       <storyNavigation v-if="post.story" :story="post.story" />
       <router-view />

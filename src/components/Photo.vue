@@ -52,9 +52,10 @@
             </transition-group>
             <div class="infonav-text">
               <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
-              <transition name="fade">
-                <p class="mb-0 mt-2 lg:mt-4" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
-              </transition>
+              <transition-group name="fade">
+                <p key="1" class="leading-none mb-0 mt-2 lg:mt-4" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
+                <p key="2" class="leading-none mb-0 mt-1 lg:mt-2 text-gray-600" v-if="loaded && locDate">{{ locDate }}</p>
+              </transition-group>
             </div>
             <transition-group name="fade-delay">
               <Loader key="spinner" v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
@@ -148,7 +149,7 @@ export default {
       }
       else {
         return {
-          parent: 'Page',
+          parent: 'Harrigrams',
           parentSlug: 'harrigrams',
           photo: 'Harrigram'
         }
@@ -174,6 +175,10 @@ export default {
       }
 
       return meta;
+    },
+    locDate: function() {
+      return this.photo.date && this.photo.location ? this.photo.location + ' - ' + this.photo.date : 
+        (this.photo.date ? this.photo.date : (this.photo.location ? this.photo.location : ''))
     }
   },
 
@@ -204,11 +209,11 @@ export default {
   },
 
   mounted() {
-    console.log('photo mounted');
     if(this.$el.focus) {
       this.$el.focus();
     }
-    disableBodyScroll(document.getElementsByClassName('photo-modal')[0]);
+    console.log(this.$el);
+    disableBodyScroll(this.$el);
   },
 
   watch: {
@@ -290,7 +295,10 @@ export default {
     back: function() {
       router.replace({
         name: this.routes.parent,
-        params: { slug: this.routes.parentSlug }
+        params: { 
+          slug: this.routes.parentSlug,
+          pageSlug: this.routes.parentSlug
+        }
       });
     },
     goToNextPhoto: function() {

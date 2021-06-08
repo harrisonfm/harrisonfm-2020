@@ -279,9 +279,16 @@ function setup() {
       }
       $likes = get_field('likes', $galleryItem->ID);
       $galleryItem->likes = $likes ? $likes : 0;
-      $galleryItem->images = array();
+
+      $location = get_field('location', $galleryItem->ID);
+      $galleryItem->location = $location ? $location : 0;
+
+      $date = get_field('date', $galleryItem->ID);
+      $galleryItem->date = $date ? $date : 0;
+
       $galleryItem->post_name = strtolower(str_replace(' ', '-', $galleryItem->post_title));
 
+      $galleryItem->images = array();
       foreach($imageSizes as $size => $dimensions) {
         $imageSrc = wp_get_attachment_image_src($galleryItem->ID, $size);
 

@@ -12,7 +12,7 @@
 </template>
 <style>
 .hero {
-  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen flex relative z-neg p-2 lg:p-4;
+  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen xxl:h-heroDesktop flex relative z-neg p-2 lg:p-4;
 }
 .title {
   @apply text-center m-auto text-white uppercase flex items-center;

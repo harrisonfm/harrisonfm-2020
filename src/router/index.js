@@ -102,6 +102,22 @@ const router = new Router({
       ]
     },
     {
+      path: "/harrigrams",
+      name: "Harrigrams",
+      component: Page,
+      props: route => ({
+        pageSlug: 'harrigrams',
+      }),
+      children: [
+        {
+          path: ":idSlug",
+          name: 'Harrigram',
+          component: Photo,
+          props: true
+        }
+      ]
+    },
+    {
       path: "/:year/:postSlug",
       name: "Post",
       component: Post,
@@ -119,15 +135,7 @@ const router = new Router({
       path: "/:pageSlug",
       name: "Page",
       component: Page,
-      props: true,
-      children: [
-        {
-          path: ":idSlug",
-          name: 'Harrigram',
-          component: Photo,
-          props: true
-        }
-      ]
+      props: true
     }
   ],
   mode: "history",
@@ -136,12 +144,9 @@ const router = new Router({
   // Prevents window from scrolling back to top
   // when navigating between components/views
   scrollBehavior(to, from, savedPosition) {
-    if(to.name === "PostPhoto" || 
-      to.name === "PhotosSingle" || 
-      to.name === "Harrigram" || 
-      (to.name === "Post" && from.name === "PostPhoto") || 
-      (to.name === "PhotosGallery" && from.name === "PhotosSingle") ||
-      (to.name === "Page" && from.name === "Harrigram")) {
+    if(to.name === "PostPhoto" || (to.name === "Post" && from.name === "PostPhoto") ||
+      to.name === "PhotosSingle" || (to.name === "PhotosGallery" && from.name === "PhotosSingle") ||
+      to.name === "Harrigram" || (to.name === "Harrigrams" && from.name === "Harrigram")) {
       return null;
     }
     if (savedPosition) {

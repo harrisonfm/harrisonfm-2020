@@ -294,7 +294,8 @@ module.exports = {
       screen: '100vh',
       article: '67vw',
       articleMD: 'calc((100vw) * .25)',
-      hero: '600px',
+      hero: '500px',
+      heroDesktop: '600px',
       '72': '18rem'
     }),
     inset: {
