@@ -45,8 +45,11 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    this.setCurrentPost();
-    this.handleGetPost(to.params.pageSlug);
+    if((to.name === 'Page' || to.name === 'Harrigrams') && 
+      (from.name === 'Page' || from.name === 'Harrigrams')) {
+      this.setCurrentPost();
+      this.handleGetPost(to.params.pageSlug);
+    }
     next();
   },
 

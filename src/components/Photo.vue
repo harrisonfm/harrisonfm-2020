@@ -137,21 +137,21 @@ export default {
         return {
           parent: 'Post',
           parentSlug: this.postSlug,
-          photo: 'PostPhoto'
+          name: 'PostPhoto'
         }
       }
       else if(this.gallerySlug) {
         return {
           parent: 'PhotosGallery',
           parentSlug: this.gallerySlug,
-          photo: 'PhotosSingle'
+          name: 'PhotosSingle'
         }
       }
       else {
         return {
           parent: 'Harrigrams',
           parentSlug: 'harrigrams',
-          photo: 'Harrigram'
+          name: 'Harrigram'
         }
       }
     },
@@ -316,7 +316,7 @@ export default {
     routeToPhoto: function(photo) {
       console.log(this.routes);
       router.replace({
-        name: this.routes.photo,
+        name: this.routes.name,
         params: { idSlug: photo.ID + '-' + photo.post_name }
       });
     },

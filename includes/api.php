@@ -280,11 +280,8 @@ function setup() {
       $likes = get_field('likes', $galleryItem->ID);
       $galleryItem->likes = $likes ? $likes : 0;
 
-      $location = get_field('location', $galleryItem->ID);
-      $galleryItem->location = $location ? $location : 0;
-
-      $date = get_field('date', $galleryItem->ID);
-      $galleryItem->date = $date ? $date : 0;
+      $galleryItem->location = get_field('location', $galleryItem->ID);
+      $galleryItem->date = get_field('date', $galleryItem->ID);
 
       $galleryItem->post_name = strtolower(str_replace(' ', '-', $galleryItem->post_title));
 
