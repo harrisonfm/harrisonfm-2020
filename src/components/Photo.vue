@@ -11,16 +11,16 @@
       <template v-if="photo">
         <transition name="slide-right">
           <div class="controls controls-full" v-if="galleryInfo">
-            <i @click="back">
+            <i @click="back" title="Back">
               <font-awesome-icon :icon="['fas', 'compress-alt']" />
             </i>
-            <i @click="setGalleryInfo">
-              <font-awesome-icon :icon="['fas', 'info-circle']" :class="{'text-blue-500': galleryInfo}" />
+            <i @click="setGalleryInfo" title="Fullscreen">
+              <font-awesome-icon :icon="['fas', 'info-circle']" />
             </i>
-            <i @click="toggleSlideshow">
+            <i @click="toggleSlideshow" title="Toggle Slideshow">
               <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" class="cursor-pointer" />
             </i>
-            <i @click="like">
+            <i @click="like" title="Like Photo">
               <font-awesome-layers full-width class="cursor-pointer not-italic" :class="{'text-red-600': liked}" >
                 <font-awesome-icon :icon="['fas', 'heart']" />
                 <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
@@ -48,18 +48,20 @@
           <nav class="photo-infonav" v-if="galleryInfo">
             <transition-group name="fade-delay">
               <Loader key="spinner" v-if="loaded && prevPhoto && !prevLoaded" classes="photo-thumb prev" />
-              <img key="thumb" width="75" height="75" class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" />
+              <img key="thumb" width="75" height="75" class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" :title="prevPhoto.post_title" />
             </transition-group>
             <div class="infonav-text">
               <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
-              <transition-group name="fade">
-                <p key="1" class="leading-none mb-0 mt-2 lg:mt-4" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
-                <p key="2" class="leading-none mb-0 mt-1 lg:mt-2 text-gray-600" v-if="loaded && locDate">{{ locDate }}</p>
-              </transition-group>
+              <transition name="fade">
+                <p class="leading-none mb-0 mt-2 lg:mt-4" v-if="loaded && photo.post_excerpt">
+                  <span>{{ photo.post_excerpt }}</span>
+                  <span class="text-gray-700" v-if="locDate"> &mdash; {{ locDate }}</span>
+                </p>
+              </transition>
             </div>
             <transition-group name="fade-delay">
               <Loader key="spinner" v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
-              <img key="thumb" width="75" height="75" class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" />
+              <img key="thumb" width="75" height="75" class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" :title="nextPhoto.post_title" />
             </transition-group>
           </nav>
         </transition>
@@ -195,7 +197,6 @@ export default {
   props: ['idSlug', 'postSlug', 'gallerySlug'],
 
   beforeMount() {
-    console.log('photo before mounted');
     this.ID = this.parseIDSlug(this.idSlug);
     this.getPhoto();
   },
@@ -212,7 +213,6 @@ export default {
     if(this.$el.focus) {
       this.$el.focus();
     }
-    console.log(this.$el);
     disableBodyScroll(this.$el);
   },
 
@@ -314,7 +314,6 @@ export default {
       this.routeToPhoto(this.prevPhoto);
     },
     routeToPhoto: function(photo) {
-      console.log(this.routes);
       router.replace({
         name: this.routes.name,
         params: { idSlug: photo.ID + '-' + photo.post_name }

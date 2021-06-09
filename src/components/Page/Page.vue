@@ -8,7 +8,7 @@
       </transition>
       <webProjects v-if="post.projects" :projects="post.projects" />
       <newsletterForm v-if="post.post_title === 'Newsletter'" />
-      <gallery v-if="gallery" :gallery="gallery" title="All Harrigrams" route="Harrigram" />
+      <gallery v-if="gallery.images.length" :gallery="gallery" title="All Harrigrams" route="Harrigram" />
       <router-view />
     </div>
   </div>
@@ -45,8 +45,7 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    if((to.name === 'Page' || to.name === 'Harrigrams') && 
-      (from.name === 'Page' || from.name === 'Harrigrams')) {
+    if(to.name === 'Page' && from.name === 'Page') {
       this.setCurrentPost();
       this.handleGetPost(to.params.pageSlug);
     }
@@ -54,7 +53,13 @@ export default {
   },
 
   beforeRouteLeave(to, from, next) {
-    if(!to.params.redirectPost) {
+    if(!to.params.redirectPost && 
+      (to.name === 'Page' || to.name === 'Harrigrams') && 
+      (from.name === 'Page' || from.name === 'Harrigrams')) {
+      this.setCurrentPost();
+      this.handleGetPost(to.params.pageSlug ? to.params.pageSlug : 'harrigrams');
+    }
+    else {
       this.setCurrentPost();
     }
     next();

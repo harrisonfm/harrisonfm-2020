@@ -14,7 +14,7 @@
         <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto pag-btn">Previous</router-link>
         <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto pag-btn">Next</router-link>
       </div>
-      <gallery class="full-grid" :class="'harrigrams-posts'" v-if="gallery.images.length" :gallery="gallery" title="Recent Harrigrams" route="Harrigram" key="harrigrams" />
+      <gallery class="full-grid harrigrams-posts" v-if="gallery.images.length" :gallery="gallery" title="Recent Harrigrams" route="Harrigram" key="harrigrams" />
     </transition-group>
   </div>
 </template>
