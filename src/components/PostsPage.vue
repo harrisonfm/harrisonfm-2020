@@ -5,10 +5,11 @@
   </div>
 </template>
 <script>
-import Posts from '~/components/widgets/Posts.vue'
+import Posts from '~/components/partials/Posts.vue'
 import Hero from '~/components/partials/Hero.vue'
 import meta from '~/meta'
 import api from "~/api";
+import { mapMutations } from 'vuex'
 export default {
   components: {
     Posts, Hero
@@ -20,6 +21,14 @@ export default {
   },
   beforeMount() {
     this.handleGetHome();
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('leave posts page');
+    if(to.name === 'Page') {
+      console.log('null post');
+      this.setCurrentPost();
+    }
+    next();
   },
   props: ['page', 'type', 'slug'],
   metaInfo () {
@@ -34,6 +43,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      'setCurrentPost': 'POST_CURRENT',
+    }),
     handleGetHome() {
       if(this.type === 'home') {
         api.getHome(data => {

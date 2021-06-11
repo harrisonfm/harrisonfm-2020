@@ -19,7 +19,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import Hero from '../partials/Hero.vue'
+import Hero from '~/components/partials/Hero.vue'
 import WebProjects from './WebProjects.vue'
 import NewsletterForm from './NewsletterForm.vue'
 import Gallery from "~/components/Post/Gallery.vue"
