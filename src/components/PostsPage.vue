@@ -1,7 +1,7 @@
 <template>
   <div :class="`page page--${type}`">
     <hero :title="true" v-if="type === 'home'" :img="hero" />
-    <posts :type="type" :slug="slug" :page="page ? parseInt(page) : page" />
+    <posts :type="type" :slug="slug" :page="page ? parseInt(page) : page" :harrigramsLoaded="harrigramsLoaded" @set-harrigrams-loaded="setHarrigramsLoaded" />
   </div>
 </template>
 <script>
@@ -16,18 +16,15 @@ export default {
   },
   data() {
     return {
-      hero: ''
+      hero: '',
+      harrigramsLoaded: false
     }
   },
   beforeMount() {
     this.handleGetHome();
   },
-  beforeRouteLeave(to, from, next) {
-    console.log('leave posts page');
-    if(to.name === 'Page') {
-      console.log('null post');
-      this.setCurrentPost();
-    }
+  beforeRouteUpdate(to, from, next) {
+    this.harrigramsLoaded = false;
     next();
   },
   props: ['page', 'type', 'slug'],
@@ -56,6 +53,9 @@ export default {
       else {
         window.prerenderReady = true;
       }
+    },
+    setHarrigramsLoaded() {
+      this.harrigramsLoaded = true;
     }
   },
   watch: {

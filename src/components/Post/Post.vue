@@ -5,13 +5,13 @@
       <div class="mb-8">
         <h1 class="leading-none">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
         <transition name="fade">
-          <p class="text-gray-700" v-if="post.post_content">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
+          <p class="text-gray-700" v-if="post.post_content && loaded">{{ post.post_date }} in <router-link :to="{ name: 'Category', params: { category: post.categories[0].slug }}">{{post.categories[0].name}}</router-link></p>
         </transition>
       </div>
       <transition name="fade">
-        <div class="post" v-if="post.post_content" v-html="post.post_content" />
+        <div class="post" v-if="post.post_content && loaded" v-html="post.post_content" />
       </transition>
-      <gallery v-if="gallery.images.length" :gallery="gallery" route="PostPhoto" />
+      <gallery v-if="gallery.images.length && loaded" :gallery="gallery" route="PostPhoto" />
       <tags v-if="post.tags" :tags="post.tags" />
       <storyNavigation v-if="post.story" :story="post.story" />
       <router-view />
@@ -33,6 +33,12 @@ export default {
       post: 'currentPost',
       gallery: 'gallery'
     })
+  },
+
+  data() {
+    return {
+      loaded: false
+    }
   },
 
   props: ['postSlug', 'redirectPost'],
@@ -75,6 +81,7 @@ export default {
         console.log('post component resolves', this.post);
         if(this.$route.name === 'Post') {
           window.prerenderReady = true;
+          this.loaded = true;
         }
       }, error => {
         console.log('post component errors', this.$route.path);

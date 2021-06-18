@@ -19,8 +19,7 @@ const state = {
     images: false
   },
   storyDescription: '',
-  currentStory: defaultStory,
-  loaded: false,
+  currentStory: defaultStory
 };
 
 // getters
@@ -38,7 +37,6 @@ const actions = {
         console.log(data);
 
         commit(types.STORIES, data);
-        commit(types.STORIES_LOADED, true);
         resolve(data);
       })
     });

@@ -28,7 +28,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(['stories', 'storiesLoaded', 'storyHero'])
+    ...mapGetters(['stories', 'storyHero'])
   },
   methods: {
     ...mapActions(['getStories'])

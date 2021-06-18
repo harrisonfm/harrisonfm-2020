@@ -35,12 +35,8 @@ export default {
     }
     next();
   },
-  beforeRouteLeave(to, from, next) {
-    this.setCurrentStory();
-    next();
-  },
   computed: {
-    ...mapGetters(['currentStoryLoaded', 'currentStory']),
+    ...mapGetters(['currentStory']),
   },
   methods: {
     ...mapActions(['getStory']),

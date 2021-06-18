@@ -22,7 +22,6 @@ const defaultGallery = {
 const state = {
   posts: [],
   maxPages: 0,
-  loaded: false,
   currentPost: defaultPost,
   gallery: defaultGallery,
   pageError: false
@@ -32,7 +31,6 @@ const state = {
 const getters = {
   posts: state => state.posts,
   maxPages: state => state.maxPages,
-  postsLoaded: state => state.loaded,
   currentPost: state => state.currentPost,
   gallery: state => state.gallery,
   pageError: state => state.pageError
@@ -43,11 +41,9 @@ const actions = {
   getPosts({ commit }, params) {
     return new Promise((resolve, reject) => {
       api.getPosts(params, response => {
-        console.log(response);
         if(response.posts.length) {
           setTimeout(() => {
             commit(types.POSTS, response);
-            commit(types.POSTS_LOADED, true);
             resolve(response);
           }, 1000);
         }
@@ -125,10 +121,6 @@ const mutations = {
     }
   },
 
-  [types.POSTS_LOADED](state, val) {
-    state.loaded = val;
-  },
-
   [types.POST_CURRENT](state, post) {
     console.log('current post set', post);
     if(post) {
@@ -139,6 +131,9 @@ const mutations = {
           images: post.gallery,
           loaded: true
         }
+      }
+      else {
+        state.gallery = defaultGallery;
       }
     } else {
       state.currentPost = defaultPost;

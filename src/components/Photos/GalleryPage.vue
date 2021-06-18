@@ -3,7 +3,7 @@
     <Loader v-if="!gallery.loaded" />
     <transition-group tag="div" name="fade">
       <h1 key="0" class="leading-none mb-2 lg:mb-4">{{ gallery.title }}</h1>
-      <div key="1" class="post mb-2 lg:mb-4" v-if="gallery.description">
+      <div key="1" class="post mb-2 lg:mb-4">
         <p>{{gallery.description}}</p>
       </div>
       <Gallery key="2" :gallery="gallery" route="PhotosSingle" />
