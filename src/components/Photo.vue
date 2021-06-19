@@ -17,7 +17,7 @@
                 <div class="controls-msg" v-if="controls.back.hover">Back to {{currentPost.post_title}}</div>
               </transition>
             </i>
-            <i class="controls-icon" @click="setGalleryInfo" @mouseover="controls.info.hover = true" @mouseleave="controls.info.hover = false">
+            <i class="controls-icon" @click="handleSetGalleryInfo" @mouseover="galleryInfo ? controls.info.hover = true : controls.info.hover = false" @mouseleave="controls.info.hover = false">
               <font-awesome-icon :icon="['fas', 'info-circle']" />
               <transition name="fade">
                 <div class="controls-msg" v-if="controls.info.hover">Hide photo info</div>
@@ -329,6 +329,7 @@ export default {
       this.getPhoto();
     },
     like: function() {
+      this.controls.like.hover = false;
       if(this.liked) {
         this.$cookies.remove("hfm-liked-"+this.idSlug);
       }
@@ -431,6 +432,10 @@ export default {
         }, 1000);
         navigator.clipboard.writeText(document.location.href);
       }
+    },
+    handleSetGalleryInfo() {
+      this.controls.info.hover = false;
+      this.setGalleryInfo();
     }
   },
 
