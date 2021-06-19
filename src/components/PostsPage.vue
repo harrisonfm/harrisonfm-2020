@@ -27,6 +27,14 @@ export default {
     this.harrigramsLoaded = false;
     next();
   },
+  beforeRouteLeave(to, from, next) {
+    console.log('leave posts page');
+    if(to.name === 'Page') {
+      console.log('null post');
+      this.setCurrentPost();
+    }
+    next();
+  },
   props: ['page', 'type', 'slug'],
   metaInfo () {
     if(this.type === 'home') {

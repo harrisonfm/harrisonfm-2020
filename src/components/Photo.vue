@@ -11,20 +11,41 @@
       <template v-if="photo">
         <transition name="slide-right">
           <div class="controls controls-full" v-if="galleryInfo">
-            <i @click="back" title="Back">
+            <i class="controls-icon" @click="back" @mouseover="controls.back.hover = true" @mouseleave="controls.back.hover = false">
               <font-awesome-icon :icon="['fas', 'compress-alt']" />
+              <transition name="fade">
+                <div class="controls-msg" v-if="controls.back.hover">Back to {{currentPost.post_title}}</div>
+              </transition>
             </i>
-            <i @click="setGalleryInfo" title="Fullscreen">
+            <i class="controls-icon" @click="setGalleryInfo" @mouseover="controls.info.hover = true" @mouseleave="controls.info.hover = false">
               <font-awesome-icon :icon="['fas', 'info-circle']" />
+              <transition name="fade">
+                <div class="controls-msg" v-if="controls.info.hover">Hide photo info</div>
+              </transition>
             </i>
-            <i @click="toggleSlideshow" title="Toggle Slideshow">
+            <i class="controls-icon" @click="toggleSlideshow" @mouseover="controls.slideshow.hover = true" @mouseleave="controls.slideshow.hover = false">
               <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" class="cursor-pointer" />
+              <transition name="fade">
+                <div class="controls-msg" v-if="controls.slideshow.hover">Toggle slideshow (5s)</div>
+              </transition>
             </i>
-            <i @click="like" title="Like Photo">
+            <i class="controls-icon" @click="like" @mouseover="controls.like.hover = true" @mouseleave="controls.like.hover = false">
               <font-awesome-layers full-width class="cursor-pointer not-italic" :class="{'text-red-600': liked}" >
                 <font-awesome-icon :icon="['fas', 'heart']" />
                 <font-awesome-layers-text v-if="likes" class="text-white" transform="shrink-8" :value="likes" />
               </font-awesome-layers>
+              <transition name="fade">
+                <div class="controls-msg" v-if="controls.like.hover">Give some love</div>
+              </transition>
+            </i>
+            <i class="controls-icon" @click="share" @mouseover="controls.share.hover = true" @mouseleave="controls.share.hover = false">
+              <font-awesome-icon :icon="['fas', 'share']" class="cursor-pointer" />
+              <transition name="fade">
+                <div class="controls-msg" v-if="controls.share.hover">Share photo</div>
+              </transition>
+              <transition name="fade">
+                <div class="controls-msg" v-if="controls.share.clickAlt">Copied to clipboard!</div>
+              </transition>
             </i>
           </div>
         </transition>
@@ -46,23 +67,23 @@
         </div>
         <transition name="slide-up">
           <nav class="photo-infonav" v-if="galleryInfo">
-            <transition-group name="fade-delay">
-              <Loader key="spinner" v-if="loaded && prevPhoto && !prevLoaded" classes="photo-thumb prev" />
-              <img key="thumb" width="75" height="75" class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" :title="prevPhoto.post_title" />
-            </transition-group>
+            <Loader v-if="loaded && prevPhoto && !prevLoaded" classes="photo-thumb prev" />
+            <transition name="fade-delay">
+              <img width="75" height="75" class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" :title="prevPhoto.post_title" />
+            </transition>
             <div class="infonav-text">
               <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
               <transition name="fade">
-                <p class="leading-none mb-0 mt-2 lg:mt-4" v-if="loaded && photo.post_excerpt">
+                <p class="leading-none mb-0 mt-2 lg:mt-4" v-if="loaded && ((photo.post_excerpt || locDate))">
                   <span>{{ photo.post_excerpt }}</span>
-                  <span class="text-gray-700" v-if="locDate"> &mdash; {{ locDate }}</span>
+                  <span class="text-gray-700" v-if="locDate">{{ photo.post_excerpt ? '&mdash;' : '' }} {{ locDate }}</span>
                 </p>
               </transition>
             </div>
-            <transition-group name="fade-delay">
-              <Loader key="spinner" v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
-              <img key="thumb" width="75" height="75" class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" :title="nextPhoto.post_title" />
-            </transition-group>
+            <Loader key="spinner" v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
+            <transition name="fade-delay">
+              <img width="75" height="75" class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" :title="nextPhoto.post_title" />
+            </transition>
           </nav>
         </transition>
       </template>
@@ -79,14 +100,28 @@
 .controls-full {
   @apply flex-col py-3 px-2 text-xl rounded-bl-lg bg-white bg-opacity-25 md:text-3xl;
 }
-.controls-full > * {
-  @apply cursor-pointer py-1 px-2 leading-none;
+.controls-icon {
+  @apply cursor-pointer py-1 px-2 leading-none relative;
 }
-.controls-full i:not(:first-of-type) {
+.controls-icon:not(:first-of-type) {
   @apply mt-3;
 }
 .controls-mini {
   @apply bg-gray-300 opacity-50 w-6 h-8 px-1 cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg;
+}
+.controls-msg {
+  position: absolute;
+  right: 100%;
+  font-size: 16px;
+  font-style: normal;
+  background: #ddd;
+  border-radius: 8px;
+  border: solid #eee 2px;
+  padding: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  white-space: nowrap;
 }
 .photo-box {
   @apply overflow-auto mt-auto lg:my-auto;
@@ -190,7 +225,25 @@ export default {
       prevLoaded: false,
       nextLoaded: false,
       mounted: true,
-      transition: 'fade'
+      transition: 'fade',
+      controls: {
+        back: {
+          hover: false
+        },
+        info: {
+          hover: false
+        },
+        slideshow: {
+          hover: false
+        },
+        like: {
+          hover: false
+        },
+        share: {
+          hover: false,
+          clickAlt: false
+        },
+      }
     }
   },
 
@@ -360,6 +413,23 @@ export default {
       if(photo.images) {
         const img = photo.images;
         return img.medium_large.src+' '+img.medium_large.width+'w, '+img.large.src+' '+img.large.width+'w, '+img['1536x1536'].src+' '+img['1536x1536'].width+'w, '+img['2048x2048'].src+' '+img['2048x2048'].width+'w, '+img['full'].src+' '+img['full'].width+'w';
+      }
+    },
+    share() {
+      this.controls.share.hover = false;
+      if(navigator.share) {
+        navigator.share({
+          url: document.location.href,
+          title: this.photo.post_title,
+          text: this.photo.post_excerpt+' '+this.locDate
+        })
+      }
+      else {
+        this.controls.share.clickAlt = true;
+        setTimeout(() => {
+          this.controls.share.clickAlt = false;
+        }, 1000);
+        navigator.clipboard.writeText(document.location.href);
       }
     }
   },

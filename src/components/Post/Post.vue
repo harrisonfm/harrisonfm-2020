@@ -47,6 +47,7 @@ export default {
     if(this.redirectPost) {
       console.log('redirect post');
       this.setCurrentPost(this.redirectPost);
+      this.loaded = true;
       window.prerenderReady = true;
     }
     else {
@@ -79,9 +80,9 @@ export default {
         slug: slug
       }).then(response => {
         console.log('post component resolves', this.post);
-        if(this.$route.name === 'Post') {
+        this.loaded = true;
+        if(this.$route.name === 'Post') { //Photo view is a separate route and needs to be prerendered later
           window.prerenderReady = true;
-          this.loaded = true;
         }
       }, error => {
         console.log('post component errors', this.$route.path);
