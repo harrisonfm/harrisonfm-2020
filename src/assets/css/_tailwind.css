@@ -47,7 +47,10 @@ input::placeholder {
 .post a, .text-link {
   @apply underline transition-colors duration-150;
 }
-.post a:hover, .post a:active, .text-link:hover, .text-link:active {
+.title-link {
+  @apply transition-colors duration-150;
+}
+.post a:hover, .post a:active, .text-link:hover, .text-link:active, .title-link:hover, .title-link:active {
   @apply text-blue-700;
 }
 .photos-page {

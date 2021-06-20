@@ -13,7 +13,7 @@
       </transition>
       <gallery v-if="gallery.images.length && loaded" :gallery="gallery" route="PostPhoto" />
       <tags v-if="post.tags" :tags="post.tags" />
-      <storyNavigation v-if="post.story" :story="post.story" />
+      <adjacentNavigation v-if="post.prev || post.next" />
       <router-view />
     </div>
   </div>
@@ -24,7 +24,7 @@ import { mapActions, mapGetters, mapMutations } from "vuex"
 import SETTINGS from "~/settings"
 import meta from '~/meta'
 import Hero from '../partials/Hero.vue'
-import StoryNavigation from './StoryNavigation.vue'
+import AdjacentNavigation from './AdjacentNavigation.vue'
 import Tags from './Tags.vue'
 
 export default {
@@ -97,6 +97,6 @@ export default {
     return meta.formatMeta(this.post.post_title, this.post.post_excerpt, this.post.featured.images, 'author')
   },
 
-  components: { Gallery, Hero, StoryNavigation, Tags }
+  components: { Gallery, Hero, AdjacentNavigation, Tags }
 };
 </script>

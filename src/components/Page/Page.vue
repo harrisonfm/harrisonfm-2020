@@ -75,7 +75,9 @@ export default {
         slug: slug
       }).then(response => {
         console.log('page component resolves', response);
-        window.prerenderReady = true;
+        if(this.$route.name !== 'Harrigram') {
+          window.prerenderReady = true;
+        }
       }, error => {
         console.log('page component errors', this.page, error);
         this.getPost({ // Instead of an immediate 404, we do a getPost in case it's an old link that didn't have years.

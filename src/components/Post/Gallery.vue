@@ -33,9 +33,6 @@
 </style>
 <script>
 export default {
-  props: ['gallery', 'route', 'title'],
-  created() {
-    console.log(this.gallery, this.gallery.featured, this.gallery.images);
-  }
+  props: ['gallery', 'route', 'title']
 };
 </script>

@@ -255,16 +255,44 @@ function setup() {
         for($i = 0; $i < count($postsInStory); $i++) {
           if($postsInStory[$i]->ID === $post->ID) {
             if($i !== 0) {
-              $post->story->next = $postsInStory[$i - 1];
-              formatPostForApi($post->story->next, true);
+              $post->story->next = true;
+              $post->next = $postsInStory[$i - 1];
+              formatPostForApi($post->next, true);
+            }
+            else {
+              getAdjacentPosts($post, false, true);
             }
             if($i !== count($postsInStory) - 1) {
-              $post->story->prev = $postsInStory[$i + 1];
-              formatPostForApi($post->story->prev, true);
+              $post->story->prev = true;
+              $post->prev = $postsInStory[$i + 1];
+              formatPostForApi($post->prev, true);
+            }
+            else {
+              getAdjacentPosts($post, true, false);
             }
             break;
           }
         }
+      }
+      else {
+        getAdjacentPosts($post);
+      }
+    }
+  }
+
+  function getAdjacentPosts(&$postObject, $getPrev = true, $getNext = true) {
+    global $post; // adjacent posts require $post global
+    $post = get_post($postObject->ID);
+    if($getPrev) {
+      $postObject->prev = get_previous_post();
+      if(!empty($postObject->prev)) {
+        formatPostForApi($postObject->prev, true);
+      }
+    }
+    if($getNext) {
+      $postObject->next = get_next_post();
+      if(!empty($postObject->next)) {
+        formatPostForApi($postObject->next, true);
       }
     }
   }
