@@ -1,6 +1,6 @@
 <template>
   <div class="mt-4">
-    <h2 class="font-open font-bold text-xl mb-4" v-html="navName"></h2>
+    <h2 class="font-open font-bold text-xl mb-4" v-html="navName" v-if="navName"></h2>
     <div v-if="post.prev || post.next" class="post-story-container">
       <div v-if="post.prev" class="post-story-item">
         <h3 class="story-dir">Previously</h3>
@@ -40,7 +40,7 @@
 }
 </style>
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex"
+import { mapGetters } from "vuex"
 export default {
   computed: {
     ...mapGetters({
@@ -49,15 +49,15 @@ export default {
     navName: function() {
       if(this.post.story) {
         if(!this.post.story.prev) {
-          return `This is the beginning of the <a class="title-link" href="/stories/${this.post.story.slug}">${this.post.story.name}</a> story:`
+          return `This is the beginning of the <a class="title-link" href="/stories/${this.post.story.slug}">${this.post.story.name}</a> story:`;
         }
         if(!this.post.story.next) {
-          return `This is the end of the <a class="title-link" href="/stories/${this.post.story.slug}">${this.post.story.name}</a> story:`
+          return `This is the end of the <a class="title-link" href="/stories/${this.post.story.slug}">${this.post.story.name}</a> story:`;
         }
-        return `This is part of the <a class="title-link" href="/stories/${this.post.story.slug}">${this.post.story.name}</a> story:`
+        return `This is part of the <a class="title-link" href="/stories/${this.post.story.slug}">${this.post.story.name}</a> story:`;
       }
       else {
-        return 'Adjacent articles:' 
+        return false;
       }
     }
   },
