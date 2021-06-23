@@ -166,6 +166,7 @@ module.exports = {
       top: 'top'
     },
     backgroundOpacity: {
+      '10': '.1',
       '25': '.25',
       '95': '.95'
     },
@@ -304,7 +305,9 @@ module.exports = {
       '1': '1rem',
       'full': '100%',
       '-1': '-1px',
-      '-1/2': '-50%'
+      '1/2': '50%',
+      '-1/2': '-50%',
+      '3/2': '150%'
     },
     letterSpacing: {
       tighter: '-0.05em',
@@ -313,7 +316,7 @@ module.exports = {
       wide: '0.025em',
       wider: '0.05em',
       widest: '0.1em'
-    },
+    }, 
     lineHeight: {
       none: '1',
       tight: '1.25',

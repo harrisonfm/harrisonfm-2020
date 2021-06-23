@@ -24,7 +24,7 @@
               </transition>
             </i>
             <i class="controls-icon" @click="toggleSlideshow" @mouseover="controls.slideshow.hover = true" @mouseleave="controls.slideshow.hover = false">
-              <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" class="cursor-pointer" />
+              <font-awesome-icon :icon="['fas', slideshow ? 'pause' : 'play']" v-if="nextPhoto" />
               <transition name="fade">
                 <div class="controls-msg" v-if="controls.slideshow.hover">Toggle slideshow (5s)</div>
               </transition>
@@ -39,7 +39,7 @@
               </transition>
             </i>
             <i class="controls-icon" @click="share" @mouseover="controls.share.hover = true" @mouseleave="controls.share.hover = false">
-              <font-awesome-icon :icon="['fas', 'share']" class="cursor-pointer" />
+              <font-awesome-icon :icon="['fas', 'share']" />
               <transition name="fade">
                 <div class="controls-msg" v-if="controls.share.hover">Share photo</div>
               </transition>
@@ -98,10 +98,10 @@
   @apply absolute flex items-center right-0 top-0 z-10;
 }
 .controls-full {
-  @apply flex-col py-3 px-2 text-xl rounded-bl-lg bg-white bg-opacity-25 md:text-3xl;
+  @apply flex-col py-3 px-2 text-lg rounded-bl-lg bg-white bg-opacity-25 md:text-xl;
 }
 .controls-icon {
-  @apply cursor-pointer py-1 px-2 leading-none relative;
+  @apply cursor-pointer p-1 leading-none relative shadow rounded-full md:p-2 shadow bg-opacity-10 bg-black;
 }
 .controls-icon:not(:first-of-type) {
   @apply mt-3;
@@ -110,18 +110,7 @@
   @apply bg-gray-300 opacity-50 w-6 h-8 px-1 cursor-pointer border-4 border-t-0 border-r-0 border-gray-600 rounded-bl-lg;
 }
 .controls-msg {
-  position: absolute;
-  right: 100%;
-  font-size: 16px;
-  font-style: normal;
-  background: #ddd;
-  border-radius: 8px;
-  border: solid #eee 2px;
-  padding: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #777;
-  white-space: nowrap;
+  @apply absolute text-base not-italic right-3/2 bg-gray-800 rounded-lg border-gray-900 border-solid p-2 top-0 text-gray-500 whitespace-nowrap;
 }
 .photo-box {
   @apply overflow-auto mt-auto lg:my-auto;

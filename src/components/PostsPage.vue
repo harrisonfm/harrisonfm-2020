@@ -29,7 +29,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     console.log('leave posts page');
-    if(to.name === 'Page') {
+    if(to.name === 'Page' || to.name === 'PhotosGallery') {
       console.log('null post');
       this.setCurrentPost();
     }
