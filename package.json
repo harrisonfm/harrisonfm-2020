@@ -17,6 +17,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.26.7",
