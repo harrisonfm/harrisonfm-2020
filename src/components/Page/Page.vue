@@ -75,6 +75,11 @@ export default {
         slug: slug
       }).then(response => {
         console.log('page component resolves', response);
+        if(slug === 'harrigrams') {
+          this.getHarrigrams({
+            fetchAll: true
+          });
+        }
         if(this.$route.name !== 'Harrigram') {
           window.prerenderReady = true;
         }
@@ -99,11 +104,6 @@ export default {
           });
         });
       });
-      if(slug === 'harrigrams') {
-        this.getHarrigrams({
-          fetchAll: true
-        });
-      }
     }
   },
 
