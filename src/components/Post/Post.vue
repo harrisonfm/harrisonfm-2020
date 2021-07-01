@@ -12,8 +12,8 @@
         <div class="post" v-if="post.post_content && loaded" v-html="post.post_content" />
       </transition>
       <gallery v-if="gallery.images.length && loaded" :gallery="gallery" route="PostPhoto" />
-      <tags v-if="post.tags" :tags="post.tags" />
-      <adjacentNavigation v-if="post.prev || post.next" />
+      <tags v-if="post.tags && loaded" :tags="post.tags" />
+      <adjacentNavigation v-if="(post.prev || post.next) && loaded" />
       <router-view />
     </div>
   </div>
