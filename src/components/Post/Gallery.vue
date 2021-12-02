@@ -16,10 +16,10 @@
 <style scoped>
 .post-gallery {
   grid-template-rows: auto;
-  @apply xs:grid xs:gap-2 lg:gap-4 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
+  @apply grid grid-cols-2 gap-2 xs:grid-cols-3 lg:gap-4 lg:grid-cols-4;
 }
 .post-gallery .gallery-link {
-  @apply block relative mb-2 xs:m-0;
+  @apply block relative;
 }
 .gallery-img {
   @apply rounded shadow w-full h-full;

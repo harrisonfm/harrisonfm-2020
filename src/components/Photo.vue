@@ -55,11 +55,11 @@
           </div>
         </transition>
         <transition name="fade">
-          <div class="photo-box" :class="{'pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="loaded">
-            <img sizes="100vw" :srcset="parseSrcset(photo)" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" />
+          <div class="photo-box" :class="{'pb-2 lg:pb-4': galleryInfo, 'my-auto': !galleryInfo}" v-if="loaded">
+            <img :sizes="sizes" :srcset="parseSrcset(photo)" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" />
           </div>
         </transition>
-        <div class="w-full text-center px-4 my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
+        <div class="w-full text-center px-2 my-2 lg:px-4 lg:my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
           <h2 class="leading-none text-2xl mb-0">{{ loaded ? photo.post_title : 'Loading..' }}</h2>
           <transition name="fade">
             <p class="mb-0 mt-2" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
@@ -92,7 +92,7 @@
 </template>
 <style scoped>
 .photo-modal {
-  @apply fixed inset-0 bg-white flex flex-col items-center md:px-24 transition-opacity duration-300 bg-white z-30 font-open;
+  @apply fixed inset-0 bg-white flex flex-col items-center transition-opacity duration-300 bg-white z-30 font-open;
 }
 .controls {
   @apply absolute flex items-center right-0 top-0 z-10;
@@ -116,7 +116,7 @@
   @apply overflow-auto mt-auto lg:my-auto;
 }
 .photo-infonav {
-  @apply relative w-full flex items-center justify-between mt-auto mx-auto p-4 bg-gray-100 sm:mb-4 sm:rounded-lg sm:shadow xxl:w-4/5;
+  @apply relative w-full flex items-center justify-between mt-auto mx-auto p-2 bg-gray-100 lg:p-4 xxl:rounded-lg xxl:shadow xxl:w-4/5;
   @media(max-height: 500px) {
     margin-bottom: 0;
     border-radius: 0;
@@ -158,7 +158,7 @@ export default {
       likes: 'likes',
       liked: 'liked'
     }),
-    routes: function() {
+    routes() {
       if(this.postSlug) {
         return {
           parent: 'Post',
@@ -181,7 +181,7 @@ export default {
         }
       }
     },
-    metaDescription: function() {
+    metaDescription() {
       let meta = '';
       let caption = this.photo.post_excerpt;
       let postTitle = '';
@@ -202,7 +202,7 @@ export default {
 
       return meta;
     },
-    locDate: function() {
+    locDate() {
       return this.photo.date && this.photo.location ? this.photo.location + ' - ' + this.photo.date : 
         (this.photo.date ? this.photo.date : (this.photo.location ? this.photo.location : ''))
     }
@@ -232,7 +232,9 @@ export default {
           hover: false,
           clickAlt: false
         },
-      }
+      },
+      sizes: '',
+      viewport: {}
     }
   },
 
@@ -243,7 +245,7 @@ export default {
     this.getPhoto();
   },
 
-  beforeRouteLeave: function(to,from,next) {
+  beforeRouteLeave(to,from,next) {
     if(this.slideshow) {
       this.toggleSlideshow();
     }
@@ -255,7 +257,12 @@ export default {
     if(this.$el.focus) {
       this.$el.focus();
     }
+    window.addEventListener('resize', this.handleResize);
     disableBodyScroll(this.$el);
+  },
+
+  unmounted() {
+    window.removeEventListener('resize', this.handleResize);
   },
 
   watch: {
@@ -274,10 +281,10 @@ export default {
       'setGalleryIndex' : 'GALLERY_INDEX',
       'setLiked': 'LIKED'
     }),
-    parseIDSlug: function(idSlug) {
+    parseIDSlug(idSlug) {
       return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
     },
-    getPhoto: function() {
+    getPhoto() {
       console.log('getphoto '+this.ID, this.gallery.images, this.gallery.loaded);
       if(!this.gallery.loaded) {
         return false;
@@ -298,6 +305,7 @@ export default {
           });
         }
         this.preload(this.photo);
+        this.setViewport();
       }
       else {
         this.$_error('ErrorPage', {
@@ -311,13 +319,13 @@ export default {
       //   });
       // }
     },
-    refreshPhoto: function() {
+    refreshPhoto() {
       this.setPhoto();
       this.loaded = false;
       this.ID = this.parseIDSlug(this.idSlug);
       this.getPhoto();
     },
-    like: function() {
+    like() {
       this.controls.like.hover = false;
       if(this.liked) {
         this.$cookies.remove("hfm-liked-"+this.idSlug);
@@ -331,11 +339,11 @@ export default {
       });
       this.setLiked({liked: !this.liked});
     },
-    toggleSlideshow: function() {
+    toggleSlideshow() {
       this.setSlideshow();
       this.handleSlideShow();
     },
-    back: function() {
+    back() {
       router.replace({
         name: this.routes.parent,
         params: { 
@@ -344,25 +352,25 @@ export default {
         }
       });
     },
-    goToNextPhoto: function() {
+    goToNextPhoto() {
       if(this.slideshow) {
         this.toggleSlideshow();
       }
       this.routeToPhoto(this.nextPhoto);
     },
-    goToPrevPhoto: function() {
+    goToPrevPhoto() {
       if(this.slideshow) {
         this.toggleSlideshow();
       }
       this.routeToPhoto(this.prevPhoto);
     },
-    routeToPhoto: function(photo) {
+    routeToPhoto(photo) {
       router.replace({
         name: this.routes.name,
         params: { idSlug: photo.ID + '-' + photo.post_name }
       });
     },
-    handleImageLoad: function(photo, identifier) {
+    handleImageLoad(photo, identifier) {
       if(identifier === 'main') {
         this.loaded = true;
         this.handleSlideShow();
@@ -386,10 +394,13 @@ export default {
       image.onload = function() {
         this.handleImageLoad(photo, identifier);
       }.bind(this);
-      image.sizes = '100vw';
       image.srcset = this.parseSrcset(photo);
+      image.sizes = this.parseSizes(photo);
+      if(identifier === 'main') {
+        this.sizes = image.sizes;
+      }
     },
-    handleSlideShow: function() {
+    handleSlideShow() {
       if(this.slideshow) {
         this.activeSlide = setTimeout(() => {
           this.routeToPhoto(this.nextPhoto);
@@ -402,7 +413,26 @@ export default {
     parseSrcset(photo) {
       if(photo.images) {
         const img = photo.images;
-        return img.medium_large.src+' '+img.medium_large.width+'w, '+img.large.src+' '+img.large.width+'w, '+img['1536x1536'].src+' '+img['1536x1536'].width+'w, '+img['2048x2048'].src+' '+img['2048x2048'].width+'w, '+img['full'].src+' '+img['full'].width+'w';
+        return img.medium_large.src+' '+img.medium_large.width+'w, '+img.large.src+' '+img.large.width+'w, '+img['1536x1536'].src+' '+img['1536x1536'].width+'w, '+img['2048x2048'].src+' '+img['2048x2048'].width+'w';
+      }
+    },
+    parseSizes(photo) {
+      console.log(this.viewport);
+      if(photo.images) {
+        let sizes = '100vw';
+        let imgAspectRatio = photo.images.full.width / photo.images.full.height;
+        let windowAspectRatio = this.viewport.width / this.viewport.height;
+
+        if (windowAspectRatio >= imgAspectRatio) {
+          //if window aspect ratio less, math it up to find the void and serve a better image to user.
+          sizes = Math.round((this.viewport.height * imgAspectRatio / this.viewport.width) * 100)+'vw';
+          console.log(sizes + ' image');
+        }
+        else {
+          console.log('fullscreen image');
+        }
+
+        return sizes;
       }
     },
     share() {
@@ -425,6 +455,17 @@ export default {
     handleSetGalleryInfo() {
       this.controls.info.hover = false;
       this.setGalleryInfo();
+      this.handleResize();
+    },
+    handleResize() {
+      this.sizes = this.parseSizes(this.photo);
+      this.setViewport();
+    },
+    setViewport() {
+      this.viewport = {
+        height: this.galleryInfo ? window.innerHeight - 125 : window.innerHeight,
+        width: window.innerWidth
+      }
     }
   },
 

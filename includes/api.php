@@ -319,7 +319,8 @@ function setup() {
 
         $galleryItem->images["$size"] = array(
           'src' => $imageSrc[0],
-          'width' => $imageSrc[1]
+          'width' => $imageSrc[1],
+          'height' => $imageSrc[2]
         );
       }
     }
