@@ -259,6 +259,7 @@ export default {
     }
     window.addEventListener('resize', this.handleResize);
     disableBodyScroll(this.$el);
+    this.setViewport();
   },
 
   unmounted() {
@@ -305,7 +306,6 @@ export default {
           });
         }
         this.preload(this.photo);
-        this.setViewport();
       }
       else {
         this.$_error('ErrorPage', {
@@ -417,19 +417,19 @@ export default {
       }
     },
     parseSizes(photo) {
-      console.log(this.viewport);
       if(photo.images) {
         let sizes = '100vw';
         let imgAspectRatio = photo.images.full.width / photo.images.full.height;
         let windowAspectRatio = this.viewport.width / this.viewport.height;
 
+        console.log('viewport ', this.viewport, imgAspectRatio, windowAspectRatio);
         if (windowAspectRatio >= imgAspectRatio) {
           //if window aspect ratio less, math it up to find the void and serve a better image to user.
           sizes = Math.round((this.viewport.height * imgAspectRatio / this.viewport.width) * 100)+'vw';
           console.log(sizes + ' image');
         }
         else {
-          console.log('fullscreen image');
+          console.log('100vw image');
         }
 
         return sizes;
