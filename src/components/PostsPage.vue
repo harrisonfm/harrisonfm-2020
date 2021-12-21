@@ -8,7 +8,8 @@
 import Posts from '~/components/partials/Posts.vue'
 import Hero from '~/components/partials/Hero.vue'
 import meta from '~/meta'
-import api from "~/api";
+import analytics from '~/analytics'
+import api from "~/api"
 import { mapMutations } from 'vuex'
 export default {
   components: {
@@ -37,13 +38,18 @@ export default {
   },
   props: ['page', 'type', 'slug'],
   metaInfo () {
+    let page = this.page ? this.page : '';
     if(this.type === 'home') {
+      let title = 'Home';
+      analytics.trackPageView(page ? title + ' - Page ' + page : title);
       return meta.formatMeta();
     }
     else{
       let slug = this.slug ? this.slug.replace('-',' ').replace(/\b\w/g, l => l.toUpperCase()) : '';
       let desc = this.slug ? 'HarrisonFM content for '+slug : '';
       let title = this.type ? this.type.replace(/\b\w/g, l => l.toUpperCase())+': '+slug : '';
+      console.log('postspage' + title);
+      analytics.trackPageView(page ? title + ' - Page ' + page : title);
       return meta.formatMeta(title, desc);
     }
   },

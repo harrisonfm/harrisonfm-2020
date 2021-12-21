@@ -24,6 +24,7 @@ import WebProjects from './WebProjects.vue'
 import NewsletterForm from './NewsletterForm.vue'
 import Gallery from "~/components/Post/Gallery.vue"
 import meta from '~/meta'
+import analytics from '~/analytics'
 import router from '~/router'
 import utils from '~/utils'
 
@@ -78,11 +79,14 @@ export default {
         if(slug === 'harrigrams') {
           this.getHarrigrams({
             fetchAll: true
+          }).then(response => {
+            window.prerenderReady = true;
           });
         }
         if(this.$route.name !== 'Harrigram') {
           window.prerenderReady = true;
         }
+        analytics.trackPageView(this.post.post_title);
       }, error => {
         console.log('page component errors', this.page, error);
         this.getPost({ // Instead of an immediate 404, we do a getPost in case it's an old link that didn't have years.

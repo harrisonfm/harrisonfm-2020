@@ -20,6 +20,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import meta from '~/meta';
+import analytics from '~/analytics';
 import Hero from '~/components/partials/Hero.vue'
 import StoryArticle from './Article.vue'
 
@@ -49,6 +50,7 @@ export default {
       }).then(response => {
         console.log('story archives resolves');
         window.prerenderReady = true;
+        analytics.trackPageView(this.currentStory.term.name);
       }, error => {
         console.log('story component errors', this.$route.path);
         this.$_error('ErrorPage', {

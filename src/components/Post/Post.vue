@@ -23,6 +23,7 @@ import Gallery from "./Gallery.vue"
 import { mapActions, mapGetters, mapMutations } from "vuex"
 import SETTINGS from "~/settings"
 import meta from '~/meta'
+import analytics from '~/analytics';
 import Hero from '../partials/Hero.vue'
 import AdjacentNavigation from './AdjacentNavigation.vue'
 import Tags from './Tags.vue'
@@ -82,6 +83,7 @@ export default {
         console.log('post component resolves', this.post);
         this.loaded = true;
         if(this.$route.name === 'Post') { //Photo view is a separate route and needs to be prerendered later
+          analytics.trackPageView(this.post.post_title);
           window.prerenderReady = true;
         }
       }, error => {

@@ -9,7 +9,8 @@
 	</div>
 </template>
 <script>
-  import { mapMutations } from "vuex"
+  import { mapMutations } from 'vuex'
+  import analytics from '~/analytics'
 
 	export default {
 		props: ['payload'],
@@ -19,6 +20,7 @@
       })
     },
     beforeMount() {
+      analytics.trackPageView('404 Error');
       this.setErrorPage(true);
     },
     beforeDestroy() {

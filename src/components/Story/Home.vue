@@ -18,12 +18,14 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import meta from '~/meta';
+import analytics from '~/analytics';
 import Hero from '~/components/partials/Hero.vue'
 import StoryArticle from './Article.vue'
 
 export default {
   beforeMount: function() {
     this.getStories().then(response => {
+      analytics.trackPageView('Stories');
       window.prerenderReady = true;
     });
   },
@@ -34,7 +36,7 @@ export default {
     ...mapActions(['getStories'])
   },
   metaInfo () {
-    return meta.formatMeta('HarriFM Stories', this.storyDescription, this.storyHero.images)
+    return meta.formatMeta('HarrisonFM - Stories', this.storyDescription, this.storyHero.images)
   },
   components: {
     Hero, StoryArticle

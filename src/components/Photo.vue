@@ -138,11 +138,12 @@
 }
 </style>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-import store from '~/store';
-import meta from '~/meta';
-import router from '~/router';
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { mapGetters, mapActions, mapMutations } from "vuex"
+import store from '~/store'
+import meta from '~/meta'
+import router from '~/router'
+import analytics from '~/analytics'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   computed: {
@@ -297,6 +298,7 @@ export default {
             this.setPhoto(el);
             this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)});
             this.setGalleryIndex({ idx });
+            analytics.trackPageView((this.gallery.title ? this.gallery.title + ' Photos - ' : (this.currentPost.post_title === 'Harrigrams' ? this.currentPost.post_title : this.currentPost.post_title + ' Photos - ')) + this.photo.post_title);
             break;
           }
         }

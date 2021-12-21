@@ -18,6 +18,7 @@
 import HomeSection from './HomeSection.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import meta from '~/meta';
+import analytics from '~/analytics';
 
 export default {
   computed: {
@@ -46,6 +47,7 @@ export default {
       }).then(response => {
         console.log('page component resolves', response);
         window.prerenderReady = true;
+        analytics.trackPageView('Photos');
       }, error => {
         console.log('page component errors', this.page, error);
         this.$_error('ErrorPage', {

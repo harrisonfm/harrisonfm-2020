@@ -15,7 +15,8 @@
 <script>
 import Gallery from '~/components/Post/Gallery.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import meta from '~/meta';
+import meta from '~/meta'
+import analytics from '~/analytics'
 
 export default {
   computed: {
@@ -63,8 +64,9 @@ export default {
           }).then(response => {
             if(this.$route.name === 'PhotosGallery') {
               window.prerenderReady = true;
+              analytics.trackPageView(this.gallery.title + ' - Photos');
             }
-            console.log('story images resolves', response);
+            console.log('story images resolves', response, this.$route.name);
           }, error => {
             console.log('story images errors', this.page, error);
             this.$_error('ErrorPage', {
@@ -93,6 +95,7 @@ export default {
           });
           if(this.$route.name === 'PhotosGallery') {
             window.prerenderReady = true;
+            analytics.trackPageView(this.gallery.title);
           }
         }
       }
@@ -104,7 +107,7 @@ export default {
   },
 
   metaInfo () {
-    return meta.formatMeta(this.gallery.title ? this.gallery.title : '', this.gallery.description, this.gallery.featured.images)
+    return meta.formatMeta(this.gallery.title ? this.gallery.title + ' - Photos' : '', this.gallery.description, this.gallery.featured.images)
   },
 };
 </script>
