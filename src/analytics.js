@@ -4,9 +4,26 @@
 
 export default {
   trackPageView: function(title = document.title) {
-    console.log('analytics - ' + title, location.href);
+    console.log('analytics - pageview - ' + title, location.href);
     _paq.push(['setCustomUrl', location.href]);
     _paq.push(['setDocumentTitle', title]);
     _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+  },
+
+  trackEvent: function(category, action, name = '', value = '') {
+    console.log('analytics - event - ', category, action, name, value);
+    let trackingArray = ['trackEvent', category, action];
+    if(name) {
+      trackingArray.push(name);
+    }
+    if(value) {
+      trackingArray.push(value);
+    }
+    _paq.push(trackingArray);
+  },
+
+  optOut: function() {
+    _paq.push(['optUserOut']);
   }
 };

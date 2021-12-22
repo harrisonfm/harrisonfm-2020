@@ -1,6 +1,7 @@
-import api from "~/api";
-import * as types from "../mutation-types";
-import store from '~/store';
+import api from "~/api"
+import * as types from "../mutation-types"
+import store from '~/store'
+import analytics from '~/analytics'
 
 const defaultPhoto = {
   images: false
@@ -74,6 +75,12 @@ const mutations = {
 
   [types.GALLERY_INFO](state) {
     state.galleryInfo = !state.galleryInfo;
+    if(state.galleryInfo) {
+      analytics.trackEvent('Photo', 'Toggle Info On');
+    }
+    else {
+      analytics.trackEvent('Photo', 'Toggle Info Off');
+    }
   },
 
   [types.PHOTO_LIKE](state) {

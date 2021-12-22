@@ -331,9 +331,11 @@ export default {
       this.controls.like.hover = false;
       if(this.liked) {
         this.$cookies.remove("hfm-liked-"+this.idSlug);
+        analytics.trackEvent('Photo', 'unLike');
       }
       else {
         this.$cookies.set("hfm-liked-"+this.idSlug,'',"7d");
+        analytics.trackEvent('Photo', 'Like');
       }
       store.dispatch('like', {
         photo: this.photo, 
@@ -342,6 +344,12 @@ export default {
       this.setLiked({liked: !this.liked});
     },
     toggleSlideshow() {
+      if(this.slideshow) {
+        analytics.trackEvent('Photo', 'Slideshow Off');
+      }
+      else {
+        analytics.trackEvent('Photo', 'Slideshow On');
+      }
       this.setSlideshow();
       this.handleSlideShow();
     },
@@ -353,18 +361,21 @@ export default {
           pageSlug: this.routes.parentSlug
         }
       });
+      analytics.trackEvent('Photo', 'Back');
     },
     goToNextPhoto() {
       if(this.slideshow) {
         this.toggleSlideshow();
       }
       this.routeToPhoto(this.nextPhoto);
+      analytics.trackEvent('Photo', 'Next');
     },
     goToPrevPhoto() {
       if(this.slideshow) {
         this.toggleSlideshow();
       }
       this.routeToPhoto(this.prevPhoto);
+      analytics.trackEvent('Photo', 'Previous');
     },
     routeToPhoto(photo) {
       router.replace({
@@ -453,6 +464,7 @@ export default {
         }, 1000);
         navigator.clipboard.writeText(document.location.href);
       }
+      analytics.trackEvent('Photo', 'Share');
     },
     handleSetGalleryInfo() {
       this.controls.info.hover = false;

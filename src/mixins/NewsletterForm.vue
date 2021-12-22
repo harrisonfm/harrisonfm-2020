@@ -1,5 +1,7 @@
 <script>
-import api from "~/api";
+import api from "~/api"
+import analytics from "~/analytics"
+
 export default {
   data() {
     return {
@@ -25,6 +27,7 @@ export default {
       api.subscribe(this.email, response => {
         console.log(response);
 
+        analytics.trackEvent('Newsletter', 'Subscribe');
         clearInterval(buttonInterval);
         this.processingRequest = false;
         if(response.code === 200 || response.code === 202) {

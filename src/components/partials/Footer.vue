@@ -4,7 +4,7 @@
       <FooterMenu :menu="menus['writing']" />
       <FooterMenu :menu="menus['sitemap']" />
       <NewsletterForm />
-      <p class="footer-end">&copy; Harrison June {{ year }} | <a @click="scrollToTop" class="text-link cursor-pointer">Top</a> | <a href="mailto:june@harrisonfm.com" class="text-link">Contact Me</a></p>
+      <p class="footer-end">&copy; Harrison June {{ year }} | <a @click="scrollToTop" class="text-link cursor-pointer">Top</a> | <a href="mailto:june@harrisonfm.com" class="text-link" @click="contactMe()">Contact Me</a></p>
     </div>
   </footer>
 </template>
@@ -29,6 +29,7 @@
 import NewsletterForm from './Footer/NewsletterForm.vue'
 import FooterMenu from './Footer/Menu.vue'
 import { mapGetters, mapActions } from 'vuex'
+import analytics from '~/analytics'
 
 export default {
   props: ['overlaysFooter'],
@@ -46,7 +47,11 @@ export default {
   methods: {
     ...mapActions(['getMenu']),
     scrollToTop() {
+      analytics.trackEvent('Footer', 'Top');
       document.getElementById('app').scrollIntoView();
+    },
+    contactMe() {
+      analytics.trackEvent('Footer', 'Contact Me');
     }
   },
   components: { NewsletterForm, FooterMenu }

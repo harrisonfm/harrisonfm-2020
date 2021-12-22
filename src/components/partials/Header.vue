@@ -16,6 +16,7 @@
 import MainMenu from './Header/Menu.vue'
 import Logo from './Header/Logo.vue'
 import SearchForm from './Header/SearchForm.vue'
+import analytics from '~/analytics'
 
 import { mapGetters, mapActions } from 'vuex'
 
@@ -45,6 +46,7 @@ export default {
   methods: {
     ...mapActions(['getMenu']),
     toggleSearch: function(setSearch) {
+      analytics.trackEvent('Menu', 'Toggle Search');
       if(typeof setSearch === 'undefined') {
         this.showSearch = !this.showSearch;
       }

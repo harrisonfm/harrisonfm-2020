@@ -1,7 +1,7 @@
 <template>
   <div class="project-container">
-    <article v-for="(project, idx) in projects" :id="'proj-'+idx" :key="project.title" class="project" @click="$event.target.classList.toggle('on')">
-      <div class="title" @click="$event.target.parentNode.classList.toggle('on')">{{ project.title }}</div>
+    <article v-for="(project, idx) in projects" :id="'proj-'+idx" :key="project.title" class="project" @click="togglePortfolioItem(project, $event)">
+      <div class="title" @click="togglePortfolioItemTitle(project, $event)">{{ project.title }}</div>
       <div class="project-description">
         <p class="p-2 lg:p-4"><a target="_blank" :href="project.link">Link</a> &mdash; {{ project.description }}</p>
       </div>
@@ -66,6 +66,8 @@
 </style>
 
 <script>
+import analytics from '~/analytics'
+
 export default {
   props: ['projects'],
   methods: {
@@ -85,12 +87,20 @@ export default {
             background-image: url('${project.image.images['1536x1536'].src}');
           }
         }
-        @media(min-width:${project.image.images['2048x2048'].width / 2}0px) {
+        @media(min-width:${project.image.images['2048x2048'].width / 2}px) {
           #proj-${idx} {
             background-image: url('${project.image.images['2048x2048'].src}');
           }
         }`;
       }
+    },
+    togglePortfolioItem(project, e) {
+      analytics.trackEvent('Web Project', 'Toggle Display', project.title);
+      e.target.classList.toggle('on');
+    },
+    togglePortfolioItemTitle(project, e) {
+      analytics.trackEvent('Web Project', 'Toggle Display', project.title);
+      e.target.parentNode.classList.toggle('on');
     }
   }
 };

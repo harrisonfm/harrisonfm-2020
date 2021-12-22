@@ -50,6 +50,7 @@
 <script>
   import menuMixin from '~/mixins/Menu.vue'
   import { mixin as clickaway } from 'vue-clickaway'
+  import analytics from '~/analytics'
   
   export default {
     props: ['item', 'showMobileMenu', 'isMobile'],
@@ -67,6 +68,7 @@
         this.showSubMenu = true;
       },
       toggleSubMenu: function() {
+        analytics.trackEvent('Menu', 'Toggle Submenu', this.item.title);
         this.showSubMenu = !this.showSubMenu;
       }
     }
