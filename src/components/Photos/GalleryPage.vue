@@ -1,13 +1,13 @@
 <template>
   <div class="photos-page">
+    <h1 class="leading-none mb-2 lg:mb-4 mx-auto max-w-4xl">{{ gallery.title }}</h1>
     <Loader v-if="!gallery.loaded" />
-    <transition-group tag="div" name="fade">
-      <h1 key="0" class="leading-none mb-2 lg:mb-4">{{ gallery.title }}</h1>
-      <div key="1" class="post mb-2 lg:mb-4">
-        <p>{{gallery.description}}</p>
-      </div>
-      <Gallery key="2" :gallery="gallery" route="PhotosSingle" />
-    </transition-group>
+    <div class="floating-desc opacity-0" :class="{'opacity-100': gallery.loaded}">
+      <p v-if="gallery.loaded">{{gallery.description}}</p>
+    </div>
+    <transition name="fade">
+      <Gallery v-if="gallery.loaded" :gallery="gallery" route="PhotosSingle" />
+    </transition>
     <router-view />
   </div>
 </template>

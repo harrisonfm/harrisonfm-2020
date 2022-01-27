@@ -3,7 +3,7 @@
     <article v-for="(project, idx) in projects" :id="'proj-'+idx" :key="project.title" class="project" @click="togglePortfolioItem(project, $event)">
       <div class="title" @click="togglePortfolioItemTitle(project, $event)">{{ project.title }}</div>
       <div class="project-description">
-        <p class="p-2 lg:p-4"><a target="_blank" :href="project.link">Link</a> &mdash; {{ project.description }}</p>
+        <p class="p-2 lg:p-4"><a target="_blank" :href="project.link" class="text-link">Link</a> &mdash; {{ project.description }}</p>
       </div>
       <v-style>{{ parseBackground(project, idx) }}</v-style>
     </article>
@@ -12,7 +12,7 @@
 
 <style scoped>
   .project-container {
-    @apply w-full lg:w-3/4 border-black border-l-2 border-r-2 sm:border-l-4 sm:border-r-4;
+    @apply w-full mx-auto max-w-4xl border-black border-l-2 border-r-2 sm:border-l-4 sm:border-r-4;
   }
   .project {
     transition: height .5s;

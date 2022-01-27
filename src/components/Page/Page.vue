@@ -2,7 +2,7 @@
   <div>
     <hero v-if="!nonHeroPage" :img="post.featured" />
     <div class="post-container">
-      <h1 class="leading-none mb-4">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
+      <h1 class="leading-none mb-4 mx-auto max-w-4xl">{{ post.post_title ? post.post_title : 'Loading...' }}</h1>
       <transition name="fade">
         <div class="post" v-html="post.post_content" v-if="post.post_content"></div>
       </transition>

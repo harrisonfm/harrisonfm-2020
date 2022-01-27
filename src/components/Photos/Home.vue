@@ -3,7 +3,7 @@
     <Loader v-if="!post.post_content" />
     <transition-group name="fade" tag="div">
       <h1 key="0" class="leading-none mb-2 lg:mb-4">{{ post.post_title }}</h1>
-      <div key="1" class="post" v-if="post.post_content" v-html="post.post_content" />
+      <div key="1" class="floating-desc" v-if="post.post_content" v-html="post.post_content" />
       <HomeSection key="2" class="home-section" v-if="post.stories" :section="post.stories">Stories</HomeSection>
       <HomeSection key="3" class="home-section" v-if="post.genres" :section="post.genres">Highlighted Genres</HomeSection>
     </transition-group>

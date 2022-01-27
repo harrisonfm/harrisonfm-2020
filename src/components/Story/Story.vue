@@ -4,7 +4,7 @@
     <div class="post-container">
       <Loader v-if="!currentStory.loaded" />
       <transition-group name="fade" tag="div">
-        <div class="mb-2 lg:mb-4" key="desc" v-if="currentStory.term.description">
+        <div class="floating-desc" key="desc" v-if="currentStory.term.description">
           <p>{{currentStory.term.description}}</p>
         </div>
         <StoryArticle v-for="post in currentStory.posts" :key="post.ID" :article="{

@@ -40,8 +40,8 @@ input::placeholder {
   @apply xxl:rounded xxl:-my-16;
 }
 
-.post p {
-  @apply mb-5;
+.post > * {
+  @apply max-w-4xl mx-auto mb-5;
 }
 
 .post a, .text-link {
@@ -81,11 +81,15 @@ input::placeholder {
   @apply absolute inset-0 bg-black opacity-15 hover:opacity-5 transition-opacity duration-200 z-0
 }
 
+.floating-desc {
+  @apply mb-2 lg:max-w-4xl lg:mx-auto lg:bg-gray-100 lg:shadow lg:mb-4 lg:p-4 lg:rounded;
+}
+
 .story-article {
   @apply md:flex bg-gray-100 mb-2 lg:mb-4 last:mb-0 shadow;
 }
 .story-article .description {
-  @apply md:w-2/3 p-2 lg:p-4;
+  @apply md:w-1/2 p-2 lg:p-4;
 }
 
 .slide-down-enter-active {
