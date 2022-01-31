@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-wrap items-center mt-4">
-    <h3 class="mb-2 lg:mb-4 text-base">Tags:</h3>
-    <router-link class="post-tag" 
+  <div class="tags-container">
+    <h3 class="tags-title">Tags:</h3>
+    <router-link class="post-tag button" 
     v-for="tag in tags" :key="tag.id" :to="{
       name: 'Tag',
       params: {tag: tag.slug}  
@@ -10,8 +10,14 @@
   </div>
 </template>
 <style scoped>
+.tags-container {
+  @apply flex flex-wrap items-center mt-4;
+}
+.tags-container .tags-title {
+  @apply mb-2 lg:mb-4 text-base dark:text-gray-100;
+}
 .post-tag {
-  @apply focus:outline-none text-sm text-center ml-2 mb-2 lg:ml-4 lg:mb-2 py-2 px-4 font-semibold text-white bg-gray-500 transition-colors duration-150 ring ring-gray-300 hover:bg-blue-500 hover:ring-blue-300;
+  @apply ml-2 mb-2 lg:ml-4 lg:mb-2;
 }
 </style>
 <script>

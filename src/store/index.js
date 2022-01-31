@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersist from 'vuex-localstorage'
-import * as actions from './actions'
-import * as getters from './getters'
 import post from './modules/post'
 import photo from './modules/photo'
 import menus from './modules/menus'
 import story from './modules/story'
+import theme from './modules/theme'
 
 Vue.use(Vuex)
 
@@ -25,13 +24,12 @@ if(!debug) {
 }
 
 export default new Vuex.Store({
-  actions,
-  getters,
   modules: {
     post,
     photo,
     menus,
-    story
+    story,
+    theme
   },
   strict: debug,
   plugins: plugins

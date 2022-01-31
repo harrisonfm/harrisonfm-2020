@@ -19,3 +19,6 @@ export const STORY_CURRENT = 'STORY_CURRENT'
 export const STORY_IMAGES = 'STORY_IMAGES'
 
 export const PAGE_ERROR = 'PAGE_ERROR'
+
+export const SET_THEME = 'SET_THEME'
+export const PREFERS_DARK = 'PREFERS_DARK'

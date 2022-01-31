@@ -12,52 +12,30 @@
 
 <style scoped>
   .project-container {
-    @apply w-full mx-auto max-w-4xl border-black border-l-2 border-r-2 sm:border-l-4 sm:border-r-4;
+    @apply w-full mx-auto max-w-4xl border-black dark:border-gray-700 border-l-2 border-r-2 sm:border-l-4 sm:border-r-4;
   }
   .project {
-    transition: height .5s;
-    height: 40px;
-    max-height: 500px;
-    @apply relative bg-cover bg-gray-500 flex flex-col justify-between cursor-pointer border-black border-t-2 sm:border-t-4;
+    @apply relative bg-cover bg-gray-500 dark:bg-gray-600 flex flex-col justify-between cursor-pointer border-black dark:border-gray-700 border-t-2 sm:border-t-4 h-[40px] max-h-[500px] transition-all duration-500 sm:h-[70px]
   }
   .project:last-of-type {
-    height: 44px;
-    @apply border-b-2 sm:border-b-4;
+    @apply border-b-2 h-[44px] sm:border-b-4 sm:h-[74px];
   }
   .project .title {
-    line-height: 40px;
-    @apply bg-white font-bold inline-flex items-center px-4 self-start relative border-black border-b-2 border-r-2 sm:border-r-0 sm:border-b-4 sm:text-3xl text-black ml-0 mt-0;
+    @apply bg-white dark:bg-gray-800 dark:text-gray-100 font-bold inline-flex items-center px-4 self-start relative border-black dark:border-gray-700 border-b-2 border-r-2 sm:border-r-0 sm:border-b-4 sm:text-3xl text-black ml-0 mt-0 dark:font-normal leading-[40px] sm:leading-[66px]
   }
   .project-description {
-    @apply bg-white opacity-0 transition-opacity duration-500 z-neg absolute bottom-0 cursor-auto text-sm xs:text-base;
+    @apply bg-white dark:bg-gray-800 dark:text-gray-100 opacity-0 transition-opacity duration-500 z-neg absolute bottom-0 cursor-auto text-sm xs:text-base;
   }
   .project.on {
-    height: 100vw;
+    @apply h-screen;
   }
   .project.on .project-description {
-    opacity: 1;
-    z-index: 1;
+    @apply opacity-100 z-[1];
   }
   @screen sm {
-    .project {
-      height: 70px;
-    }
-    .project:last-of-type {
-      height: 74px;
-    }
-    .project .title {
-      line-height: 66px;
-    }
     .project .title::after {
       content: '';
-      transform: skew(-5deg);
-      background: black;
-      border-right: 4px solid black;
-      position: absolute;
-      width: 6px;
-      height: 66px;
-      right: -3px;
-      top: 0;
+      @apply bg-black border-r-[4px] border-black absolute w-[6px] h-[66px] -right-[3px] top-0 -skew-x-5 dark:border-gray-700 dark:bg-gray-700;
     }
     .project.on {
       height: calc(100vw / 2);

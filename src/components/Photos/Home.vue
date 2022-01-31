@@ -2,7 +2,7 @@
   <div class="photos-page" >
     <Loader v-if="!post.post_content" />
     <transition-group name="fade" tag="div">
-      <h1 key="0" class="leading-none mb-2 lg:mb-4">{{ post.post_title }}</h1>
+      <h1 key="0" class="page-title mb-2 lg:mb-4">{{ post.post_title }}</h1>
       <div key="1" class="floating-desc" v-if="post.post_content" v-html="post.post_content" />
       <HomeSection key="2" class="home-section" v-if="post.stories" :section="post.stories">Stories</HomeSection>
       <HomeSection key="3" class="home-section" v-if="post.genres" :section="post.genres">Highlighted Genres</HomeSection>
@@ -10,7 +10,7 @@
   </div>
 </template>
 <style scoped>
-.post + .home-section {
+.floating-desc + .home-section {
   @apply mb-2 lg:mb-4;
 }
 </style>

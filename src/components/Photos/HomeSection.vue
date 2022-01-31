@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 class="leading-none mb-2 lg:mb-4"><slot /></h1>
+    <h1 class="page-title mb-2 lg:mb-4"><slot /></h1>
     <div class="photos-grid">
       <article v-for="el in section" :id="'article-'+el.slug" class="overlay-article jiggle-on-hover">
         <router-link :to="{

@@ -5,7 +5,7 @@
     </router-link>
     <div class="description">
       <router-link :to="article.link"><h2 class="font-bold text-2xl leading-none">{{ article.title }}</h2></router-link>
-      <p class="text-gray-700 text-base" v-html="article.desc"></p>
+      <p class="text" v-html="article.desc"></p>
     </div>
   </article>
 </template>

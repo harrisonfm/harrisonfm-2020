@@ -23,7 +23,7 @@
     font-weight: bolder;
   }
   .menu-link {
-    @apply block hover:text-blue-800 focus:text-blue-800 transition-colors duration-200 p-2 sm:p-0;
+    @apply block hover:text-blue-800 focus:text-blue-800 dark:hover:text-blue-600 dark:focus:text-blue-600 transition-colors duration-200 p-2 sm:p-0;
   }
   .menu-link-icon {
     @apply ml-2 text-3xl inline pr-2 sm:hidden;
@@ -32,7 +32,7 @@
     @apply flex flex-col justify-end sm:justify-center sm:flex-row;
   }
   .header-submenu {
-    @apply border-2 bg-gray-500 text-white;
+    @apply border-2 bg-gray-500 text-gray-100 dark:bg-gray-900 dark:border-gray-600
   }
   .header-submenu-desktop {
     @apply absolute top-full -right-1/2 border-t-0 w-max z-neg sm:shadow;
@@ -41,7 +41,7 @@
     @apply w-full flex flex-col items-end;
   }
   .submenu-item {
-    @apply hover:bg-blue-500 focus:bg-blue-500 transition-colors duration-200 w-full text-right sm:text-left;
+    @apply hover:bg-blue-500 focus:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600 transition-colors duration-200 w-full text-right sm:text-left;
   }
   .submenu-link {
     @apply block p-2 md:p-4

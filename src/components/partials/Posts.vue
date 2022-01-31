@@ -1,6 +1,6 @@
 <template>
   <div class="post-container">
-    <h3 class="leading-none mb-2 lg:mb-4" v-if="title">{{ title }}</h3>
+    <h3 class="page-title" v-if="title">{{ title }}</h3>
     <Loader v-if="!posts.length" />
     <transition-group name="fade" class="posts-grid" tag="div">
       <article v-for="post in posts" :id="'post-'+post.ID" :key="post.ID" class="overlay-article jiggle-on-hover">
@@ -11,14 +11,17 @@
         <v-style>{{ parseBackground(post) }}</v-style>
       </article>
       <div class="full-grid pagination" v-if="posts.length" :key="page">
-        <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto pag-btn">Previous</router-link>
-        <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto pag-btn">Next</router-link>
+        <router-link :to="pageLink.prev" v-if="page > 1" class="mr-auto button">Previous</router-link>
+        <router-link :to="pageLink.next" v-if="posts.length >= 8" class="ml-auto button">Next</router-link>
       </div>
       <gallery class="full-grid harrigrams-posts" v-if="gallery.images.length && harrigramsLoaded" :gallery="gallery" title="Recent Harrigrams" route="Harrigram" key="harrigrams" />
     </transition-group>
   </div>
 </template>
 <style scoped>
+.page-title {
+  @apply mb-2 lg:mb-4;
+}
 .posts-grid {
   @apply grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2;
 }
@@ -27,9 +30,6 @@
 }
 .pagination {
   @apply flex;
-}
-.pag-btn {
-  @apply font-semibold bg-gray-500 text-white px-4 py-2 transition-colors duration-150 ring ring-inset ring-gray-300 hover:bg-blue-500 hover:ring-blue-300
 }
 </style>
 <script>

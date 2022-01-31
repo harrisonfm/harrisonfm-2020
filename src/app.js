@@ -16,22 +16,10 @@ import Loader from './components/partials/Loader.vue';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { faPause } from '@fortawesome/free-solid-svg-icons';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import { faCompressAlt } from '@fortawesome/free-solid-svg-icons';
-import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons';
-import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faShare } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faHeart, faPause, faPlay, faCompressAlt, faChevronCircleLeft, faChevronCircleRight, faInfoCircle, faSearch, faSignInAlt, faCaretDown, faBars, faShare, faMoon, faSun, faCloudMoon, faCloudSun} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faTimes, faHeart, faPause, faPlay, faCompressAlt, faChevronCircleLeft, faChevronCircleRight, faInfoCircle, faSearch, faSignInAlt, faBars, faCaretDown, faShare);
+library.add(faTimes, faHeart, faPause, faPlay, faCompressAlt, faChevronCircleLeft, faChevronCircleRight, faInfoCircle, faSearch, faSignInAlt, faBars, faCaretDown, faShare, faMoon, faSun, faCloudMoon, faCloudSun);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
@@ -56,6 +44,12 @@ Vue.use(VueLazyload, {
 });
 
 window.eventBus = new Vue();
+
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark')
+} else {
+  document.documentElement.classList.remove('dark')
+}
 
 new Vue({
   el: '#app',

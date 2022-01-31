@@ -1,13 +1,19 @@
 <template>
-  <router-link to="/" class="flex items-center h-16 z-10">
-    <img :src="Bolt" class="transform rotate-180" />
-    <span class="font-bold mx-1">HFM</span>
-    <img :src="Bolt" />
+  <router-link to="/" class="logo">
+    <img :src="Bolt" class="logo-bolt rotate-180" />
+    <span class="logo-text">HFM</span>
+    <img :src="Bolt" class="logo-bolt" />
   </router-link>
 </template>
 <style scoped>
-span {
-  font-size: 42px;
+.logo {
+  @apply flex items-center h-16 z-10 dark:text-gray-100;
+}
+.logo-text {
+  @apply font-bold mx-1 text-[42px];
+}
+.logo-bolt {
+  @apply dark:invert;
 }
 </style>
 <script>

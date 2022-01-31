@@ -8,9 +8,7 @@
   @apply h-72 flex justify-center items-center;
 }
 .loader-container.photo-thumb {
-  width: 75px;
-  height: 75px;
-  position: absolute;
+  @apply w-[75px] h-[75px] absolute;
 }
 .loader-container.prev {
   left: 1rem;

@@ -13,4 +13,4 @@
     <?php wp_head(); ?>
   </head>
 
-  <body <?php body_class('bg-gray-200 overflow-x-hidden'); ?>>
+  <body <?php body_class(); ?>>

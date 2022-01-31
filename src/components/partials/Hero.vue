@@ -12,16 +12,16 @@
 </template>
 <style>
 .hero {
-  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 xxl:w-screen xxl:h-heroDesktop flex relative z-neg p-2 lg:p-4;
+  @apply bg-cover bg-center h-article md:h-hero bg-gray-500 dark:bg-gray-700 xxl:w-screen xxl:h-heroDesktop flex relative z-neg p-2 lg:p-4;
 }
 .title {
   @apply text-center m-auto text-white uppercase flex items-center;
 }
 .icon {
-  @apply filter invert mx-1 h-16;
+  @apply invert mx-1 h-16;
 }
 .icon-1 {
-  @apply transform rotate-180 ml-4
+  @apply rotate-180 ml-4
 }
 @screen xxl {
   .hero {

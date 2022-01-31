@@ -22,10 +22,10 @@
   @apply block relative;
 }
 .gallery-img {
-  @apply rounded shadow w-full h-full;
+  @apply rounded shadow w-full h-full dark:bg-gray-700;
 }
 .gallery-header {
-  @apply font-bold mb-0 uppercase col-span-full;
+  @apply font-bold mb-0 uppercase col-span-full dark:text-gray-100;
 }
 .post-gallery.harrigrams-posts {
   @apply grid-cols-2 md:grid-cols-4 xl:grid-cols-8;

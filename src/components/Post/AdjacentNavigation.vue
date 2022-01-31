@@ -1,10 +1,10 @@
 <template>
-  <div class="mt-4">
-    <h2 class="font-open font-bold text-xl mb-4" v-html="navName" v-if="navName"></h2>
+  <div class="adj-nav">
+    <h2 class="adj-nav-title" v-html="navName" v-if="navName"></h2>
     <div v-if="post.prev || post.next" class="post-story-container">
       <div v-if="post.prev" class="post-story-item">
         <h3 class="story-dir">Previously</h3>
-        <article :id="'post-'+post.prev.ID" class="overlay-article bg-cover bg-gray-500">
+        <article :id="'post-'+post.prev.ID" class="overlay-article">
           <router-link :to="post.prev.link">
             <div class="title">{{ post.prev.post_title }}</div>
             <div class="overlay "></div>
@@ -14,7 +14,7 @@
       </div>
       <div v-if="post.next" class="post-story-item">
         <h3 class="story-dir" :class="{'md:text-right': post.prev}">Next</h3>
-        <article :id="'post-'+post.next.ID" class="overlay-article bg-cover bg-gray-500">
+        <article :id="'post-'+post.next.ID" class="overlay-article">
           <router-link :to="post.next.link">
             <div class="title">{{ post.next.post_title }}</div>
             <div class="overlay "></div>
@@ -26,6 +26,12 @@
   </div>
 </template>
 <style scoped>
+.adj-nav {
+  @apply dark:text-gray-100 mt-4;
+}
+.adj-nav-title {
+  @apply font-open font-bold text-xl mb-4;
+}
 .story-dir {
   @apply mb-0 text-base;
 }
@@ -34,6 +40,9 @@
 }
 .post-story-item {
   @apply w-full md:w-1/2;
+}
+.post-story-item .overlay-article {
+  @apply bg-cover bg-gray-500;
 }
 .post-story-item:first-of-type {
   @apply mt-2 md:mr-2 md:mt-0 lg:mr-4;

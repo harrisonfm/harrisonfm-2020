@@ -2,7 +2,7 @@
   <div class="page page--stories">
     <hero :img="storyHero" />
     <div class="post-container">
-      <h3 class="leading-none mb-4">{{ stories.length ? 'HarrisonFM Stories' : 'Loading...' }}</h3>
+      <h3 class="page-title">{{ stories.length ? 'HarrisonFM Stories' : 'Loading...' }}</h3>
       <transition-group name="fade" tag="div">
         <StoryArticle v-for="story in stories" :key="story.term_id" :article="{
           image: story.featured,

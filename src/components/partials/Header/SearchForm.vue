@@ -11,17 +11,17 @@
 
 <style scoped>
 .fa-icon {
-  @apply cursor-pointer text-2xl pr-2 ml-2 sm:mx-2 lg:mx-4 sm:p-0 transition-colors duration-150 hover:text-blue-500;
+  @apply cursor-pointer text-2xl pr-2 ml-2 sm:mx-2 lg:mx-4 sm:p-0 transition-colors duration-150 hover:text-blue-500 dark:text-white;
 }
 .search-form {
-  @apply items-center;
+  @apply items-center dark:bg-gray-800 dark:text-white;
 }
 .search-input {
-  @apply p-4 h-full w-full bg-transparent;
+  @apply p-4 h-full w-full bg-transparent dark:placeholder-gray-600;
 }
 @screen sm {
   .search-form {
-    @apply absolute w-1/2 md:w-1/3 xl:w-1/4 h-16 top-full right-0 border-l-2 border-b-2 border-gray-600 z-neg bg-white bg-opacity-95;
+    @apply absolute w-1/2 md:w-1/3 xl:w-1/4 h-16 top-full right-0 border-l-2 border-b-2 border-gray-600 z-neg bg-white bg-opacity-95 dark:border-gray-700;
   }
 }
 </style>

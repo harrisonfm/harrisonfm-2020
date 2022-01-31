@@ -76,7 +76,7 @@
               <transition name="fade">
                 <p class="leading-none mb-0 mt-2 lg:mt-4" v-if="loaded && ((photo.post_excerpt || locDate))">
                   <span>{{ photo.post_excerpt }}</span>
-                  <span class="text-gray-700" v-if="locDate">{{ photo.post_excerpt ? '&mdash;' : '' }} {{ locDate }}</span>
+                  <span class="infonav-locdate" v-if="locDate">{{ photo.post_excerpt ? '&mdash;' : '' }} {{ locDate }}</span>
                 </p>
               </transition>
             </div>
@@ -92,7 +92,7 @@
 </template>
 <style scoped>
 .photo-modal {
-  @apply fixed inset-0 bg-white flex flex-col items-center transition-opacity duration-300 bg-white z-30 font-open;
+  @apply fixed inset-0 bg-white flex flex-col items-center transition-opacity duration-300 bg-white z-30 font-open dark:bg-gray-800;
 }
 .controls {
   @apply absolute flex items-center right-0 top-0 z-10;
@@ -116,11 +116,11 @@
   @apply overflow-auto mt-auto lg:my-auto;
 }
 .photo-infonav {
-  @apply relative w-full flex items-center justify-between mt-auto mx-auto p-2 bg-gray-100 lg:p-4 xxl:rounded-lg xxl:shadow xxl:w-4/5;
-  @media(max-height: 500px) {
-    margin-bottom: 0;
-    border-radius: 0;
-    box-shadow: none;
+  @apply relative w-full flex items-center justify-between mt-auto mx-auto p-2 bg-gray-100 lg:p-4 xxl:rounded-lg xxl:shadow xxl:w-4/5 dark:bg-gray-700 dark:text-gray-100;
+}
+@media(max-height: 500px) {
+  .photo-infonav {
+    @apply mb-0 rounded-none shadow-none;
   }
 }
 .photo-infonav.infoOff {
@@ -130,11 +130,13 @@
   @apply text-4xl xs:ml-0 cursor-pointer;
 }
 .infonav-text {
-  @apply text-center px-4 hidden m-auto sm:flex sm:flex-col sm:justify-center;
-  min-height: 75px;
+  @apply text-center px-4 hidden m-auto sm:flex sm:flex-col sm:justify-center min-h-[75px];
 }
 .infonav-title {
   @apply leading-none text-2xl lg:text-4xl;
+}
+.infonav-locdate {
+  @apply text-gray-700 dark:text-gray-400;
 }
 </style>
 <script>
