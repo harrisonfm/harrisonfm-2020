@@ -1,6 +1,6 @@
 <template>
   <div class="photos-page">
-    <h1 class="leading-none mb-2 lg:mb-4 mx-auto max-w-4xl">{{ gallery.title }}</h1>
+    <h1 class="page-title mb-2 lg:mb-4 mx-auto max-w-4xl">{{ gallery.title }}</h1>
     <Loader v-if="!gallery.loaded" />
     <div class="floating-desc opacity-0" :class="{'opacity-100': gallery.loaded}">
       <p v-if="gallery.loaded">{{gallery.description}}</p>
