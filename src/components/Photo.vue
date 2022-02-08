@@ -283,7 +283,7 @@ export default {
       'setLiked': 'LIKED'
     }),
     parseIDSlug(idSlug) {
-      return parseInt(idSlug.substr(0, idSlug.indexOf('-'));
+      return parseInt(idSlug.substr(0, idSlug.indexOf('-')));
     },
     getPhoto() {
       console.log('getphoto '+this.ID, this.gallery.images, this.gallery.loaded);
