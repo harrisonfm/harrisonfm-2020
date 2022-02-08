@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import VueCookies from 'vue-cookies';
 import VueMeta from 'vue-meta'
 import VueLazyload from 'vue-lazyload'
 
@@ -32,7 +31,6 @@ Vue.component('v-style', {
 
 Vue.component('Loader', Loader);
 
-Vue.use(VueCookies);
 Vue.use(VueMeta);
 Vue.use(ErrorPage, {
 	resolver: (component) => {

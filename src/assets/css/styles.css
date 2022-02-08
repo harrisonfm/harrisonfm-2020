@@ -1,7 +1,2 @@
-/* Don't want tailwindcss?
-   Simply remove the import
-   statement below and write
-   your CSS as normal! */
-
-@import './_tailwind';
-@import './components/whirly-loader';
+@import './_tailwind.css';
+@import './components/whirly-loader.css';

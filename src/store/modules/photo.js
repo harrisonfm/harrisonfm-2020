@@ -33,9 +33,8 @@ const getters = {
 
 // actions
 const actions = {
-  like: function({ commit }, payload) {
-    console.log(payload.photo);
-    api.like(payload.photo.ID, payload.likes, response => {
+  likePhoto: function({ commit }, payload) {
+    api.like(state.photo.ID, state.likes + (state.liked ? -1 : 1), response => {
       commit(types.PHOTO_LIKE);
     });
   },
@@ -55,6 +54,7 @@ const mutations = {
       state.photo = photo;
       state.photo.likes = parseInt(photo.likes);
       state.likes = state.photo.likes;
+      state.liked = localStorage.getItem('liked-'+state.photo.ID) === 'true' ? true : false;
     }
     else {
       state.photo = defaultPhoto;
@@ -84,12 +84,14 @@ const mutations = {
   },
 
   [types.PHOTO_LIKE](state) {
-    state.photo['likes'] = parseInt(state.photo['likes'], 10) + (state.liked ? 1 : -1);
-    state.photo['likes'] = state.photo['likes'] < 0 ? 0 : state.photo['likes'];
+    state.photo['likes'] = parseInt(state.photo['likes']) + (state.liked ? -1 : 1);
+    if(state.photo['likes'] < 0) {
+      state.photo['likes'] = 0;
+    }
     state.likes = state.photo['likes'];
-  },
-  [types.LIKED](state, payload) {
-    state.liked = payload.liked;
+
+    state.liked = !state.liked;
+    localStorage.setItem('liked-'+state.photo.ID, state.liked);
   },
 };
 

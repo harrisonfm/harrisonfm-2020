@@ -13,7 +13,7 @@ module.exports = {
   stats: { warnings: false }, // Hide warnings
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'scripts/[name].js',
+    filename: 'scripts/index.js',
   },
   module: {
     rules: loaders,

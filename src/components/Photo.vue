@@ -141,7 +141,6 @@
 </style>
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex"
-import store from '~/store'
 import meta from '~/meta'
 import router from '~/router'
 import analytics from '~/analytics'
@@ -275,9 +274,7 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'getSinglePhoto'
-    ]),
+    ...mapActions(['getSinglePhoto', 'likePhoto']),
     ...mapMutations({
       'setPhoto': 'PHOTO',
       'setSlideshow': 'PHOTO_SLIDESHOW',
@@ -286,7 +283,7 @@ export default {
       'setLiked': 'LIKED'
     }),
     parseIDSlug(idSlug) {
-      return parseInt(idSlug.substr(0, idSlug.indexOf('-'), 10));
+      return parseInt(idSlug.substr(0, idSlug.indexOf('-'));
     },
     getPhoto() {
       console.log('getphoto '+this.ID, this.gallery.images, this.gallery.loaded);
@@ -298,7 +295,6 @@ export default {
           if(this.ID === el.ID) {
             console.log('getphoto from gallery', el);
             this.setPhoto(el);
-            this.setLiked({liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)});
             this.setGalleryIndex({ idx });
             analytics.trackPageView((this.gallery.title ? this.gallery.title + ' Photos - ' : (this.currentPost.post_title === 'Harrigrams' ? this.currentPost.post_title : this.currentPost.post_title + ' Photos - ')) + this.photo.post_title);
             break;
@@ -319,7 +315,6 @@ export default {
       // else {
       //   this.getSinglePhoto({
       //     ID: this.ID, 
-      //     liked: this.$cookies.isKey("hfm-liked-"+this.idSlug)
       //   });
       // }
     },
@@ -332,18 +327,12 @@ export default {
     like() {
       this.controls.like.hover = false;
       if(this.liked) {
-        this.$cookies.remove("hfm-liked-"+this.idSlug);
         analytics.trackEvent('Photo', 'unLike');
       }
       else {
-        this.$cookies.set("hfm-liked-"+this.idSlug,'',"7d");
         analytics.trackEvent('Photo', 'Like');
       }
-      store.dispatch('like', {
-        photo: this.photo, 
-        likes: this.likes + (this.liked ? -1 : 1)
-      });
-      this.setLiked({liked: !this.liked});
+      this.likePhoto();
     },
     toggleSlideshow() {
       if(this.slideshow) {
