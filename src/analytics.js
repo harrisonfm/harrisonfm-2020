@@ -4,6 +4,8 @@
 
 export default {
   trackPageView: function(title = document.title) {
+    var _paq = undefined;           
+    if(!_paq) return;
     console.log('analytics - pageview - ' + title, location.href);
     _paq.push(['setCustomUrl', location.href]);
     _paq.push(['setDocumentTitle', title]);
@@ -13,6 +15,7 @@ export default {
 
   trackEvent: function(category, action, name = '', value = '') {
     console.log('analytics - event - ', category, action, name, value);
+    if(!_paq) return;
     let trackingArray = ['trackEvent', category, action];
     if(name) {
       trackingArray.push(name);
@@ -24,6 +27,7 @@ export default {
   },
 
   optOut: function() {
+    if(_paq) return;
     _paq.push(['optUserOut']);
   }
 };
