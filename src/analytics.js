@@ -3,8 +3,7 @@
 //https://developer.matomo.org/guides/spa-tracking
 
 export default {
-  trackPageView: function(title = document.title) {
-    var _paq = undefined;           
+  trackPageView: function(title = document.title) {         
     if(!_paq) return;
     console.log('analytics - pageview - ' + title, location.href);
     _paq.push(['setCustomUrl', location.href]);
@@ -27,7 +26,7 @@ export default {
   },
 
   optOut: function() {
-    if(_paq) return;
+    if(!_paq) return;
     _paq.push(['optUserOut']);
   }
 };
