@@ -158,22 +158,32 @@ const router = new Router({
 });
 
 router.afterEach((to, from) => {
-  // Add a body class specific to the route we're viewing
-  let body = document.querySelector("body");
-  let bodyClasses = body.className.split(" ");
-
-  if (bodyClasses.length > 0) {
-    const newBodyClasses = bodyClasses.filter(theClass =>
-      theClass.startsWith("vue--page--")
-    );
-  }
-
-  console.log(to);
-
-  const slug = _.isEmpty(to.params.postSlug)
-    ? to.params.pageSlug
-    : to.params.postSlug;
-  body.classList.add("vue--page--" + slug);
+  console.log(to.params[0]);
 });
+
+function getRoutesList(routes, pre) {
+  return routes.reduce((array, route) => {
+    const path = `${pre}${route.path}`;
+
+    if (route.path !== '*' && route.path.indexOf(':') === -1 && route.name !== 'PhotosHome') {
+      array.push(path);
+    }
+
+    if (route.children) {
+      array.push(...getRoutesList(route.children, `${path}/`));
+    }
+
+    return array;
+  }, []);
+}
+
+function getRoutesXML() {
+  const list = getRoutesList(router.options.routes, 'https://harrisonfm.com')
+    .map(route => `<url><loc>${route}</loc></url>`)
+    .join('\r\n');
+  return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    ${list}
+  </urlset>`;
+}
 
 export default router;
