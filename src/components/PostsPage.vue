@@ -10,7 +10,7 @@ import Hero from '~/components/partials/Hero.vue'
 import meta from '~/meta'
 import analytics from '~/analytics'
 import api from "~/api"
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: {
     Posts, Hero
@@ -37,21 +37,21 @@ export default {
     next();
   },
   props: ['page', 'type', 'slug'],
+  computed: {
+    ...mapGetters(['posts']),
+  },
   metaInfo () {
-    let page = this.page ? this.page : '';
-    if(this.type === 'home') {
-      let title = 'Home';
-      analytics.trackPageView(page ? title + ' - Page ' + page : title);
-      return meta.formatMeta();
+    let title = '';
+    let desc = '';
+    let img = '';
+    if(this.type !== 'home') { //category, tag, or search
+      const slug = this.slug.replace('-',' ').replace(/\b\w/g, l => l.toUpperCase());
+      title = this.type.replace(/\b\w/g, l => l.toUpperCase())+': '+slug;
+      desc = 'Posts about '+slug;
+      img = this.posts.length ? this.posts[0].featured.images : '';
     }
-    else{
-      let slug = this.slug ? this.slug.replace('-',' ').replace(/\b\w/g, l => l.toUpperCase()) : '';
-      let desc = this.slug ? 'HarrisonFM content for '+slug : '';
-      let title = this.type ? this.type.replace(/\b\w/g, l => l.toUpperCase())+': '+slug : '';
-      console.log('postspage' + title);
-      analytics.trackPageView(page ? title + ' - Page ' + page : title);
-      return meta.formatMeta(title, desc);
-    }
+    analytics.trackPageView(this.page ? title + ' - Page ' + this.page : title);
+    return meta.formatMeta(title, desc, img);
   },
   methods: {
     ...mapMutations({
@@ -59,13 +59,11 @@ export default {
     }),
     handleGetHome() {
       if(this.type === 'home') {
+        meta.setDefaults();
         api.getHome(data => {
           this.hero = data.hero;
           window.prerenderReady = true;
         });
-      }
-      else {
-        window.prerenderReady = true;
       }
     },
     setHarrigramsLoaded() {

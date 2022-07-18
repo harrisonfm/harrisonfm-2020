@@ -6,30 +6,22 @@ export default {
 		title: 'HarrisonFM',
 		tagline: 'Adventure, Photography, and Coding',
 		desc: 'Harrison June is an American adventure photographer, writer and coder based in Arizona.',
-		img: '',
+		img: 'https://s3.amazonaws.com/harrisonfm-wpmf/wp-media-folder-harrisonfm/wp-content/uploads/2016/03/dreamlands-2-1536x1024.jpg',
 	},
 	setDefaults: function() {
-		if(this.apiCalled) {
-			return;
-		}
-
-		api.getSitemeta((response) => {
-			if(response.title) {
-				this.default.title = response.title;
-			}
-			if(response.tagline) {
-				this.default.tagline = response.tagline;
-			}
-			if(response.img) {
-				this.default.img = response.img;
-			}
-			this.apiCalled = true;
-		});
-	},
-	formatMeta: function(title, desc, img, author) {
-		this.setDefaults();
-
-		desc = desc ? desc : this.default.desc;
+    api.getSitemeta(function(response) {
+      if(response.title) {
+        this.default.title = response.title;
+      }
+      if(response.tagline) {
+        this.default.tagline = response.tagline;
+      }
+      if(response.img) {
+        this.default.img = response.img;
+      }
+    });
+  },
+	formatMeta: function(title, desc = this.default.desc, img, author) {
 		img = img ? img['1536x1536'].src : this.default.img;
     const url = window.location.href;
 

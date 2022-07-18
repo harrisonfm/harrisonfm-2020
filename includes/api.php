@@ -349,7 +349,7 @@ function setup() {
       'title' => get_bloginfo('name'),
       'tagline' => get_bloginfo('description'),
       'url' => get_bloginfo('url'),
-      'img' => wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'large')[0]
+      'img' => get_header_image(),
     ));
   }
 
