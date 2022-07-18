@@ -1,8 +1,8 @@
 <template>
   <router-link to="/" class="logo">
-    <img :src="Bolt" class="logo-bolt rotate-180" />
+    <img alt="" :src="Bolt" class="logo-bolt rotate-180" />
     <span class="logo-text">HFM</span>
-    <img :src="Bolt" class="logo-bolt" />
+    <img alt="" :src="Bolt" class="logo-bolt" />
   </router-link>
 </template>
 <style scoped>
