@@ -65,16 +65,16 @@ export default {
   //     });
   // },
 
-  getSitemeta(cb) {
-    axios
-      .get(`${SETTINGS.HFM_THEME}sitemeta`)
-      .then(response => {
-        cb(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  },
+  // getSitemeta(cb) {
+  //   axios
+  //     .get(`${SETTINGS.HFM_THEME}sitemeta`)
+  //     .then(response => {
+  //       cb(response.data);
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // },
 
   like(photo, likes, cb) {
     console.log('like photo api', photo, likes);

@@ -59,7 +59,6 @@ export default {
     }),
     handleGetHome() {
       if(this.type === 'home') {
-        meta.setDefaults();
         api.getHome(data => {
           this.hero = data.hero;
           window.prerenderReady = true;
