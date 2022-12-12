@@ -59,7 +59,7 @@
             <img :sizes="sizes" :srcset="parseSrcset(photo)" :src="photo.images['2048x2048'].src" class="max-h-full m-auto" />
           </div>
         </transition>
-        <div class="w-full text-center px-2 my-2 lg:px-4 lg:my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
+        <div class="w-full text-center px-2 my-2 dark:text-gray-100 lg:px-4 lg:my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
           <h2 class="leading-none text-2xl mb-0">{{ loaded ? photo.post_title : 'Loading..' }}</h2>
           <transition name="fade">
             <p class="mb-0 mt-2" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>

@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "watch": "NODE_ENV=development webpack --watch --config ./webpack/webpack.config.js",
+    "start": "npm run watch",
     "production": "NODE_ENV=production webpack --config ./webpack/webpack.config.js",
     "rmdist": "rimraf dist",
     "rsync-dev": "rsync -arvz -e 'ssh -p 21212' --exclude='.git/' --exclude='webpack/' --exclude='node_modules/' --exclude='src/' --delete . $npm_config_deploy_path_dev",
