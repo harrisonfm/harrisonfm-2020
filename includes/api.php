@@ -157,7 +157,7 @@ function setup() {
   function formatPostForApi(&$post, $ignoreStories = false) {
     $post->acf = get_fields($post->ID);
 
-    if(isset($post->acf['gallery'])) {
+    if(is_array($post->acf['gallery'])) {
       $gallery = new \WP_Query(array(
         'post_type' => 'attachment',
         'post_status' => 'any',

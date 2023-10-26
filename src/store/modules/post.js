@@ -41,6 +41,7 @@ const actions = {
   getPosts({ commit }, params) {
     return new Promise((resolve, reject) => {
       api.getPosts(params, response => {
+        console.log(response);
         if(response.posts.length) {
           setTimeout(() => {
             commit(types.POSTS, response);
