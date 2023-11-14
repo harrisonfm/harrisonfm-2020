@@ -155,7 +155,7 @@ function setup() {
   }
 
   function formatPostForApi(&$post, $ignoreStories = false) {
-    $post->acf = get_fields($post->ID);
+    $post->acf = get_fields($post->ID) ?? array();
 
     if(is_array($post->acf['gallery'])) {
       $gallery = new \WP_Query(array(
