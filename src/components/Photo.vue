@@ -69,7 +69,7 @@
           <nav class="photo-infonav" v-if="galleryInfo">
             <Loader v-if="loaded && prevPhoto && !prevLoaded" classes="photo-thumb prev" />
             <transition name="fade-delay">
-              <img width="75" height="75" class="thumb" :src="prevPhoto.images.thumbnail.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" :title="prevPhoto.post_title" />
+              <img width="75" height="75" class="thumb" :src="prevPhoto?.images?.thumbnail?.src" v-if="prevPhoto" :class="{'invisible': !prevLoaded}" @click="goToPrevPhoto" alt="previous photo" :title="prevPhoto.post_title" />
             </transition>
             <div class="infonav-text">
               <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
@@ -82,7 +82,7 @@
             </div>
             <Loader key="spinner" v-if="loaded && nextPhoto && !nextLoaded" classes="photo-thumb next" />
             <transition name="fade-delay">
-              <img width="75" height="75" class="thumb" :src="nextPhoto.images.thumbnail.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" :title="nextPhoto.post_title" />
+              <img width="75" height="75" class="thumb" :src="nextPhoto?.images?.thumbnail?.src" v-if="nextPhoto" :class="{'invisible': !nextLoaded}" @click="goToNextPhoto" alt="next photo" :title="nextPhoto.post_title" />
             </transition>
           </nav>
         </transition>

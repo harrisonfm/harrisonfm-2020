@@ -33,12 +33,17 @@ function setup() {
       filemtime( get_stylesheet_directory() . '/dist/styles.css' )
     );
   }
-  add_action('wp_enqueue_scripts', $n('load_vue_scripts'), 100);
+
+  if (file_exists( get_stylesheet_directory() . '/dist/scripts/index.js' )) {
+    add_action('wp_enqueue_scripts', $n('load_vue_scripts'), 100);
+  } else {
+    echo 'core JS scripts missing';
+  }
 
   add_theme_support('post-thumbnails');
   add_theme_support('custom-logo');
   add_theme_support('custom-header');
-  if( function_exists('acf_add_options_page')) {
+  if (function_exists('acf_add_options_page')) {
     acf_add_options_page();
   }
 
