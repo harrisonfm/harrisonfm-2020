@@ -425,18 +425,19 @@ function setup() {
       'slug' => $request['slug'],
     );
     $parent_term_query = new \WP_Term_Query($args);
-
+    
     $args = array(
       'taxonomy' => 'wpmf-category',
       'parent' => $parent_term_query->terms[0]->term_id
     );
     $child_terms_query = new \WP_Term_Query($args);
+
     $wpmf_terms = $child_terms_query->terms;
 
     foreach($wpmf_terms as $term) {
       $term->wpmf_order = get_term_meta($term->term_id, 'wpmf_order', true);
     }
-    usort($wpmf_terms, $n('sort_objects_by_total'));
+    usort($wpmf_terms, $n('sort_stories'));
 
     $posts = array();
     foreach($wpmf_terms as $term) {
@@ -468,9 +469,9 @@ function setup() {
     ));
   }
 
-  function sort_objects_by_total($a, $b) {
-    if($a->wpmf_order == $b->wpmf_order){ return 0 ; }
-    return ($a->wpmf_order < $b->wpmf_order) ? -1 : 1;
+  function sort_stories($a, $b) {
+    if($a->term_order == $b->term_order){ return 0 ; }
+    return ($a->term_order < $b->term_order) ? -1 : 1;
   }
 
   function getStoryTerms() {
