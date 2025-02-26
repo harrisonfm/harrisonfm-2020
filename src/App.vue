@@ -18,7 +18,7 @@
 <script>
 import Header from './components/partials/Header.vue';
 import Footer from './components/partials/Footer.vue';
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex';
 import utils from './utils';
 
 export default {
@@ -38,15 +38,12 @@ export default {
     ...mapActions(['initTheme'])
   },
   watch: {
-    theme(newTheme, oldTheme) {
-      newTheme === 'system'
-        ? (!this.prefersDark
-          ? document.querySelector("html").classList.remove("dark")
-          : document.querySelector("html").classList.add("dark"))
-        :
-        (newTheme === "light"
-          ? document.querySelector("html").classList.remove("dark")
-          : document.querySelector("html").classList.add("dark"));
+    theme(theme) {
+      if (theme === 'system') {
+        document.querySelector('html').classList.toggle('dark', this.prefersDark);
+      } else {
+        document.querySelector('html').classList.toggle('dark', theme === 'dark');
+      }
     },
   },
   components: {

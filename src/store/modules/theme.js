@@ -10,19 +10,18 @@ const getters = {
 };
 const actions = {
   initTheme: function({ commit }) {
-    const cachedTheme = localStorage.theme ? localStorage.theme : false;
+    const cachedTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : false;
     const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
     commit('PREFERS_DARK', userPrefersDark);
 
-    if (cachedTheme)
-      commit('SET_THEME', cachedTheme)
-    else if (userPrefersDark)
-      commit('SET_THEME', 'dark')
-    else
-      commit('SET_THEME', 'light')
+    let theme = cachedTheme || (userPrefersDark ? 'dark' : 'light');
+    commit('SET_THEME', theme);
+    
+    document.querySelector("html").classList.toggle("dark", theme === "dark");
   },
   toggleTheme: function({ commit }) {
-    switch (localStorage.theme) {
+    switch (localStorage.getItem('theme')) {
       case 'light':
         commit('SET_THEME', 'dark')
         break;
@@ -38,7 +37,7 @@ const actions = {
 const mutations = {
   [types.SET_THEME](state, theme) {
     state.theme = theme;
-    localStorage.theme = theme;
+    localStorage.setItem('theme', theme);
   },
   [types.PREFERS_DARK](state, prefersDark) {
     console.log(prefersDark);
