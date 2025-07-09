@@ -62,7 +62,10 @@
         <div class="w-full text-center px-2 my-2 dark:text-gray-100 lg:px-4 lg:my-4 sm:hidden" :class="{'hidden' : !galleryInfo}">
           <h2 class="leading-none text-2xl mb-0">{{ loaded ? photo.post_title : 'Loading..' }}</h2>
           <transition name="fade">
-            <p class="mb-0 mt-2" v-if="loaded && photo.post_excerpt">{{ photo.post_excerpt }}</p>
+            <p class="mb-0 mt-2 leading-5" v-if="loaded && ((photo.post_excerpt || locDate))">
+              <span>{{ photo.post_excerpt }}</span>
+              <span class="infonav-locdate block" v-if="locDate">{{ photo.post_excerpt ? '&mdash;' : '' }} {{ locDate }}</span>  
+            </p>
           </transition>
         </div>
         <transition name="slide-up">
@@ -74,7 +77,7 @@
             <div class="infonav-text">
               <h2 class="infonav-title mb-0">{{ loaded ? photo.post_title : 'Loading...' }}</h2>
               <transition name="fade">
-                <p class="leading-none mb-0 mt-2 lg:mt-4" v-if="loaded && ((photo.post_excerpt || locDate))">
+                <p class="mb-0 mt-2 lg:mt-4" v-if="loaded && ((photo.post_excerpt || locDate))">
                   <span>{{ photo.post_excerpt }}</span>
                   <span class="infonav-locdate" v-if="locDate">{{ photo.post_excerpt ? '&mdash;' : '' }} {{ locDate }}</span>
                 </p>
