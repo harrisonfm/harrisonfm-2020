@@ -95,7 +95,7 @@
 </template>
 <style scoped>
 .photo-modal {
-  @apply fixed inset-0 bg-white flex flex-col items-center transition-opacity duration-300 bg-white z-30 font-open dark:bg-gray-800;
+  @apply fixed inset-0 bg-white flex flex-col items-center transition-opacity duration-300 z-30 font-open dark:bg-gray-800;
 }
 .controls {
   @apply absolute flex items-center right-0 top-0 z-10;
@@ -104,7 +104,7 @@
   @apply flex-col py-3 px-2 text-lg rounded-bl-lg bg-white bg-opacity-25 md:text-xl;
 }
 .controls-icon {
-  @apply cursor-pointer p-1 leading-none relative shadow rounded-full md:p-2 shadow bg-opacity-10 bg-black;
+  @apply cursor-pointer p-1 leading-none relative shadow rounded-full md:p-2 bg-opacity-10 bg-black;
 }
 .controls-icon:not(:first-of-type) {
   @apply mt-3;

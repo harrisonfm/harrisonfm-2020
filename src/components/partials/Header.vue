@@ -9,7 +9,7 @@
 </template>
 <style scoped>
 .main-nav {
-  @apply font-open relative flex justify-between items-center border-b-2 border-gray-600 bg-white bg-opacity-95 dark:bg-gray-800 dark:border-gray-700 px-2 lg:px-4 sticky -top-1 z-20;
+  @apply font-open flex justify-between items-center border-b-2 border-gray-600 bg-white bg-opacity-95 dark:bg-gray-800 dark:border-gray-700 px-2 lg:px-4 sticky -top-1 z-20;
 }
 </style>
 <script>
