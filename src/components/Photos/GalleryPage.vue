@@ -63,7 +63,7 @@ export default {
             slug: this.gallerySlug
           }).then(response => {
             if(this.$route.name === 'PhotosGallery') {
-              window.prerenderReady = true;
+              // ready for prerender
               analytics.trackPageView(this.gallery.title + ' - Photos');
             }
             console.log('story images resolves', response, this.$route.name);
@@ -94,7 +94,7 @@ export default {
             description: el.description
           });
           if(this.$route.name === 'PhotosGallery') {
-            window.prerenderReady = true;
+            // ready for prerender
             analytics.trackPageView(this.gallery.title);
           }
         }

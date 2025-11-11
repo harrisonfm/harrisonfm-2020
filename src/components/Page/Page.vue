@@ -80,11 +80,11 @@ export default {
           this.getHarrigrams({
             fetchAll: true
           }).then(response => {
-            window.prerenderReady = true;
+            // ready for prerender
           });
         }
         if(this.$route.name !== 'Harrigram') {
-          window.prerenderReady = true;
+          // ready for prerender
         }
         analytics.trackPageView(this.post.post_title);
       }, error => {

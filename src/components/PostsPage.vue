@@ -61,7 +61,6 @@ export default {
       if(this.type === 'home') {
         api.getHome(data => {
           this.hero = data.hero;
-          window.prerenderReady = true;
         });
       }
     },

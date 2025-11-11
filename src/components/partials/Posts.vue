@@ -116,7 +116,7 @@ export default {
     handleGetPosts() {
       this.getPosts(this.params).then(response => {
         console.log('post archives resolves');
-        window.prerenderReady = true;
+        // ready for prerender
         this.getHarrigrams().then(response => {
           this.$emit('set-harrigrams-loaded');
         });

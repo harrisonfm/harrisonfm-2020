@@ -49,7 +49,7 @@ export default {
         slug: slug
       }).then(response => {
         console.log('story archives resolves');
-        window.prerenderReady = true;
+        // ready for prerender
         analytics.trackPageView(this.currentStory.term.name);
       }, error => {
         console.log('story component errors', this.$route.path);

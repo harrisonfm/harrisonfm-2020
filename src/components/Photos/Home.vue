@@ -46,7 +46,7 @@ export default {
         slug: slug
       }).then(response => {
         console.log('page component resolves', response);
-        window.prerenderReady = true;
+        // ready for prerender
         analytics.trackPageView('Photos');
       }, error => {
         console.log('page component errors', this.page, error);

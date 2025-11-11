@@ -26,7 +26,7 @@ export default {
   beforeMount: function() {
     this.getStories().then(response => {
       analytics.trackPageView('Stories');
-      window.prerenderReady = true;
+      // ready for prerender
     });
   },
   computed: {
