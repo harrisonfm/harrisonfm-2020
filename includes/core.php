@@ -49,4 +49,5 @@ function setup() {
 
   add_image_size('square_gallery', 800, 800, true);
   add_filter('sort_media_custom_order_and_title_asc', '__return_true');
+  add_filter('sort_media_custom_order_and_guid', function () { return 'ASC'; });
 }
